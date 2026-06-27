@@ -242,14 +242,19 @@ font-size:2.8rem;
 <p>Le mie creazioni floreali</p>
 </div>
 
-<div class="gallery">
+<div class="gallery" id="gallery-bouquet">
 
 <div class="card">
 <img src="IMG_9584.jpeg" alt="Bouquet">
-<img src="IMG_9585.jpeg" alt="Bouquet">
-<img src="IMG_9586.jpeg" alt="Bouquet">
-<div class="card-content">
+</div>
 
+<div class="card">
+<img src="IMG_9585.jpeg" alt="Bouquet">
+</div>
+
+<div class="card">
+<img src="IMG_9586.jpeg" alt="Bouquet">
+</div>
 
 </div>
 </section>
@@ -288,29 +293,7 @@ font-size:2.8rem;
 <p>Matrimoni, Natale, compleanni e altre occasioni speciali</p>
 </div>
 
-<div class="gallery">
-
-<div class="card">
-<img src="evento-1.jpg" alt="Matrimonio">
-<div class="card-content">
-<h3>Addobbi Matrimoniali</h3>
-</div>
-</div>
-
-<div class="card">
-<img src="evento-2.jpg" alt="Natale">
-<div class="card-content">
-<h3>Allestimenti Natalizi</h3>
-</div>
-</div>
-
-<div class="card">
-<img src="evento-3.jpg" alt="Feste">
-<div class="card-content">
-<h3>Eventi e Feste</h3>
-</div>
-</div>
-
+<div class="gallery" id="gallery-eventi">
 </div>
 </section>
 
@@ -321,20 +304,7 @@ font-size:2.8rem;
 <p>Oggettistica e decorazioni per la casa</p>
 </div>
 
-<div class="gallery">
-
-<div class="card">
-<img src="decor-1.jpg" alt="Decor Home">
-</div>
-
-<div class="card">
-<img src="decor-2.jpg" alt="Decor Home">
-</div>
-
-<div class="card">
-<img src="decor-3.jpg" alt="Decor Home">
-</div>
-
+<div class="gallery" id="gallery-decorhome">
 </div>
 </section>
 
@@ -402,6 +372,35 @@ Apri con Mappe
 <p>📞 340 053 2931</p>
 <p>Corso Italia 122, 80029 Sant'Antimo (NA)</p>
 </footer>
+
+
+<script>
+async function loadDynamicImages(category, galleryId) {
+  try {
+    const res = await fetch('/api/list-images?category=' + category)
+    if (!res.ok) return
+    const data = await res.json()
+    const images = data.images || []
+    if (images.length === 0) return
+    const gallery = document.getElementById(galleryId)
+    if (!gallery) return
+    images.forEach(img => {
+      const card = document.createElement('div')
+      card.className = 'card'
+      const el = document.createElement('img')
+      el.src = img.url
+      el.alt = category
+      el.loading = 'lazy'
+      card.appendChild(el)
+      gallery.appendChild(card)
+    })
+  } catch (_) {}
+}
+
+loadDynamicImages('bouquet', 'gallery-bouquet')
+loadDynamicImages('eventi', 'gallery-eventi')
+loadDynamicImages('decorhome', 'gallery-decorhome')
+</script>
 
 </body>
 </html>
