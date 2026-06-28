@@ -374,4 +374,34 @@ footer {
     height: 390px !important;   /* Più grande anche su smartphone */
   }
 }
+/* FOTO LAUREE – tutte uguali e centrali */
+.lauree .card img {
+  width: 100% !important;
+  height: 320px !important;      /* altezza perfetta */
+  object-fit: cover !important;  /* mantiene proporzione */
+  object-position: center !important; /* centra il fiore */
+  border-radius: 14px;
+}
+
+/* Allineamento card */
+.lauree .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  justify-items: center;          /* centra le card */
+}
+
+/* Card centrata */
+.lauree .card {
+  width: 100%;
+  max-width: 320px;               /* tutte uguali */
+  text-align: center;
+}
+
+/* Smartphone */
+@media (max-width: 768px) {
+  .lauree .card img {
+    height: 280px !important;     /* proporzionate su smartphone */
+  }
+}
 
