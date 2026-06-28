@@ -1,430 +1,240 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin – Estro Flowers</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Poppins',sans-serif;background:#faf8f5;color:#333;min-height:100vh}
-
-/* ── Login ── */
-#login-overlay{
-  position:fixed;inset:0;background:linear-gradient(135deg,#f4ebe3,#faf8f5);
-  display:flex;align-items:center;justify-content:center;z-index:999
-}
-.login-card{
-  background:white;border-radius:20px;padding:50px 40px;width:100%;max-width:400px;
-  box-shadow:0 8px 30px rgba(0,0,0,.1);text-align:center
-}
-.login-card h1{font-size:1.6rem;color:#2f2f2f;margin-bottom:6px}
-.login-card p{color:#888;font-size:.9rem;margin-bottom:30px}
-.login-card input{
-  width:100%;padding:14px 18px;border:2px solid #e8e0d8;border-radius:10px;
-  font-family:inherit;font-size:1rem;outline:none;transition:.2s;margin-bottom:16px
-}
-.login-card input:focus{border-color:#c49a6c}
-.btn-primary{
-  width:100%;padding:14px;background:#c49a6c;color:white;border:none;
-  border-radius:10px;font-family:inherit;font-size:1rem;font-weight:600;
-  cursor:pointer;transition:.2s
-}
-.btn-primary:hover{background:#a97f54}
-.error-msg{color:#e05a5a;font-size:.85rem;margin-top:10px;min-height:20px}
-
-/* ── Admin layout ── */
-#admin-panel{display:none}
-.admin-header{
-  background:white;box-shadow:0 2px 10px rgba(0,0,0,.08);
-  padding:18px 30px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:100
-}
-.admin-header .brand{display:flex;align-items:center;gap:12px}
-.admin-header .brand h1{font-size:1.2rem;color:#2f2f2f}
-.admin-header .brand span{font-size:.85rem;color:#c49a6c;font-weight:500}
-.btn-logout{
-  padding:8px 20px;border:2px solid #e8e0d8;background:white;
-  border-radius:8px;cursor:pointer;font-family:inherit;font-size:.85rem;
-  color:#888;transition:.2s
-}
-.btn-logout:hover{border-color:#c49a6c;color:#c49a6c}
-
-.admin-body{padding:30px;max-width:1100px;margin:0 auto}
-
-/* ── Tabs ── */
-.tabs{display:flex;gap:8px;margin-bottom:30px;flex-wrap:wrap}
-.tab-btn{
-  padding:10px 24px;border:2px solid #e8e0d8;background:white;
-  border-radius:30px;cursor:pointer;font-family:inherit;font-size:.9rem;
-  color:#666;transition:.2s;font-weight:500
-}
-.tab-btn.active{background:#c49a6c;border-color:#c49a6c;color:white}
-.tab-btn:hover:not(.active){border-color:#c49a6c;color:#c49a6c}
-
-/* ── Upload box ── */
-.upload-box{
-  background:white;border-radius:16px;padding:30px;margin-bottom:30px;
-  box-shadow:0 2px 12px rgba(0,0,0,.06)
-}
-.upload-box h2{font-size:1.1rem;margin-bottom:20px;color:#2f2f2f}
-.drop-zone{
-  border:2px dashed #ddd;border-radius:12px;padding:40px 20px;
-  text-align:center;cursor:pointer;transition:.2s;background:#faf8f5
-}
-.drop-zone:hover,.drop-zone.dragging{border-color:#c49a6c;background:#fdf5ed}
-.drop-zone p{color:#999;margin-top:8px;font-size:.9rem}
-.drop-zone .icon{font-size:2.5rem;display:block;margin-bottom:4px}
-#file-input{display:none}
-.file-preview{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.file-thumb{
-  width:80px;height:80px;object-fit:cover;border-radius:8px;
-  border:2px solid #e8e0d8
-}
-.upload-actions{display:flex;align-items:center;gap:16px;margin-top:20px;flex-wrap:wrap}
-.btn-upload{
-  padding:12px 30px;background:#c49a6c;color:white;border:none;
-  border-radius:10px;font-family:inherit;font-size:.95rem;font-weight:600;
-  cursor:pointer;transition:.2s
-}
-.btn-upload:hover{background:#a97f54}
-.btn-upload:disabled{background:#ccc;cursor:not-allowed}
-#upload-status{font-size:.9rem;color:#666}
-#upload-status.success{color:#2a9d5c;font-weight:500}
-#upload-status.error{color:#e05a5a;font-weight:500}
-
-/* ── Image grid ── */
-.section-gallery{display:none}
-.section-gallery.active{display:block}
-.gallery-header{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:16px
-}
-.gallery-header h2{font-size:1.1rem;color:#2f2f2f}
-.gallery-count{font-size:.85rem;color:#999}
-.image-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px
-}
-.img-card{
-  background:white;border-radius:12px;overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,.07);position:relative;
-}
-.img-card img{width:100%;height:160px;object-fit:cover;display:block}
-.img-card .del-btn{
-  position:absolute;top:8px;right:8px;background:rgba(220,50,50,.85);
-  color:white;border:none;border-radius:50%;width:28px;height:28px;
-  font-size:1rem;line-height:28px;text-align:center;cursor:pointer;
-  transition:.2s;opacity:0
-}
-.img-card:hover .del-btn{opacity:1}
-.empty-state{
-  grid-column:1/-1;text-align:center;padding:50px 20px;color:#bbb
-}
-.empty-state .icon{font-size:3rem;display:block;margin-bottom:10px}
-
-/* ── Info box ── */
-.info-box{
-  background:#fdf5ed;border-left:4px solid #c49a6c;border-radius:0 10px 10px 0;
-  padding:16px 20px;margin-top:30px;font-size:.85rem;color:#666
-}
-.info-box strong{color:#c49a6c}
-
-.loading{color:#999;font-style:italic;padding:20px 0}
-</style>
+  <meta charset="UTF-8">
+  <title>Admin - ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #faf7f4;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      margin: 0;
+    }
+    header {
+      background: #8b4f4f;
+      color: #fff;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header a {
+      color: #fff;
+      font-size: 13px;
+      text-decoration: none;
+    }
+    main {
+      max-width: 900px;
+      margin: 20px auto 40px;
+      padding: 0 20px;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+    p {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    .form-card {
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    textarea {
+      min-height: 60px;
+    }
+    button {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #8b4f4f;
+      color: #fff;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    button:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .list-card {
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 16px 18px;
+    }
+    .media-item {
+      font-size: 13px;
+      border-bottom: 1px solid #eee;
+      padding: 6px 0;
+    }
+    .media-item:last-child {
+      border-bottom: none;
+    }
+    .media-item span.section {
+      font-weight: 600;
+      color: #8b4f4f;
+    }
+    .logout {
+      font-size: 12px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-
-<!-- ══════════════ LOGIN ══════════════ -->
-<div id="login-overlay">
-  <div class="login-card">
-    <h1>Estro Flowers</h1>
-    <p>Accedi al pannello di gestione galleria</p>
-    <input type="password" id="pwd-input" placeholder="Password admin" autofocus>
-    <button class="btn-primary" onclick="login()">Accedi</button>
-    <div class="error-msg" id="login-error"></div>
+<header>
+  <div>Admin · ESTRO FLOWERS</div>
+  <div>
+    <a href="index.html">← Torna al sito</a> ·
+    <span class="logout" id="logout">Logout</span>
   </div>
-</div>
+</header>
 
-<!-- ══════════════ ADMIN PANEL ══════════════ -->
-<div id="admin-panel">
-  <header class="admin-header">
-    <div class="brand">
-      <h1>Estro Flowers</h1>
-      <span>Gestione Galleria</span>
-    </div>
-    <button class="btn-logout" onclick="logout()">Esci</button>
-  </header>
+<main>
+  <h1>Gestione immagini e video</h1>
+  <p>
+    Aggiungi immagini e video alle sezioni (Bouquet, Matrimonio, Natale, Pasqua, Comunioni, Lauree).
+    I dati vengono salvati in <strong>localStorage</strong> e caricati automaticamente nella homepage.
+  </p>
 
-  <div class="admin-body">
+  <div class="form-card">
+    <h2 style="font-size:18px;margin-bottom:10px;">Nuovo contenuto</h2>
+    <form id="media-form">
+      <label for="section">Sezione</label>
+      <select id="section" required>
+        <option value="bouquet">Bouquet</option>
+        <option value="matrimonio">Matrimonio</option>
+        <option value="natale">Natale</option>
+        <option value="pasqua">Pasqua</option>
+        <option value="comunioni">Comunioni</option>
+        <option value="lauree">Lauree</option>
+      </select>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('bouquet', this)">Bouquet</button>
-      <button class="tab-btn" onclick="switchTab('eventi', this)">Eventi</button>
-      <button class="tab-btn" onclick="switchTab('decorhome', this)">Decor Home</button>
-    </div>
+      <label for="type">Tipo contenuto</label>
+      <select id="type" required>
+        <option value="image">Immagine</option>
+        <option value="video">Video</option>
+      </select>
 
-    <!-- Upload box -->
-    <div class="upload-box">
-      <h2>Aggiungi nuove foto</h2>
-      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-        <span class="icon">🌸</span>
-        <strong>Clicca per scegliere le foto</strong>
-        <p>Oppure trascina i file qui &middot; JPG, PNG, HEIC &middot; max 10 MB cad.</p>
-      </div>
-      <input type="file" id="file-input" accept="image/*" multiple onchange="previewFiles(this.files)">
-      <div class="file-preview" id="file-preview"></div>
-      <div class="upload-actions">
-        <button class="btn-upload" id="upload-btn" onclick="uploadImages()" disabled>Carica foto</button>
-        <span id="upload-status"></span>
-      </div>
-    </div>
+      <label for="src">URL file (immagine o video)</label>
+      <input id="src" type="text" placeholder="es. IMG_9600.jpg oppure video-natale.mp4" required>
 
-    <!-- Gallery sections -->
-    <div id="sec-bouquet" class="section-gallery active">
-      <div class="gallery-header">
-        <h2>Bouquet caricati</h2>
-        <span class="gallery-count" id="count-bouquet"></span>
-      </div>
-      <div class="image-grid" id="grid-bouquet"><p class="loading">Caricamento...</p></div>
-    </div>
+      <label for="title">Titolo (opzionale)</label>
+      <input id="title" type="text" placeholder="es. Bouquet natalizio">
 
-    <div id="sec-eventi" class="section-gallery">
-      <div class="gallery-header">
-        <h2>Eventi caricati</h2>
-        <span class="gallery-count" id="count-eventi"></span>
-      </div>
-      <div class="image-grid" id="grid-eventi"><p class="loading">Caricamento...</p></div>
-    </div>
+      <label for="description">Descrizione (opzionale)</label>
+      <textarea id="description" placeholder="Breve descrizione della lavorazione"></textarea>
 
-    <div id="sec-decorhome" class="section-gallery">
-      <div class="gallery-header">
-        <h2>Decor Home caricati</h2>
-        <span class="gallery-count" id="count-decorhome"></span>
-      </div>
-      <div class="image-grid" id="grid-decorhome"><p class="loading">Caricamento...</p></div>
-    </div>
-
-    <div class="info-box">
-      <strong>Come cambiare la password:</strong> vai su Netlify &rarr; Site configuration &rarr; Environment variables &rarr; aggiungi <code>ADMIN_PASSWORD</code> con il valore che preferisci, poi fai un nuovo deploy.
-    </div>
+      <button type="submit">Salva contenuto</button>
+    </form>
   </div>
-</div>
+
+  <div class="list-card">
+    <h2 style="font-size:18px;margin-bottom:10px;">Contenuti salvati</h2>
+    <div id="media-list"></div>
+  </div>
+</main>
 
 <script>
-const SESSION_KEY = 'ef_admin_pwd'
-let currentCategory = 'bouquet'
-let selectedFiles = []
-
-/* ─── Auth ─── */
-function login() {
-  const pwd = document.getElementById('pwd-input').value.trim()
-  if (!pwd) return
-  sessionStorage.setItem(SESSION_KEY, pwd)
-  showAdmin()
-}
-
-function logout() {
-  sessionStorage.removeItem(SESSION_KEY)
-  document.getElementById('admin-panel').style.display = 'none'
-  document.getElementById('login-overlay').style.display = 'flex'
-  document.getElementById('pwd-input').value = ''
-  document.getElementById('login-error').textContent = ''
-}
-
-function showAdmin() {
-  document.getElementById('login-overlay').style.display = 'none'
-  document.getElementById('admin-panel').style.display = 'block'
-  loadImages('bouquet')
-  loadImages('eventi')
-  loadImages('decorhome')
-}
-
-function getPassword() {
-  return sessionStorage.getItem(SESSION_KEY) || ''
-}
-
-document.getElementById('pwd-input').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') login()
-})
-
-/* ─── Tabs ─── */
-function switchTab(category, btn) {
-  currentCategory = category
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
-  btn.classList.add('active')
-  document.querySelectorAll('.section-gallery').forEach(s => s.classList.remove('active'))
-  document.getElementById('sec-' + category).classList.add('active')
-}
-
-/* ─── File selection & preview ─── */
-function previewFiles(files) {
-  selectedFiles = Array.from(files)
-  const preview = document.getElementById('file-preview')
-  preview.innerHTML = ''
-  selectedFiles.forEach(file => {
-    const img = document.createElement('img')
-    img.className = 'file-thumb'
-    img.src = URL.createObjectURL(file)
-    preview.appendChild(img)
-  })
-  document.getElementById('upload-btn').disabled = selectedFiles.length === 0
-}
-
-/* ─── Drag & drop ─── */
-const dropZone = document.getElementById('drop-zone')
-dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragging') })
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragging'))
-dropZone.addEventListener('drop', (e) => {
-  e.preventDefault()
-  dropZone.classList.remove('dragging')
-  const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'))
-  previewFiles(files)
-})
-
-/* ─── Image compression ─── */
-function compressImage(file) {
-  return new Promise((resolve) => {
-    const maxW = 1920
-    const quality = 0.85
-    const img = new Image()
-    const url = URL.createObjectURL(file)
-    img.onload = () => {
-      URL.revokeObjectURL(url)
-      const ratio = Math.min(1, maxW / img.naturalWidth)
-      const canvas = document.createElement('canvas')
-      canvas.width = Math.round(img.naturalWidth * ratio)
-      canvas.height = Math.round(img.naturalHeight * ratio)
-      const ctx = canvas.getContext('2d')
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-      canvas.toBlob((blob) => resolve(blob), 'image/jpeg', quality)
-    }
-    img.onerror = () => { URL.revokeObjectURL(url); resolve(file) }
-    img.src = url
-  })
-}
-
-/* ─── Upload ─── */
-async function uploadImages() {
-  if (selectedFiles.length === 0) return
-  const btn = document.getElementById('upload-btn')
-  const status = document.getElementById('upload-status')
-  btn.disabled = true
-  status.className = ''
-  status.textContent = `Caricamento 0 / ${selectedFiles.length}...`
-
-  let done = 0
-  let errors = 0
-
-  for (const file of selectedFiles) {
-    try {
-      const compressed = await compressImage(file)
-      const fd = new FormData()
-      fd.append('password', getPassword())
-      fd.append('category', currentCategory)
-      fd.append('image', compressed, file.name.replace(/\.[^.]+$/, '.jpg'))
-
-      const res = await fetch('/api/upload-image', { method: 'POST', body: fd })
-      if (res.status === 401) {
-        document.getElementById('login-error').textContent = 'Password non valida. Rieffettua il login.'
-        logout()
-        return
-      }
-      if (!res.ok) throw new Error('upload failed')
-      done++
-    } catch {
-      errors++
-    }
-    status.textContent = `Caricamento ${done + errors} / ${selectedFiles.length}...`
+  if (localStorage.getItem("estroAdminLogged") !== "true") {
+    alert("Accesso non autorizzato. Effettua il login.");
+    window.location.href = "login.html";
   }
 
-  if (errors === 0) {
-    status.className = 'success'
-    status.textContent = `${done} foto caricate con successo!`
-  } else {
-    status.className = 'error'
-    status.textContent = `${done} caricate, ${errors} errori.`
+  const form = document.getElementById("media-form");
+  const listEl = document.getElementById("media-list");
+
+  function loadMedia() {
+    const data = localStorage.getItem("estroMedia");
+    if (!data) {
+      listEl.innerHTML = "<p>Nessun contenuto salvato al momento.</p>";
+      return;
+    }
+    const media = JSON.parse(data);
+    if (media.length === 0) {
+      listEl.innerHTML = "<p>Nessun contenuto salvato al momento.</p>";
+      return;
+    }
+    listEl.innerHTML = "";
+    media.forEach((item, index) => {
+      const div = document.createElement("div");
+      div.className = "media-item";
+      div.innerHTML =
+        "<span class='section'>" + item.section + "</span> · " +
+        item.type.toUpperCase() + " · " +
+        (item.title || "(senza titolo)") +
+        " · src: " + item.src +
+        (item.description ? " · " + item.description : "") +
+        " · <a href='#' data-index='" + index + "' class='delete-link'>Elimina</a>";
+      listEl.appendChild(div);
+    });
+
+    document.querySelectorAll(".delete-link").forEach(link => {
+      link.addEventListener("click", function (e) {
+        e.preventDefault();
+        const idx = parseInt(this.getAttribute("data-index"), 10);
+        deleteMedia(idx);
+      });
+    });
   }
 
-  selectedFiles = []
-  document.getElementById('file-preview').innerHTML = ''
-  document.getElementById('file-input').value = ''
-  btn.disabled = true
-  loadImages(currentCategory)
-}
+  function saveMedia(item) {
+    const data = localStorage.getItem("estroMedia");
+    const media = data ? JSON.parse(data) : [];
+    media.push(item);
+    localStorage.setItem("estroMedia", JSON.stringify(media));
+  }
 
-/* ─── Load images ─── */
-async function loadImages(category) {
-  const grid = document.getElementById('grid-' + category)
-  const count = document.getElementById('count-' + category)
-  grid.innerHTML = '<p class="loading">Caricamento...</p>'
+  function deleteMedia(index) {
+    const data = localStorage.getItem("estroMedia");
+    if (!data) return;
+    const media = JSON.parse(data);
+    media.splice(index, 1);
+    localStorage.setItem("estroMedia", JSON.stringify(media));
+    loadMedia();
+  }
 
-  try {
-    const res = await fetch('/api/list-images?category=' + category)
-    if (!res.ok) throw new Error('list failed')
-    const data = await res.json()
-    const images = data.images || []
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const section = document.getElementById("section").value;
+    const type = document.getElementById("type").value;
+    const src = document.getElementById("src").value.trim();
+    const title = document.getElementById("title").value.trim();
+    const description = document.getElementById("description").value.trim();
 
-    count.textContent = images.length ? `${images.length} foto` : ''
-
-    if (images.length === 0) {
-      grid.innerHTML = `<div class="empty-state"><span class="icon">📷</span>Nessuna foto caricata ancora.</div>`
-      return
+    if (!src) {
+      alert("Inserisci l'URL del file.");
+      return;
     }
 
-    grid.innerHTML = ''
-    images.forEach(img => {
-      const card = document.createElement('div')
-      card.className = 'img-card'
-      card.dataset.key = img.key
+    const item = { section, type, src, title, description };
+    saveMedia(item);
+    loadMedia();
+    form.reset();
+    alert("Contenuto salvato. Aggiorna la homepage per vederlo.");
+  });
 
-      const el = document.createElement('img')
-      el.loading = 'lazy'
-      el.src = img.url
-      el.alt = category
+  document.getElementById("logout").addEventListener("click", function () {
+    localStorage.removeItem("estroAdminLogged");
+    window.location.href = "index.html";
+  });
 
-      const delBtn = document.createElement('button')
-      delBtn.className = 'del-btn'
-      delBtn.title = 'Elimina'
-      delBtn.textContent = '✕'
-      delBtn.onclick = (e) => { e.stopPropagation(); deleteImage(img.key, category) }
-
-      card.appendChild(el)
-      card.appendChild(delBtn)
-      grid.appendChild(card)
-    })
-  } catch {
-    grid.innerHTML = '<p style="color:#e05a5a;padding:20px">Errore nel caricamento delle immagini.</p>'
-  }
-}
-
-/* ─── Delete ─── */
-async function deleteImage(key, category) {
-  if (!confirm('Eliminare questa foto dalla galleria?')) return
-
-  const res = await fetch('/api/delete-image', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ key, password: getPassword() }),
-  })
-
-  if (res.status === 401) {
-    document.getElementById('login-error').textContent = 'Password non valida. Rieffettua il login.'
-    logout()
-    return
-  }
-
-  if (res.ok) {
-    loadImages(category)
-  } else {
-    alert('Errore durante l\'eliminazione.')
-  }
-}
-
-/* ─── Auto-login if session exists ─── */
-if (sessionStorage.getItem(SESSION_KEY)) {
-  showAdmin()
-}
+  loadMedia();
 </script>
 </body>
 </html>
