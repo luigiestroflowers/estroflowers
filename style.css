@@ -423,4 +423,30 @@ footer {
   text-overflow: ellipsis;                 /* evita rotture */
   margin-bottom: 12px;
 }
+/* TITOLI PRINCIPALI */
+.spiegazione-fiori h3 {
+  text-align: center;                 /* centrati */
+  color: #8b4f4f;                     /* bordeaux */
+  font-family: Georgia, serif;        /* elegante */
+  font-size: 28px;
+  font-weight: bold;                  /* grassetto */
+  margin: 25px 0 15px 0;
+}
+
+/* NOMI DEI FIORI + DESCRIZIONE */
+.spiegazione-fiori p {
+  font-family: "Times New Roman", serif;   /* font particolare */
+  font-size: 18px;
+  text-align: left;                        /* allineati a sinistra */
+  white-space: nowrap;                     /* NON va a capo */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 6px 0;
+}
+
+/* NOME DEL FIORE IN BORDEAUX E GRASSETTO */
+.spiegazione-fiori p strong {
+  color: #8b4f4f;                     /* bordeaux */
+  font-weight: bold;                  /* grassetto */
+}
 
