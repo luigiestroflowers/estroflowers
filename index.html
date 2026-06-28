@@ -14,20 +14,17 @@
       --shadow: 0 8px 20px rgba(0,0,0,0.08);
       --radius: 14px;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
     }
-
     body {
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
     }
-
     header {
       position: sticky;
       top: 0;
@@ -36,7 +33,6 @@
       backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
     }
-
     .nav {
       max-width: 1100px;
       margin: 0 auto;
@@ -45,13 +41,11 @@
       justify-content: space-between;
       padding: 12px 20px;
     }
-
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-
     .logo-circle {
       width: 40px;
       height: 40px;
@@ -64,21 +58,18 @@
       font-weight: 700;
       color: var(--accent-dark);
     }
-
     .logo-text {
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-size: 14px;
     }
-
     nav ul {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
     }
-
     nav a {
       text-decoration: none;
       color: var(--text);
@@ -87,12 +78,10 @@
       border-radius: 999px;
       transition: 0.2s;
     }
-
     nav a:hover {
       background: var(--accent);
       color: var(--white);
     }
-
     .hero {
       max-width: 1100px;
       margin: 30px auto 10px;
@@ -102,28 +91,23 @@
       gap: 30px;
       align-items: center;
     }
-
     .hero-text h1 {
       font-size: 34px;
       margin-bottom: 12px;
     }
-
     .hero-text h1 span {
       color: var(--accent-dark);
     }
-
     .hero-text p {
       font-size: 15px;
       margin-bottom: 16px;
     }
-
     .hero-badges {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-bottom: 18px;
     }
-
     .badge {
       padding: 6px 12px;
       border-radius: 999px;
@@ -131,13 +115,11 @@
       box-shadow: var(--shadow);
       font-size: 12px;
     }
-
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
-
     .btn {
       border: none;
       cursor: pointer;
@@ -150,24 +132,20 @@
       text-decoration: none;
       transition: 0.2s;
     }
-
     .btn-primary {
       background: var(--accent-dark);
       color: var(--white);
       box-shadow: var(--shadow);
     }
-
     .btn-outline {
       background: transparent;
       color: var(--accent-dark);
       border: 1px solid var(--accent-dark);
     }
-
     .btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 24px rgba(0,0,0,0.12);
     }
-
     .hero-image {
       background: var(--white);
       border-radius: 24px;
@@ -177,14 +155,12 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
-
     .hero-image div {
       border-radius: 18px;
       background-size: cover;
       background-position: center;
       min-height: 120px;
     }
-
     .hero-image .img1 { background-image: url("IMG_9584.jpg"); }
     .hero-image .img2 { background-image: url("IMG_9585.jpg"); }
     .hero-image .img3 { background-image: url("IMG_9586.jpg"); }
@@ -195,29 +171,24 @@
       margin: 0 auto 60px;
       padding: 0 20px 40px;
     }
-
     section {
       margin-top: 40px;
     }
-
     section h2 {
       font-size: 24px;
       margin-bottom: 8px;
       color: var(--accent-dark);
     }
-
     section p.section-subtitle {
       font-size: 14px;
       color: #666;
       margin-bottom: 18px;
     }
-
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
     }
-
     .card {
       background: var(--white);
       border-radius: var(--radius);
@@ -226,30 +197,25 @@
       display: flex;
       flex-direction: column;
     }
-
     .card img {
       width: 100%;
       height: 180px;
       object-fit: cover;
     }
-
     .card-body {
       padding: 12px 14px 14px;
       font-size: 14px;
     }
-
     .card-title {
       font-weight: 600;
       margin-bottom: 4px;
     }
-
     .card-actions {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 8px;
     }
-
     .like-btn {
       border: none;
       background: transparent;
@@ -260,18 +226,15 @@
       color: var(--accent-dark);
       font-size: 13px;
     }
-
     .like-btn span.heart {
       font-size: 16px;
     }
-
     .social-bar {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       margin-top: 10px;
     }
-
     .social-link {
       font-size: 13px;
       text-decoration: none;
@@ -284,19 +247,16 @@
       align-items: center;
       gap: 6px;
     }
-
     .subsection-title {
       font-weight: 600;
       margin: 16px 0 8px;
       font-size: 16px;
     }
-
     .media-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
     }
-
     .media-card {
       background: var(--white);
       border-radius: var(--radius);
@@ -304,20 +264,17 @@
       padding: 10px;
       font-size: 13px;
     }
-
     .media-card img,
     .media-card video {
       width: 100%;
       border-radius: 10px;
       margin-bottom: 6px;
     }
-
     .decor-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
     }
-
     .decor-card {
       background: var(--white);
       border-radius: var(--radius);
@@ -326,30 +283,25 @@
       display: flex;
       flex-direction: column;
     }
-
     .decor-card img {
       width: 100%;
       height: 170px;
       object-fit: cover;
     }
-
     .decor-body {
       padding: 12px 14px 14px;
       font-size: 14px;
     }
-
     .decor-price {
       font-weight: 600;
       margin-top: 4px;
     }
-
     .cart-actions {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 10px;
     }
-
     .cart-btn {
       border: none;
       cursor: pointer;
@@ -359,7 +311,6 @@
       background: var(--accent);
       color: var(--white);
     }
-
     .cart-summary {
       margin-top: 16px;
       padding: 12px;
@@ -367,20 +318,16 @@
       background: #fff7f3;
       font-size: 13px;
     }
-
     .cart-summary h3 {
       font-size: 15px;
       margin-bottom: 6px;
     }
-
     .cart-items {
       margin-bottom: 8px;
     }
-
     .cart-items li {
       margin-left: 18px;
     }
-
     .map-card {
       background: var(--white);
       border-radius: var(--radius);
@@ -388,7 +335,6 @@
       padding: 14px;
       font-size: 14px;
     }
-
     .map-link {
       display: inline-flex;
       align-items: center;
@@ -401,13 +347,11 @@
       border-radius: 999px;
       background: #f5e9e3;
     }
-
     .flowers-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 18px;
     }
-
     .flower-card {
       background: var(--white);
       border-radius: var(--radius);
@@ -415,18 +359,15 @@
       padding: 12px 14px 14px;
       font-size: 14px;
     }
-
     .flower-name {
       font-weight: 600;
       margin-bottom: 4px;
     }
-
     .flower-type {
       font-size: 12px;
       color: #777;
       margin-bottom: 6px;
     }
-
     footer {
       border-top: 1px solid #e0d6cf;
       padding: 16px 20px 24px;
@@ -435,12 +376,10 @@
       text-align: center;
       background: #f3ebe5;
     }
-
     footer a {
       color: var(--accent-dark);
       text-decoration: none;
     }
-
     @media (max-width: 768px) {
       .hero {
         grid-template-columns: minmax(0, 1fr);
@@ -479,9 +418,7 @@
   <div class="hero-text">
     <h1>ESTRO FLOWERS di <span>Luigi Estro</span></h1>
     <p>
-      Fiorista a Sant'Antimo, specializzato in bouquet su misura, allestimenti matrimoniali,
-      decorazioni stagionali e home decor. Ogni creazione è pensata per raccontare una storia:
-      la tua.
+      Fiorista a Sant'Antimo, bouquet su misura, allestimenti matrimoniali, decorazioni stagionali e home decor.
     </p>
     <div class="hero-badges">
       <div class="badge">Bouquet personalizzati</div>
@@ -514,16 +451,14 @@
   <section id="bouquet">
     <h2>Bouquet</h2>
     <p class="section-subtitle">
-      Una selezione delle tue lavorazioni. Le immagini sono quelle indicate (IMG_9584–9587).
-      Puoi aggiungerne altre dall'area admin.
+      Le tue lavorazioni principali (IMG_9584–9587). Puoi aggiungere altre immagini dall’area admin.
     </p>
     <div class="grid" id="bouquet-grid">
-      <!-- Esempi base -->
       <div class="card" data-image="IMG_9584.jpg">
         <img src="IMG_9584.jpg" alt="Bouquet ESTRO FLOWERS 1">
         <div class="card-body">
           <div class="card-title">Bouquet romantico</div>
-          <div>Composizione delicata, ideale per dichiarazioni d'amore e anniversari.</div>
+          <div>Composizione delicata, ideale per dichiarazioni d'amore.</div>
           <div class="card-actions">
             <button class="like-btn">
               <span class="heart">❤</span><span>Mi piace</span>
@@ -581,8 +516,7 @@
   <section id="matrimonio">
     <h2>Matrimonio</h2>
     <p class="section-subtitle">
-      Addobbi matrimoniali per chiesa, location e tavoli. Qui puoi caricare immagini e video
-      delle tue lavorazioni.
+      Addobbi matrimoniali per chiesa, location e tavoli. Immagini e video gestibili dall’area admin.
     </p>
 
     <div class="subsection-title">Addobbi Matrimoniali</div>
@@ -603,11 +537,9 @@
         </button>
       </div>
 
-      <!-- Esempio video (puoi sostituire src con un tuo file/video) -->
       <div class="media-card" data-image="">
         <video controls>
           <source src="video-matrimonio.mp4" type="video/mp4">
-          Il tuo browser non supporta il video.
         </video>
         <div>Video di un allestimento matrimoniale completo.</div>
       </div>
@@ -618,12 +550,10 @@
   <section id="natale">
     <h2>Natale</h2>
     <p class="section-subtitle">
-      Addobbi natalizi per case, negozi e vetrine. Qui potrai caricare immagini e video futuri
-      dall'area admin.
+      Addobbi natalizi per case, negozi e vetrine. Sezione pronta per immagini e video futuri.
     </p>
     <div class="subsection-title">Addobbi Natalizi</div>
     <div class="media-grid" id="natale-media">
-      <!-- Popolato in futuro via admin/localStorage -->
       <div class="media-card">
         <div>In arrivo le tue creazioni natalizie: ghirlande, centrotavola, alberi decorati.</div>
       </div>
@@ -634,7 +564,7 @@
   <section id="pasqua">
     <h2>Pasqua</h2>
     <p class="section-subtitle">
-      Addobbi pasquali, centrotavola e decorazioni primaverili. Sezione pronta per immagini e video.
+      Addobbi pasquali, centrotavola e decorazioni primaverili.
     </p>
     <div class="subsection-title">Addobbi Pasquali</div>
     <div class="media-grid" id="pasqua-media">
@@ -648,7 +578,7 @@
   <section id="comunioni">
     <h2>Comunioni</h2>
     <p class="section-subtitle">
-      Addobbi per comunioni, tavoli e location. Immagini e video gestibili dall'area admin.
+      Addobbi per comunioni, tavoli e location.
     </p>
     <div class="subsection-title">Addobbi Comunione</div>
     <div class="media-grid" id="comunioni-media">
@@ -676,8 +606,7 @@
   <section id="homedecor">
     <h2>Home Decor & Oggettistica</h2>
     <p class="section-subtitle">
-      Oggettistica, vasi, lanterne, candele e decorazioni per la casa. Puoi aggiungere al carrello
-      e inviare l'ordine con ritiro in negozio tramite WhatsApp.
+      Oggettistica, vasi, lanterne, candele e decorazioni per la casa. Aggiungi al carrello e invia l’ordine per ritiro.
     </p>
 
     <div class="decor-grid" id="decor-grid">
@@ -729,8 +658,7 @@
         Invia ordine su WhatsApp per ritiro
       </button>
       <p style="margin-top:6px;">
-        L'ordine verrà inviato su WhatsApp al numero <strong>+39 340 053 2931</strong> con
-        dettaglio degli articoli e richiesta di conferma.
+        L'ordine verrà inviato su WhatsApp al numero <strong>+39 340 053 2931</strong> con dettaglio degli articoli.
       </p>
     </div>
   </section>
@@ -759,62 +687,55 @@
   <section id="fiori-significato">
     <h2>Fiori: tipologie & significato</h2>
     <p class="section-subtitle">
-      Una guida rapida per scegliere il fiore giusto in base al messaggio che vuoi comunicare:
-      amore, passione, gratitudine, eleganza.
+      Una guida rapida per scegliere il fiore giusto in base al messaggio: amore, passione, gratitudine.
     </p>
 
     <div class="flowers-grid">
       <div class="flower-card">
         <div class="flower-name">Rosa rossa</div>
-        <div class="flower-type">Tipologia: fiore reciso, simbolo classico dell'amore.</div>
+        <div class="flower-type">Tipologia: fiore reciso.</div>
         <div>
-          <strong>Significato:</strong> amore intenso, passione, dichiarazioni importanti.
-          Perfetta per anniversari e momenti romantici.
+          <strong>Significato:</strong> amore intenso, passione, dichiarazioni importanti. Perfetta per anniversari.
         </div>
       </div>
 
       <div class="flower-card">
         <div class="flower-name">Rosa bianca</div>
-        <div class="flower-type">Tipologia: fiore reciso, elegante e delicato.</div>
+        <div class="flower-type">Tipologia: fiore reciso.</div>
         <div>
-          <strong>Significato:</strong> purezza, rispetto, amore sincero. Ideale per matrimoni
-          e cerimonie.
+          <strong>Significato:</strong> purezza, rispetto, amore sincero. Ideale per matrimoni e cerimonie.
         </div>
       </div>
 
       <div class="flower-card">
         <div class="flower-name">Tulipano</div>
-        <div class="flower-type">Tipologia: fiore primaverile, disponibile in molti colori.</div>
+        <div class="flower-type">Tipologia: fiore primaverile.</div>
         <div>
-          <strong>Significato:</strong> amore perfetto e dichiarazioni dolci. I colori vivaci
-          esprimono gioia e vitalità.
+          <strong>Significato:</strong> amore dolce, gioia, vitalità. Ottimo per sorprese romantiche non troppo formali.
         </div>
       </div>
 
       <div class="flower-card">
         <div class="flower-name">Girasole</div>
-        <div class="flower-type">Tipologia: fiore grande, solare e scenografico.</div>
+        <div class="flower-type">Tipologia: fiore grande e solare.</div>
         <div>
-          <strong>Significato:</strong> energia, amicizia, gratitudine. Porta luce e allegria
-          in ogni ambiente.
+          <strong>Significato:</strong> energia, amicizia, gratitudine. Porta luce e allegria in ogni ambiente.
         </div>
       </div>
 
       <div class="flower-card">
         <div class="flower-name">Orchidea</div>
-        <div class="flower-type">Tipologia: pianta in vaso, elegante e raffinata.</div>
+        <div class="flower-type">Tipologia: pianta in vaso.</div>
         <div>
-          <strong>Significato:</strong> bellezza rara, eleganza, amore sofisticato. Perfetta
-          per regali importanti.
+          <strong>Significato:</strong> bellezza rara, eleganza, amore sofisticato. Perfetta per regali importanti.
         </div>
       </div>
 
       <div class="flower-card">
         <div class="flower-name">Peonia</div>
-        <div class="flower-type">Tipologia: fiore stagionale, molto richiesto per matrimoni.</div>
+        <div class="flower-type">Tipologia: fiore stagionale.</div>
         <div>
-          <strong>Significato:</strong> amore felice, prosperità, romanticismo delicato.
-          Ideale per bouquet da sposa.
+          <strong>Significato:</strong> amore felice, prosperità, romanticismo delicato. Ideale per bouquet da sposa.
         </div>
       </div>
     </div>
@@ -827,7 +748,6 @@
 </footer>
 
 <script>
-  // LIKE -> WHATSAPP con messaggio + immagine
   const WHATSAPP_NUMBER = "393400532931";
   const LIKE_MESSAGE =
     "Salve, la contatto per chiedere informazioni riguardo la seguente creazione da lei effettuata, " +
@@ -858,7 +778,6 @@
     });
   });
 
-  // CARRELLO HOME DECOR (solo ritiro in negozio)
   const cart = [];
   const cartItemsEl = document.getElementById("cart-items");
   const cartTotalEl = document.getElementById("cart-total");
@@ -873,4 +792,87 @@
       cartItemsEl.appendChild(li);
       total += item.price;
     });
-    cartTotal
+    cartTotalEl.textContent = "Totale: €" + total.toFixed(2);
+  }
+
+  document.querySelectorAll(".cart-btn").forEach(btn => {
+    btn.addEventListener("click", function () {
+      const card = this.closest(".decor-card");
+      const name = card.getAttribute("data-name");
+      const price = parseFloat(card.getAttribute("data-price"));
+      cart.push({ name, price });
+      renderCart();
+    });
+  });
+
+  sendOrderBtn.addEventListener("click", function () {
+    if (cart.length === 0) {
+      alert("Il carrello è vuoto.");
+      return;
+    }
+    let text =
+      "Salve, vorrei effettuare un ordine con ritiro in negozio per i seguenti articoli:\\n\\n";
+    cart.forEach(item => {
+      text += "- " + item.name + " (€" + item.price.toFixed(2) + ")\\n";
+    });
+    text +=
+      "\\nIndirizzo negozio: Corso Italia 122, Sant'Antimo, 80029.\\n" +
+      "Attendo conferma di disponibilità e orario di ritiro. Grazie.";
+
+    const url =
+      "https://wa.me/" +
+      WHATSAPP_NUMBER +
+      "?text=" +
+      encodeURIComponent(text);
+    window.open(url, "_blank");
+  });
+
+  function loadDynamicMedia() {
+    const data = localStorage.getItem("estroMedia");
+    if (!data) return;
+    const media = JSON.parse(data);
+
+    function appendToSection(sectionId, item) {
+      const container = document.getElementById(sectionId);
+      if (!container) return;
+      const card = document.createElement("div");
+      card.className = "media-card";
+      if (item.type === "image") {
+        card.setAttribute("data-image", item.src);
+        card.innerHTML =
+          '<img src="' + item.src + '" alt="' + (item.title || "") + '">' +
+          "<div>" + (item.description || "") + "</div>" +
+          '<button class="like-btn" style="margin-top:6px;">' +
+          '<span class="heart">❤</span><span>Mi piace</span></button>';
+      } else if (item.type === "video") {
+        card.innerHTML =
+          '<video controls><source src="' + item.src + '" type="video/mp4"></video>' +
+          "<div>" + (item.description || "") + "</div>";
+      }
+      container.appendChild(card);
+    }
+
+    media.forEach(item => {
+      if (item.section === "matrimonio") appendToSection("matrimonio-media", item);
+      if (item.section === "natale") appendToSection("natale-media", item);
+      if (item.section === "pasqua") appendToSection("pasqua-media", item);
+      if (item.section === "comunioni") appendToSection("comunioni-media", item);
+      if (item.section === "lauree") appendToSection("lauree-media", item);
+      if (item.section === "bouquet") appendToSection("bouquet-grid", item);
+    });
+
+    document.querySelectorAll(".like-btn").forEach(btn => {
+      if (!btn.dataset.bound) {
+        btn.dataset.bound = "true";
+        btn.addEventListener("click", function () {
+          const card = this.closest(".card, .media-card");
+          if (card) handleLikeClick(card);
+        });
+      }
+    });
+  }
+
+  loadDynamicMedia();
+</script>
+</body>
+</html>
