@@ -250,5 +250,55 @@ footer {
   color: #8b4f4f !important;
   font-family: Georgia, serif !important;
 }
+/* CARD – stile uniforme per la pagina Fiori & Significato */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+  text-align: center;
+}
+
+/* Immagini tutte uguali */
+.card img {
+  width: 100%;
+  height: 220px;        /* DIMENSIONE UNIFORME */
+  object-fit: cover;    /* TAGLIO ELEGANTE */
+  border-radius: 14px 14px 0 0;
+}
+
+/* Titolo del fiore */
+.card-title {
+  text-align: center;
+  color: #8b4f4f;       /* BORDEAUX */
+  font-family: Georgia, serif;
+  font-size: 22px;      /* PIÙ GRANDE */
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Testo descrizione */
+.card p {
+  font-size: 16px;      /* PIÙ GRANDE */
+  padding: 15px;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* Versione smartphone */
+@media (max-width: 768px) {
+  .card img {
+    height: 150px !important;   /* PIÙ PICCOLE SU SMARTPHONE */
+  }
+
+  .card-title {
+    font-size: 20px;
+  }
+
+  .card p {
+    font-size: 15px;
+  }
+}
 
 
