@@ -250,7 +250,21 @@ footer {
   color: #8b4f4f !important;
   font-family: Georgia, serif !important;
 }
-/* CARD – stile uniforme per la pagina Fiori & Significato */
+/* ============================
+   STILE PAGINA FIORI & SIGNIFICATO
+   ============================ */
+
+/* Titolo principale */
+.fiori-title {
+  text-align: center;
+  color: #8b4f4f !important;
+  font-family: Georgia, serif;
+  font-size: 34px !important;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* Card */
 .card {
   background: #fff;
   border-radius: 14px;
@@ -262,42 +276,46 @@ footer {
 
 /* Immagini tutte uguali */
 .card img {
-  width: 100%;
-  height: 220px;        /* DIMENSIONE UNIFORME */
-  object-fit: cover;    /* TAGLIO ELEGANTE */
+  width: 100% !important;
+  height: 220px !important;     /* DIMENSIONE UNIFORME */
+  object-fit: cover !important; /* TAGLIO ELEGANTE */
   border-radius: 14px 14px 0 0;
 }
 
 /* Titolo del fiore */
 .card-title {
-  text-align: center;
-  color: #8b4f4f;       /* BORDEAUX */
-  font-family: Georgia, serif;
-  font-size: 22px;      /* PIÙ GRANDE */
-  font-weight: bold;
-  margin-top: 10px;
+  text-align: center !important;
+  color: #8b4f4f !important;     /* BORDEAUX */
+  font-family: Georgia, serif !important;
+  font-size: 24px !important;    /* PIÙ GRANDE */
+  font-weight: bold !important;
+  margin-top: 10px !important;
 }
 
 /* Testo descrizione */
 .card p {
-  font-size: 16px;      /* PIÙ GRANDE */
-  padding: 15px;
-  color: #444;
-  line-height: 1.4;
+  font-size: 18px !important;    /* PIÙ GRANDE */
+  padding: 15px !important;
+  color: #444 !important;
+  line-height: 1.5 !important;
 }
 
-/* Versione smartphone */
+/* Smartphone */
 @media (max-width: 768px) {
   .card img {
-    height: 150px !important;   /* PIÙ PICCOLE SU SMARTPHONE */
+    height: 150px !important;    /* PIÙ PICCOLE SU SMARTPHONE */
   }
 
   .card-title {
-    font-size: 20px;
+    font-size: 22px !important;
   }
 
   .card p {
-    font-size: 15px;
+    font-size: 16px !important;
+  }
+
+  .fiori-title {
+    font-size: 30px !important;
   }
 }
 
