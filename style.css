@@ -7,6 +7,7 @@
   --radius: 14px;
 }
 
+/* Reset */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -33,27 +34,13 @@ body {
   z-index: 999;
 }
 
-.sidebar.open {
-  left: 0;
-}
+.sidebar.open { left: 0; }
 
-.sidebar-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
+.sidebar-header { text-align: center; margin-bottom: 20px; }
 
-.sidebar-logo {
-  width: 90px;
-  margin-bottom: 10px;
-}
+.sidebar-logo { width: 90px; margin-bottom: 10px; }
 
-.sidebar-menu {
-  list-style: none;
-}
-
-.sidebar-menu li {
-  margin: 12px 0;
-}
+.sidebar-menu li { margin: 12px 0; }
 
 .sidebar-menu a {
   text-decoration: none;
@@ -107,22 +94,20 @@ body {
 }
 
 .hero-logo {
-  width: 220px;
+  width: 180px;
   margin-bottom: 20px;
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.35));
 }
 
 .hero-content h1 {
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 700;
 }
 
-.hero-content h1 span {
-  color: var(--accent);
-}
+.hero-content h1 span { color: var(--accent); }
 
 .hero-subtitle {
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 10px;
   margin-bottom: 25px;
 }
@@ -160,20 +145,35 @@ body {
 }
 
 .btn:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 /* Grid */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
 }
 
+/* CARD stile flovernapoli.it */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+}
+
+/* IMMAGINI TUTTE UGUALI */
 .card img {
   width: 100%;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
+  height: 240px;
+  object-fit: cover;
 }
 
 /* Sections */
@@ -183,9 +183,7 @@ main {
   padding: 40px 20px;
 }
 
-section {
-  margin-top: 40px;
-}
+section { margin-top: 40px; }
 
 section h2 {
   font-size: 24px;
@@ -211,13 +209,8 @@ footer {
 
 /* Mobile */
 @media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 36px;
-  }
-  .hero-logo {
-    width: 160px;
-  }
-  .sidebar {
-    width: 220px;
-  }
+  .hero-content h1 { font-size: 32px; }
+  .hero-logo { width: 140px; }
+  .sidebar { width: 220px; }
+  .card img { height: 180px; }
 }
