@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Admin - ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #faf7f4;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-card {
+      background: #ffffff;
+      padding: 24px 26px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      max-width: 360px;
+      width: 100%;
+    }
+    h1 {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+    p {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    button {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: none;
+      background: #8b4f4f;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .error {
+      font-size: 12px;
+      color: #b00020;
+      margin-top: 6px;
+    }
+    .back-link {
+      display: block;
+      margin-top: 12px;
+      font-size: 12px;
+      text-align: center;
+      color: #8b4f4f;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="login-card">
+  <h1>Area amministratore</h1>
+  <p>Accesso riservato a Luigi Estro per la gestione di immagini e video.</p>
+  <form id="login-form">
+    <label for="username">Utente</label>
+    <input id="username" type="text" placeholder="luigiestro">
+
+    <label for="password">Password</label>
+    <input id="password" type="password" placeholder="••••••••">
+
+    <button type="submit">Entra</button>
+    <div class="error" id="error"></div>
+  </form>
+  <a class="back-link" href="index.html">← Torna al sito</a>
+</div>
+
+<script>
+  const ADMIN_USER = "luigiestro";
+  const ADMIN_PASS = "EstroFlowers2026";
+
+  document.getElementById("login-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+    const errorEl = document.getElementById("error");
+
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+      localStorage.setItem("estroAdminLogged", "true");
+      window.location.href = "admin.html";
+    } else {
+      errorEl.textContent = "Credenziali non corrette.";
+    }
+  });
+</script>
+</body>
+</html>
