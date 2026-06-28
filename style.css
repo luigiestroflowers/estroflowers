@@ -224,3 +224,12 @@ footer {
   .sidebar { width: 220px; }
   .card img { height: 180px; }
 }
+.numero-home {
+  color: #8b4f4f !important;
+  font-family: Georgia, serif !important;
+  font-size: 22px !important;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
