@@ -1,115 +1,876 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Estro Flowers | Arte Floreale di Luigi Estro</title>
-<meta name="description" content="Estro Flowers - Fiorista a Sant'Antimo. Bouquet, addobbi matrimoniali, natalizi, lauree, comunioni e decorazioni floreali.">
-<style>
-body{margin:0;font-family:Arial,sans-serif;background:#faf8f5;color:#333}
-html{scroll-behavior:smooth}
-.hero{height:100vh;background:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1600&q=80') center/cover;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff}
-.hero h1{font-size:4rem;margin:0}
-.hero p{font-size:1.3rem}
-.btn{display:inline-block;padding:15px 30px;background:#c49a6c;color:#fff;text-decoration:none;border-radius:30px}
-nav{position:sticky;top:0;background:#fff;padding:10px;text-align:center}
-nav a{margin:10px;color:#333;text-decoration:none}
-section{padding:70px 8%}
-h2{text-align:center}
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.15)}
-.card img{width:100%;height:300px;object-fit:cover}
-.event-box{padding:30px;border-radius:15px;color:#fff;text-align:center;margin-bottom:20px;background-size:cover;background-position:center}
-footer{background:#222;color:#fff;text-align:center;padding:20px}
-</style>
+  <meta charset="UTF-8">
+  <title>ESTRO FLOWERS - Luigi Estro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg: #faf7f4;
+      --accent: #c58b8b;
+      --accent-dark: #8b4f4f;
+      --text: #333333;
+      --white: #ffffff;
+      --shadow: 0 8px 20px rgba(0,0,0,0.08);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250,247,244,0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+    }
+
+    .nav {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5c0c0, #f7e3c8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow);
+      font-weight: 700;
+      color: var(--accent-dark);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 30px auto 10px;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 30px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    .hero-text h1 span {
+      color: var(--accent-dark);
+    }
+
+    .hero-text p {
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      font-size: 12px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn {
+      border: none;
+      cursor: pointer;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent-dark);
+      color: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent-dark);
+      border: 1px solid var(--accent-dark);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+    }
+
+    .hero-image {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .hero-image div {
+      border-radius: 18px;
+      background-size: cover;
+      background-position: center;
+      min-height: 120px;
+    }
+
+    .hero-image .img1 { background-image: url("IMG_9584.jpg"); }
+    .hero-image .img2 { background-image: url("IMG_9585.jpg"); }
+    .hero-image .img3 { background-image: url("IMG_9586.jpg"); }
+    .hero-image .img4 { background-image: url("IMG_9587.jpg"); }
+
+    main {
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      padding: 0 20px 40px;
+    }
+
+    section {
+      margin-top: 40px;
+    }
+
+    section h2 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: var(--accent-dark);
+    }
+
+    section p.section-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 12px 14px 14px;
+      font-size: 14px;
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .like-btn {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent-dark);
+      font-size: 13px;
+    }
+
+    .like-btn span.heart {
+      font-size: 16px;
+    }
+
+    .social-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .social-link {
+      font-size: 13px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .subsection-title {
+      font-weight: 600;
+      margin: 16px 0 8px;
+      font-size: 16px;
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .media-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 10px;
+      font-size: 13px;
+    }
+
+    .media-card img,
+    .media-card video {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+
+    .decor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .decor-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .decor-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+    }
+
+    .decor-body {
+      padding: 12px 14px 14px;
+      font-size: 14px;
+    }
+
+    .decor-price {
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .cart-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .cart-btn {
+      border: none;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .cart-summary {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: #fff7f3;
+      font-size: 13px;
+    }
+
+    .cart-summary h3 {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .cart-items {
+      margin-bottom: 8px;
+    }
+
+    .cart-items li {
+      margin-left: 18px;
+    }
+
+    .map-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      font-size: 14px;
+    }
+
+    .map-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      text-decoration: none;
+      color: var(--accent-dark);
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #f5e9e3;
+    }
+
+    .flowers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .flower-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 12px 14px 14px;
+      font-size: 14px;
+    }
+
+    .flower-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .flower-type {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 6px;
+    }
+
+    footer {
+      border-top: 1px solid #e0d6cf;
+      padding: 16px 20px 24px;
+      font-size: 12px;
+      color: #777;
+      text-align: center;
+      background: #f3ebe5;
+    }
+
+    footer a {
+      color: var(--accent-dark);
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-image {
+        order: -1;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<header class="hero">
-<div>
-<h1>ESTRO FLOWERS</h1>
-<p>Arte Floreale di Luigi Estro</p>
-<a class="btn" href="#bouquet">Scopri le mie Realizzazioni</a>
-</div>
+<header>
+  <div class="nav">
+    <div class="logo">
+      <div class="logo-circle">EF</div>
+      <div class="logo-text">ESTRO FLOWERS</div>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#bouquet">Bouquet</a></li>
+        <li><a href="#matrimonio">Matrimonio</a></li>
+        <li><a href="#natale">Natale</a></li>
+        <li><a href="#pasqua">Pasqua</a></li>
+        <li><a href="#comunioni">Comunioni</a></li>
+        <li><a href="#lauree">Lauree</a></li>
+        <li><a href="#homedecor">Home Decor</a></li>
+        <li><a href="#fiori-significato">Fiori & significato</a></li>
+        <li><a href="#contatti">Contatti</a></li>
+        <li><a href="login.html">Login Admin</a></li>
+      </ul>
+    </nav>
+  </div>
 </header>
 
-<nav>
-<a href="#bouquet">Bouquet</a>
-<a href="#eventi">Eventi</a>
-<a href="#decorhome">Decor Home</a>
-<a href="#richiesta">WhatsApp</a>
-<a href="#instagram">Instagram</a>
-<a href="#indicazioni">Dove siamo</a>
-</nav>
-
-<section id="bouquet">
-<h2>Bouquet</h2>
-<div class="gallery">
-<div class="card"><img src="IMG_9584.jpeg"></div>
-<div class="card"><img src="IMG_9585.jpeg"></div>
-<div class="card"><img src="IMG_9586.jpeg"></div>
-<div class="card"><img src="IMG_9587.jpeg"></div>
-</div>
+<section class="hero">
+  <div class="hero-text">
+    <h1>ESTRO FLOWERS di <span>Luigi Estro</span></h1>
+    <p>
+      Fiorista a Sant'Antimo, specializzato in bouquet su misura, allestimenti matrimoniali,
+      decorazioni stagionali e home decor. Ogni creazione è pensata per raccontare una storia:
+      la tua.
+    </p>
+    <div class="hero-badges">
+      <div class="badge">Bouquet personalizzati</div>
+      <div class="badge">Addobbi Matrimoniali</div>
+      <div class="badge">Home Decor & Oggettistica</div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#bouquet">Scopri i bouquet</a>
+      <a class="btn btn-outline" href="#homedecor">Home decor & carrello</a>
+    </div>
+    <div class="social-bar" style="margin-top:14px;">
+      <a class="social-link" href="https://wa.me/393400532931" target="_blank">
+        💬 Contatto diretto WhatsApp
+      </a>
+      <a class="social-link" href="https://www.instagram.com/luigiestro?igsh=cTViazY3Z3E3MGF6" target="_blank">
+        📸 Segui su Instagram
+      </a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <div class="img1"></div>
+    <div class="img2"></div>
+    <div class="img3"></div>
+    <div class="img4"></div>
+  </div>
 </section>
 
-<section id="eventi">
-<h2>Eventi</h2>
+<main>
+  <!-- BOUQUET -->
+  <section id="bouquet">
+    <h2>Bouquet</h2>
+    <p class="section-subtitle">
+      Una selezione delle tue lavorazioni. Le immagini sono quelle indicate (IMG_9584–9587).
+      Puoi aggiungerne altre dall'area admin.
+    </p>
+    <div class="grid" id="bouquet-grid">
+      <!-- Esempi base -->
+      <div class="card" data-image="IMG_9584.jpg">
+        <img src="IMG_9584.jpg" alt="Bouquet ESTRO FLOWERS 1">
+        <div class="card-body">
+          <div class="card-title">Bouquet romantico</div>
+          <div>Composizione delicata, ideale per dichiarazioni d'amore e anniversari.</div>
+          <div class="card-actions">
+            <button class="like-btn">
+              <span class="heart">❤</span><span>Mi piace</span>
+            </button>
+            <span style="font-size:12px;color:#999;">Codice: IMG_9584</span>
+          </div>
+        </div>
+      </div>
 
-<div class="event-box" style="background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1400&q=80')">
-<h3>Matrimonio</h3>
-<p>Addobbi Matrimoniali</p>
-</div>
+      <div class="card" data-image="IMG_9585.jpg">
+        <img src="IMG_9585.jpg" alt="Bouquet ESTRO FLOWERS 2">
+        <div class="card-body">
+          <div class="card-title">Bouquet elegante</div>
+          <div>Perfetto per eventi formali, lauree e cerimonie.</div>
+          <div class="card-actions">
+            <button class="like-btn">
+              <span class="heart">❤</span><span>Mi piace</span>
+            </button>
+            <span style="font-size:12px;color:#999;">Codice: IMG_9585</span>
+          </div>
+        </div>
+      </div>
 
-<div class="event-box" style="background-image:url('https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=1400&q=80')">
-<h3>Natale</h3>
-<p>Addobbi Natalizi</p>
-</div>
+      <div class="card" data-image="IMG_9586.jpg">
+        <img src="IMG_9586.jpg" alt="Bouquet ESTRO FLOWERS 3">
+        <div class="card-body">
+          <div class="card-title">Bouquet colorato</div>
+          <div>Per chi ama i colori vivaci e le composizioni dinamiche.</div>
+          <div class="card-actions">
+            <button class="like-btn">
+              <span class="heart">❤</span><span>Mi piace</span>
+            </button>
+            <span style="font-size:12px;color:#999;">Codice: IMG_9586</span>
+          </div>
+        </div>
+      </div>
 
-<div class="event-box" style="background-image:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=80')">
-<h3>Laurea</h3>
-<p>Addobbi Lauree</p>
-</div>
+      <div class="card" data-image="IMG_9587.jpg">
+        <img src="IMG_9587.jpg" alt="Bouquet ESTRO FLOWERS 4">
+        <div class="card-body">
+          <div class="card-title">Bouquet minimal</div>
+          <div>Linee pulite e pochi elementi, per un'eleganza essenziale.</div>
+          <div class="card-actions">
+            <button class="like-btn">
+              <span class="heart">❤</span><span>Mi piace</span>
+            </button>
+            <span style="font-size:12px;color:#999;">Codice: IMG_9587</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="event-box" style="background-image:url('https://images.unsplash.com/photo-1457305237443-44c3d5a30b89?auto=format&fit=crop&w=1400&q=80')">
-<h3>Pasqua</h3>
-<p>Addobbi Pasquali</p>
-</div>
+  <!-- MATRIMONIO -->
+  <section id="matrimonio">
+    <h2>Matrimonio</h2>
+    <p class="section-subtitle">
+      Addobbi matrimoniali per chiesa, location e tavoli. Qui puoi caricare immagini e video
+      delle tue lavorazioni.
+    </p>
 
-<div class="event-box" style="background-image:url('https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1400&q=80')">
-<h3>Comunione</h3>
-<p>Addobbi Comunione</p>
-</div>
-</section>
+    <div class="subsection-title">Addobbi Matrimoniali</div>
+    <div class="media-grid" id="matrimonio-media">
+      <div class="media-card" data-image="IMG_9589.jpg">
+        <img src="IMG_9589.jpg" alt="Addobbo Matrimoniale 1">
+        <div>Ingresso chiesa con composizioni floreali eleganti.</div>
+        <button class="like-btn" style="margin-top:6px;">
+          <span class="heart">❤</span><span>Mi piace</span>
+        </button>
+      </div>
 
-<section id="decorhome">
-<h2>Decor Home</h2>
-<p style="text-align:center">Carica qui le tue decorazioni, vasi, candele e oggettistica per la casa.</p>
-</section>
+      <div class="media-card" data-image="IMG_9593.jpg">
+        <img src="IMG_9593.jpg" alt="Addobbo Matrimoniale 2">
+        <div>Allestimento tavolo sposi con dettagli raffinati.</div>
+        <button class="like-btn" style="margin-top:6px;">
+          <span class="heart">❤</span><span>Mi piace</span>
+        </button>
+      </div>
 
-<section id="richiesta">
-<h2>Richiedi la tua Realizzazione</h2>
-<p style="text-align:center">
-<a class="btn" href="https://wa.me/393400532931?text=Buongiorno%20Estro%20Flowers,%20vorrei%20una%20realizzazione%20personalizzata.">Contattami su WhatsApp</a>
-</p>
-</section>
+      <!-- Esempio video (puoi sostituire src con un tuo file/video) -->
+      <div class="media-card" data-image="">
+        <video controls>
+          <source src="video-matrimonio.mp4" type="video/mp4">
+          Il tuo browser non supporta il video.
+        </video>
+        <div>Video di un allestimento matrimoniale completo.</div>
+      </div>
+    </div>
+  </section>
 
-<section id="instagram">
-<h2>Instagram</h2>
-<p style="text-align:center">
-<a class="btn" href="https://www.instagram.com/luigiestro" target="_blank">Segui Estro Flowers</a>
-</p>
-</section>
+  <!-- NATALE -->
+  <section id="natale">
+    <h2>Natale</h2>
+    <p class="section-subtitle">
+      Addobbi natalizi per case, negozi e vetrine. Qui potrai caricare immagini e video futuri
+      dall'area admin.
+    </p>
+    <div class="subsection-title">Addobbi Natalizi</div>
+    <div class="media-grid" id="natale-media">
+      <!-- Popolato in futuro via admin/localStorage -->
+      <div class="media-card">
+        <div>In arrivo le tue creazioni natalizie: ghirlande, centrotavola, alberi decorati.</div>
+      </div>
+    </div>
+  </section>
 
-<section id="indicazioni">
-<h2>Dove Siamo</h2>
-<p style="text-align:center">Corso Italia 122, 80029 Sant'Antimo (NA)</p>
-<iframe src="https://maps.google.com/maps?q=Corso%20Italia%20122%20Sant%20Antimo&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="400"></iframe>
-</section>
+  <!-- PASQUA -->
+  <section id="pasqua">
+    <h2>Pasqua</h2>
+    <p class="section-subtitle">
+      Addobbi pasquali, centrotavola e decorazioni primaverili. Sezione pronta per immagini e video.
+    </p>
+    <div class="subsection-title">Addobbi Pasquali</div>
+    <div class="media-grid" id="pasqua-media">
+      <div class="media-card">
+        <div>Spazio dedicato alle tue composizioni pasquali: uova decorate, fiori primaverili, nidi.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMUNIONI -->
+  <section id="comunioni">
+    <h2>Comunioni</h2>
+    <p class="section-subtitle">
+      Addobbi per comunioni, tavoli e location. Immagini e video gestibili dall'area admin.
+    </p>
+    <div class="subsection-title">Addobbi Comunione</div>
+    <div class="media-grid" id="comunioni-media">
+      <div class="media-card">
+        <div>Allestimenti delicati e luminosi per le prime comunioni.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAUREE -->
+  <section id="lauree">
+    <h2>Lauree</h2>
+    <p class="section-subtitle">
+      Addobbi lauree, corone d'alloro, tavoli e backdrop fotografici.
+    </p>
+    <div class="subsection-title">Addobbi Lauree</div>
+    <div class="media-grid" id="lauree-media">
+      <div class="media-card">
+        <div>Composizioni per festeggiare i traguardi accademici con stile.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOME DECOR + E-COMMERCE (solo ritiro in negozio) -->
+  <section id="homedecor">
+    <h2>Home Decor & Oggettistica</h2>
+    <p class="section-subtitle">
+      Oggettistica, vasi, lanterne, candele e decorazioni per la casa. Puoi aggiungere al carrello
+      e inviare l'ordine con ritiro in negozio tramite WhatsApp.
+    </p>
+
+    <div class="decor-grid" id="decor-grid">
+      <div class="decor-card" data-name="Lanterna floreale" data-price="35">
+        <img src="home-lanterna.jpg" alt="Lanterna floreale">
+        <div class="decor-body">
+          <div class="card-title">Lanterna floreale</div>
+          <div>Lanterna decorata con fiori secchi e dettagli romantici.</div>
+          <div class="decor-price">€35,00</div>
+          <div class="cart-actions">
+            <button class="cart-btn">Aggiungi al carrello</button>
+            <span style="font-size:12px;color:#999;">Codice: HD001</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decor-card" data-name="Vaso in ceramica" data-price="28">
+        <img src="home-vaso.jpg" alt="Vaso in ceramica">
+        <div class="decor-body">
+          <div class="card-title">Vaso in ceramica</div>
+          <div>Vaso artigianale perfetto per composizioni da salotto.</div>
+          <div class="decor-price">€28,00</div>
+          <div class="cart-actions">
+            <button class="cart-btn">Aggiungi al carrello</button>
+            <span style="font-size:12px;color:#999;">Codice: HD002</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="decor-card" data-name="Candela decorativa" data-price="15">
+        <img src="home-candela.jpg" alt="Candela decorativa">
+        <div class="decor-body">
+          <div class="card-title">Candela decorativa</div>
+          <div>Candela profumata con dettagli floreali.</div>
+          <div class="decor-price">€15,00</div>
+          <div class="cart-actions">
+            <button class="cart-btn">Aggiungi al carrello</button>
+            <span style="font-size:12px;color:#999;">Codice: HD003</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-summary" id="cart-summary">
+      <h3>Carrello (solo ritiro in negozio)</h3>
+      <ul class="cart-items" id="cart-items"></ul>
+      <div id="cart-total" style="margin-bottom:8px;">Totale: €0,00</div>
+      <button class="btn btn-primary" id="send-order-whatsapp">
+        Invia ordine su WhatsApp per ritiro
+      </button>
+      <p style="margin-top:6px;">
+        L'ordine verrà inviato su WhatsApp al numero <strong>+39 340 053 2931</strong> con
+        dettaglio degli articoli e richiesta di conferma.
+      </p>
+    </div>
+  </section>
+
+  <!-- INDIRIZZO & MAPPE -->
+  <section id="contatti">
+    <h2>Contatti & Dove trovarci</h2>
+    <p class="section-subtitle">
+      Vieni a trovarci in negozio o contattaci direttamente su WhatsApp e Instagram.
+    </p>
+    <div class="map-card">
+      <div><strong>Indirizzo:</strong> Corso Italia 122, Sant'Antimo, 80029 (NA)</div>
+      <a class="map-link"
+         href="https://www.google.com/maps/search/?api=1&query=Corso+Italia+122,+Sant'Antimo,+80029"
+         target="_blank">
+        📍 Apri in Google Maps
+      </a>
+      <div style="margin-top:10px;">
+        <strong>WhatsApp:</strong> <a href="https://wa.me/393400532931" target="_blank">+39 340 053 2931</a><br>
+        <strong>Instagram:</strong> <a href="https://www.instagram.com/luigiestro?igsh=cTViazY3Z3E3MGF6" target="_blank">@luigiestro</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FIORI & SIGNIFICATO -->
+  <section id="fiori-significato">
+    <h2>Fiori: tipologie & significato</h2>
+    <p class="section-subtitle">
+      Una guida rapida per scegliere il fiore giusto in base al messaggio che vuoi comunicare:
+      amore, passione, gratitudine, eleganza.
+    </p>
+
+    <div class="flowers-grid">
+      <div class="flower-card">
+        <div class="flower-name">Rosa rossa</div>
+        <div class="flower-type">Tipologia: fiore reciso, simbolo classico dell'amore.</div>
+        <div>
+          <strong>Significato:</strong> amore intenso, passione, dichiarazioni importanti.
+          Perfetta per anniversari e momenti romantici.
+        </div>
+      </div>
+
+      <div class="flower-card">
+        <div class="flower-name">Rosa bianca</div>
+        <div class="flower-type">Tipologia: fiore reciso, elegante e delicato.</div>
+        <div>
+          <strong>Significato:</strong> purezza, rispetto, amore sincero. Ideale per matrimoni
+          e cerimonie.
+        </div>
+      </div>
+
+      <div class="flower-card">
+        <div class="flower-name">Tulipano</div>
+        <div class="flower-type">Tipologia: fiore primaverile, disponibile in molti colori.</div>
+        <div>
+          <strong>Significato:</strong> amore perfetto e dichiarazioni dolci. I colori vivaci
+          esprimono gioia e vitalità.
+        </div>
+      </div>
+
+      <div class="flower-card">
+        <div class="flower-name">Girasole</div>
+        <div class="flower-type">Tipologia: fiore grande, solare e scenografico.</div>
+        <div>
+          <strong>Significato:</strong> energia, amicizia, gratitudine. Porta luce e allegria
+          in ogni ambiente.
+        </div>
+      </div>
+
+      <div class="flower-card">
+        <div class="flower-name">Orchidea</div>
+        <div class="flower-type">Tipologia: pianta in vaso, elegante e raffinata.</div>
+        <div>
+          <strong>Significato:</strong> bellezza rara, eleganza, amore sofisticato. Perfetta
+          per regali importanti.
+        </div>
+      </div>
+
+      <div class="flower-card">
+        <div class="flower-name">Peonia</div>
+        <div class="flower-type">Tipologia: fiore stagionale, molto richiesto per matrimoni.</div>
+        <div>
+          <strong>Significato:</strong> amore felice, prosperità, romanticismo delicato.
+          Ideale per bouquet da sposa.
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
 
 <footer>
-<p>Estro Flowers - Luigi Estro</p>
-<p>340 053 2931</p>
+  ESTRO FLOWERS · Luigi Estro · Corso Italia 122, Sant'Antimo (NA) ·
+  <a href="login.html">Area amministratore</a>
 </footer>
 
-</body>
-</html>
+<script>
+  // LIKE -> WHATSAPP con messaggio + immagine
+  const WHATSAPP_NUMBER = "393400532931";
+  const LIKE_MESSAGE =
+    "Salve, la contatto per chiedere informazioni riguardo la seguente creazione da lei effettuata, " +
+    "se possibile sapere il prezzo. Grazie in anticipo per la disponibilità.";
+
+  function handleLikeClick(cardElement) {
+    const imgEl = cardElement.querySelector("img");
+    const imageSrc = imgEl ? imgEl.getAttribute("src") : "";
+    const text =
+      LIKE_MESSAGE +
+      (imageSrc ? "\\n\\nImmagine di riferimento: " + imageSrc : "");
+
+    const url =
+      "https://wa.me/" +
+      WHATSAPP_NUMBER +
+      "?text=" +
+      encodeURIComponent(text);
+
+    window.open(url, "_blank");
+  }
+
+  document.querySelectorAll(".like-btn").forEach(btn => {
+    btn.addEventListener("click", function () {
+      const card = this.closest(".card, .media-card");
+      if (card) {
+        handleLikeClick(card);
+      }
+    });
+  });
+
+  // CARRELLO HOME DECOR (solo ritiro in negozio)
+  const cart = [];
+  const cartItemsEl = document.getElementById("cart-items");
+  const cartTotalEl = document.getElementById("cart-total");
+  const sendOrderBtn = document.getElementById("send-order-whatsapp");
+
+  function renderCart() {
+    cartItemsEl.innerHTML = "";
+    let total = 0;
+    cart.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item.name + " - €" + item.price.toFixed(2);
+      cartItemsEl.appendChild(li);
+      total += item.price;
+    });
+    cartTotal
