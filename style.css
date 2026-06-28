@@ -368,4 +368,10 @@ footer {
   object-fit: cover !important;
   border-radius: 14px;
 }
+@media (max-width: 768px) {
+  .grid .card img,
+  .card img {
+    height: 300px !important;   /* Più grande anche su smartphone */
+  }
+}
 
