@@ -220,7 +220,7 @@ footer {
 }
 
 /* Mobile */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
   .hero-content h1 { font-size: 32px; }
   .hero-logo { width: 140px; }
   .sidebar { width: 220px; }
