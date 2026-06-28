@@ -4,237 +4,30 @@
   <meta charset="UTF-8">
   <title>Admin - ESTRO FLOWERS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      background: #faf7f4;
-      font-family: "Segoe UI", system-ui, sans-serif;
-      margin: 0;
-    }
-    header {
-      background: #8b4f4f;
-      color: #fff;
-      padding: 12px 18px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header a {
-      color: #fff;
-      font-size: 13px;
-      text-decoration: none;
-    }
-    main {
-      max-width: 900px;
-      margin: 20px auto 40px;
-      padding: 0 20px;
-    }
-    h1 {
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
-    p {
-      font-size: 13px;
-      color: #555;
-      margin-bottom: 16px;
-    }
-    .form-card {
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      padding: 16px 18px;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 4px;
-    }
-    select, input, textarea {
-      width: 100%;
-      padding: 8px 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-    textarea {
-      min-height: 60px;
-    }
-    button {
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: none;
-      background: #8b4f4f;
-      color: #fff;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    button:hover {
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    }
-    .list-card {
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      padding: 16px 18px;
-    }
-    .media-item {
-      font-size: 13px;
-      border-bottom: 1px solid #eee;
-      padding: 6px 0;
-    }
-    .media-item:last-child {
-      border-bottom: none;
-    }
-    .media-item span.section {
-      font-weight: 600;
-      color: #8b4f4f;
-    }
-    .logout {
-      font-size: 12px;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+
 <header>
-  <div>Admin · ESTRO FLOWERS</div>
-  <div>
-    <a href="index.html">← Torna al sito</a> ·
-    <span class="logout" id="logout">Logout</span>
-  </div>
+  <h2 style="text-align:center; margin-top:20px; color:#8b4f4f;">
+    Area Admin - ESTRO FLOWERS
+  </h2>
 </header>
 
-<main>
-  <h1>Gestione immagini e video</h1>
-  <p>
-    Aggiungi immagini e video alle sezioni (Bouquet, Matrimonio, Natale, Pasqua, Comunioni, Lauree).
-    I dati vengono salvati in <strong>localStorage</strong> e caricati automaticamente nella homepage.
+<main style="padding:20px; text-align:center;">
+  <p>Benvenuto Luigi Estro!</p>
+  <p>Qui potrai gestire il sito (versione statica).</p>
+
+  <p style="margin-top:20px; font-size:14px; color:#777;">
+    Nota: GitHub Pages non permette upload diretto di immagini o modifiche dinamiche.<br>
+    Per aggiornare il sito devi caricare manualmente i file nella repository.
   </p>
 
-  <div class="form-card">
-    <h2 style="font-size:18px;margin-bottom:10px;">Nuovo contenuto</h2>
-    <form id="media-form">
-      <label for="section">Sezione</label>
-      <select id="section" required>
-        <option value="bouquet">Bouquet</option>
-        <option value="matrimonio">Matrimonio</option>
-        <option value="natale">Natale</option>
-        <option value="pasqua">Pasqua</option>
-        <option value="comunioni">Comunioni</option>
-        <option value="lauree">Lauree</option>
-      </select>
-
-      <label for="type">Tipo contenuto</label>
-      <select id="type" required>
-        <option value="image">Immagine</option>
-        <option value="video">Video</option>
-      </select>
-
-      <label for="src">URL file (immagine o video)</label>
-      <input id="src" type="text" placeholder="es. IMG_9600.jpg oppure video-natale.mp4" required>
-
-      <label for="title">Titolo (opzionale)</label>
-      <input id="title" type="text" placeholder="es. Bouquet natalizio">
-
-      <label for="description">Descrizione (opzionale)</label>
-      <textarea id="description" placeholder="Breve descrizione della lavorazione"></textarea>
-
-      <button type="submit">Salva contenuto</button>
-    </form>
-  </div>
-
-  <div class="list-card">
-    <h2 style="font-size:18px;margin-bottom:10px;">Contenuti salvati</h2>
-    <div id="media-list"></div>
-  </div>
+  <a href="index.html" class="btn btn-primary" style="margin-top:20px;">
+    Torna al sito
+  </a>
 </main>
 
-<script>
-  if (localStorage.getItem("estroAdminLogged") !== "true") {
-    alert("Accesso non autorizzato. Effettua il login.");
-    window.location.href = "login.html";
-  }
-
-  const form = document.getElementById("media-form");
-  const listEl = document.getElementById("media-list");
-
-  function loadMedia() {
-    const data = localStorage.getItem("estroMedia");
-    if (!data) {
-      listEl.innerHTML = "<p>Nessun contenuto salvato al momento.</p>";
-      return;
-    }
-    const media = JSON.parse(data);
-    if (media.length === 0) {
-      listEl.innerHTML = "<p>Nessun contenuto salvato al momento.</p>";
-      return;
-    }
-    listEl.innerHTML = "";
-    media.forEach((item, index) => {
-      const div = document.createElement("div");
-      div.className = "media-item";
-      div.innerHTML =
-        "<span class='section'>" + item.section + "</span> · " +
-        item.type.toUpperCase() + " · " +
-        (item.title || "(senza titolo)") +
-        " · src: " + item.src +
-        (item.description ? " · " + item.description : "") +
-        " · <a href='#' data-index='" + index + "' class='delete-link'>Elimina</a>";
-      listEl.appendChild(div);
-    });
-
-    document.querySelectorAll(".delete-link").forEach(link => {
-      link.addEventListener("click", function (e) {
-        e.preventDefault();
-        const idx = parseInt(this.getAttribute("data-index"), 10);
-        deleteMedia(idx);
-      });
-    });
-  }
-
-  function saveMedia(item) {
-    const data = localStorage.getItem("estroMedia");
-    const media = data ? JSON.parse(data) : [];
-    media.push(item);
-    localStorage.setItem("estroMedia", JSON.stringify(media));
-  }
-
-  function deleteMedia(index) {
-    const data = localStorage.getItem("estroMedia");
-    if (!data) return;
-    const media = JSON.parse(data);
-    media.splice(index, 1);
-    localStorage.setItem("estroMedia", JSON.stringify(media));
-    loadMedia();
-  }
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const section = document.getElementById("section").value;
-    const type = document.getElementById("type").value;
-    const src = document.getElementById("src").value.trim();
-    const title = document.getElementById("title").value.trim();
-    const description = document.getElementById("description").value.trim();
-
-    if (!src) {
-      alert("Inserisci l'URL del file.");
-      return;
-    }
-
-    const item = { section, type, src, title, description };
-    saveMedia(item);
-    loadMedia();
-    form.reset();
-    alert("Contenuto salvato. Aggiorna la homepage per vederlo.");
-  });
-
-  document.getElementById("logout").addEventListener("click", function () {
-    localStorage.removeItem("estroAdminLogged");
-    window.location.href = "index.html";
-  });
-
-  loadMedia();
-</script>
 </body>
 </html>
