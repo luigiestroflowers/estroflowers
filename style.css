@@ -232,4 +232,19 @@ footer {
   text-align: center;
   margin-top: 10px;
 }
+.numero-home {
+  color: #8b4f4f !important;
+  font-family: Georgia, serif !important;
+  font-size: 22px !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  margin-top: 10px !important;
+  display: block !important;
+}
+
+.numero-home a {
+  color: #8b4f4f !important;
+  font-family: Georgia, serif !important;
+}
+
 
