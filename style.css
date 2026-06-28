@@ -360,5 +360,12 @@ footer {
   background: #5fa86c;
 }
 
-
+/* Riquadro foto molto più grande */
+.grid .card img,
+.card img {
+  width: 100% !important;
+  height: 380px !important;     /* AUMENTO IMPORTANTE */
+  object-fit: cover !important;
+  border-radius: 14px;
+}
 
