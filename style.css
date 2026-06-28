@@ -404,4 +404,23 @@ footer {
     height: 280px !important;     /* proporzionate su smartphone */
   }
 }
+/* Sezione spiegazione fiori */
+.spiegazione-fiori h3 {
+  text-align: left;                 /* titoli allineati a sinistra */
+  color: #8b4f4f;
+  font-family: Georgia, serif;
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+
+/* Descrizione dei fiori */
+.spiegazione-fiori p {
+  font-family: "Times New Roman", serif;   /* font elegante */
+  font-size: 18px;
+  text-align: left;                        /* allineato a sinistra */
+  white-space: nowrap;                     /* NON va a capo */
+  overflow: hidden;
+  text-overflow: ellipsis;                 /* evita rotture */
+  margin-bottom: 12px;
+}
 
