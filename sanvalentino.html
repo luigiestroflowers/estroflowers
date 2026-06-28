@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>San Valentino - ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="IMG_9611.png" class="sidebar-logo">
+      <h3>ESTRO FLOWERS</h3>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="bouquet.html">Bouquet</a></li>
+      <li><a href="homedecor.html">Home Decor</a></li>
+      <li><a href="fiori.html">Fiori & Significato</a></li>
+      <li><a href="contatti.html">Contatti</a></li>
+    </ul>
+  </div>
+
+  <button class="menu-toggle" id="menu-toggle">☰</button>
+</header>
+
+<section class="hero-full">
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <img src="IMG_9611.png" class="hero-logo">
+    <h1>San Valentino</h1>
+    <p class="hero-subtitle">Creazioni romantiche per celebrare l’amore</p>
+  </div>
+</section>
+
+<main class="sanvalentino">
+  <div class="grid">
+
+    <div class="card">
+      <img src="IMG_SANVALENTINO1.jpeg">
+      <div class="btn-row">
+        <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione%20di%20San%20Valentino" class="like-btn">❤️ Like</a>
+        <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione%20di%20San%20Valentino" class="order-btn">🛒 Ordina</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="IMG_SANVALENTINO2.jpeg">
+      <div class="btn-row">
+        <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione%20di%20San%20Valentino" class="like-btn">❤️ Like</a>
+        <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione%20di%20San%20Valentino" class="order-btn">🛒 Ordina</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="IMG_SANVALENTINO3.jpeg">
+      <div class="btn-row">
+        <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione%20di%20San%20Valentino" class="like-btn">❤️ Like</a>
+        <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione%20di%20San%20Valentino" class="order-btn">🛒 Ordina</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+</script>
+
+</body>
+</html>
