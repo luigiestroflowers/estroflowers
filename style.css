@@ -318,5 +318,45 @@ footer {
     font-size: 30px !important;
   }
 }
+.btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0 15px 0;
+}
+
+/* Pulsante LIKE */
+.like-btn {
+  padding: 8px 14px;
+  background: #8b4f4f;
+  color: #fff;
+  font-size: 16px;
+  font-family: Georgia, serif;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+/* Pulsante ORDINA */
+.order-btn {
+  padding: 8px 14px;
+  background: #4f8b5a;
+  color: #fff;
+  font-size: 16px;
+  font-family: Georgia, serif;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+/* Hover */
+.like-btn:hover {
+  background: #a05c5c;
+}
+
+.order-btn:hover {
+  background: #5fa86c;
+}
+
 
 
