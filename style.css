@@ -222,7 +222,11 @@ footer {
   .hero-content h1 { font-size: 32px; }
   .hero-logo { width: 140px; }
   .sidebar { width: 220px; }
-  .card img { height: 180px; }
+  .card img {
+  height: 140px !important;
+  object-fit: cover;
+}
+
 }
 .numero-home {
   color: #8b4f4f !important;
