@@ -176,6 +176,15 @@ body {
   object-fit: contain;
   border-radius: 14px;
 }
+.card-title {
+  text-align: center;
+  color: #8b4f4f;
+  font-family: "Georgia", serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
 
 /* Sections */
 main {
