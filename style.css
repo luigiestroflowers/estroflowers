@@ -364,14 +364,14 @@ footer {
 .grid .card img,
 .card img {
   width: 100% !important;
-  height: 380px !important;     /* AUMENTO IMPORTANTE */
+  height: 390px !important;     /* AUMENTO IMPORTANTE */
   object-fit: cover !important;
   border-radius: 14px;
 }
 @media (max-width: 768px) {
   .grid .card img,
   .card img {
-    height: 300px !important;   /* Più grande anche su smartphone */
+    height: 315px !important;   /* Più grande anche su smartphone */
   }
 }
 
