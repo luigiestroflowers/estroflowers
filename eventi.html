@@ -1,1 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Eventi - ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="IMG_9611.png" class="sidebar-logo">
+      <h3>ESTRO FLOWERS</h3>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="bouquet.html">Bouquet</a></li>
+      <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="homedecor.html">Home Decor</a></li>
+      <li><a href="fiori.html">Fiori & Significato</a></li>
+      <li><a href="contatti.html">Contatti</a></li>
+    </ul>
+  </div>
+
+  <button class="menu-toggle" id="menu-toggle">☰</button>
+</header>
+
+<section class="hero-full">
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <img src="IMG_9611.png" class="hero-logo">
+    <h1>Eventi</h1>
+    <p class="hero-subtitle">Allestimenti floreali per ogni tipo di evento</p>
+  </div>
+</section>
+
+<main>
+
+  <div class="grid">
+
+    <div class="card">
+      <a href="matrimonio.html">
+        <img src="IMG_9589.jpeg">
+        <div class="card-body"><div class="card-title">Matrimonio</div></div>
+      </a>
+    </div>
+
+    <div class="card">
+      <a href="lauree.html">
+        <img src="IMG_9593.jpeg">
+        <div class="card-body"><div class="card-title">Lauree</div></div>
+      </a>
+    </div>
+
+    <div class="card">
+      <a href="comunioni.html">
+        <img src="IMG_9587.jpeg">
+        <div class="card-body"><div class="card-title">Comunioni</div></div>
+      </a>
+    </div>
+
+    <div class="card">
+      <a href="natale.html">
+        <img src="IMG_9584.jpeg">
+        <div class="card-body"><div class="card-title">Natale</div></div>
+      </a>
+    </div>
+
+    <div class="card">
+      <a href="pasqua.html">
+        <img src="IMG_9585.jpeg">
+        <div class="card-body"><div class="card-title">Pasqua</div></div>
+      </a>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+</script>
+
+</body>
+</html>
 
