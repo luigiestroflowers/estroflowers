@@ -15,7 +15,7 @@
 
   <label>Seleziona la sessione:</label>
   <select id="session-select" style="width:100%; padding:10px; margin-bottom:20px;">
-  <option value="bouquet">Bouquet</option>
+    <option value="bouquet">Bouquet</option>
     <option value="homedecor">Home Decor</option>
     <option value="matrimonio">Matrimonio</option>
     <option value="lauree">Lauree</option>
@@ -26,7 +26,6 @@
     <option value="festadonne">Festa delle Donne</option>
   </select>
 
-
   <input id="file-input" type="file" accept="image/*,video/*"
          style="width:100%; padding:12px; border:2px solid #8b4f4f; border-radius:8px; margin-bottom:20px;">
 
@@ -34,7 +33,7 @@
 
 </div>
 
-<!-- 🔥 PULSANTE FUORI DAL DIV (ORA FUNZIONA SU IPHONE) -->
+<!-- PULSANTE FUORI DAL DIV -->
 <div id="confirm-upload"
      role="button"
      tabindex="0"
@@ -54,7 +53,7 @@
        z-index:999999;
      ">
   Conferma caricamento ✔
-  
+</div>
 
 <script>
   const apiKey = "public_W23MTff6zPdHapRZH7EQSrf";
@@ -65,7 +64,6 @@
 
   async function uploadFile(file) {
 
-    // UPLOAD.IO
     const formData = new FormData();
     formData.append("file", file);
 
@@ -77,21 +75,18 @@
     const json = await upload.json();
     const fileUrl = json.files[0].fileUrl;
 
-    // JSONBIN - LEGGI
     const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
       headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
     }).then(r => r.json());
 
     const items = current.record.items || [];
 
-    // AGGIUNGI
     items.push({
       session: sessionSelect.value,
       url: fileUrl,
       type: file.type.startsWith("video") ? "video" : "image"
     });
 
-    // JSONBIN - SALVA
     await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
       method: "PUT",
       headers: {
@@ -101,7 +96,6 @@
       body: JSON.stringify({ items })
     });
 
-    // CONFERMA
     result.innerHTML = `
       <strong>Caricato!</strong><br>
       Sessione: ${sessionSelect.value}<br>
@@ -109,7 +103,6 @@
     `;
   }
 
-  // CLICK FUNZIONANTE
   confirmBtn.onclick = () => {
     const file = fileInput.files[0];
     if (!file) {
