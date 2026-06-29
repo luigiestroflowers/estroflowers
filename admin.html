@@ -62,8 +62,8 @@
       const formData = new FormData();
       formData.append("file", file);
 
-      // 🔥 FILE.IO — ACCETTA TUTTO (IMMAGINI + VIDEO)
-      const upload = await fetch("https://file.io/?expires=1w", {
+      // 🔥 GOFILE — ACCETTA TUTTO (IMMAGINI + VIDEO)
+      const upload = await fetch("https://api.gofile.io/uploadFile", {
         method: "POST",
         body: formData
       });
@@ -71,7 +71,7 @@
       if (!upload.ok) throw new Error("Errore upload: " + upload.status);
 
       const json = await upload.json();
-      const fileUrl = json.link;
+      const fileUrl = json.data.downloadPage;
 
       const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
         headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
