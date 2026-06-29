@@ -42,7 +42,7 @@
 <script src="https://js.bytescale.com/upload"></script>
 <script>
   const options = {
-    apiKey: "public_W23MTff6zPdHapRZH7EQSrf",
+    apiKey: "public_W23MTff6zPdHapRZH7EQSrf",   // tua API key Upload.io
     maxFileCount: 1
   };
 
@@ -56,16 +56,7 @@
     const fileUrl = files[0].fileUrl;
     const session = sessionSelect.value;
 
-    // Salva nel tuo database JSONBin
-    await fetch("https://api.jsonbin.io/v3/b/YOUR_BIN_ID", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": "YOUR_JSONBIN_KEY"
-      },
-      body: JSON.stringify({ session, url: fileUrl, type })
-    });
-
+    // QUI ANDRÀ IL SALVATAGGIO NEL JSON (lo completiamo dopo)
     result.innerHTML = `
       <strong>Caricato!</strong><br>
       Sessione: ${session}<br>
