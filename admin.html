@@ -1,122 +1,82 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Area Admin - ESTRO FLOWERS</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Admin Upload - Estro Flowers</title>
+<style>
+  body {
+    font-family: Arial;
+    padding: 20px;
+    background: #f5f5f5;
+  }
+  .box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  input[type="file"] {
+    margin-bottom: 15px;
+  }
+  button {
+    padding: 10px 20px;
+    background: #d63384;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  #result {
+    margin-top: 20px;
+    padding: 10px;
+    background: #e8ffe8;
+    border-radius: 5px;
+  }
+</style>
 </head>
+<body>
 
-<body style="font-family: Arial, sans-serif; background:#f5f5f5;">
+<div class="box">
+  <h2>Carica Foto/Video</h2>
 
-<h2 style="text-align:center; margin-top:20px;">Area Admin</h2>
-<p style="text-align:center;">Carica immagini e video nelle sessioni del sito</p>
+  <input type="file" id="fileInput">
+  <button onclick="uploadFile()">Carica</button>
 
-<div style="max-width:400px; margin:20px auto; padding:20px; background:white; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-
-  <label>Seleziona la sessione:</label>
-  <select id="session-select" style="width:100%; padding:10px; margin-bottom:20px;">
-    <option value="bouquet">Bouquet</option>
-    <option value="homedecor">Home Decor</option>
-    <option value="matrimonio">Matrimonio</option>
-    <option value="lauree">Lauree</option>
-    <option value="comunione">Comunione</option>
-    <option value="natale">Natale</option>
-    <option value="pasqua">Pasqua</option>
-    <option value="sanvalentino">San Valentino</option>
-    <option value="festadonne">Festa delle Donne</option>
-  </select>
-
-  <input id="file-input" type="file" accept="image/*,video/*"
-         style="width:100%; padding:12px; border:2px solid #8b4f4f; border-radius:8px; margin-bottom:20px;">
-
-  <p id="result" style="margin-top:20px; font-size:14px; color:#333;"></p>
-
-</div>
-
-<div id="confirm-upload"
-     style="
-       width:100%;
-       max-width:400px;
-       margin:0 auto;
-       padding:14px;
-       background:#28a745;
-       color:white;
-       border-radius:8px;
-       font-size:18px;
-       text-align:center;
-       cursor:pointer;
-     ">
-  Conferma caricamento ✔
+  <div id="result"></div>
 </div>
 
 <script>
-  const fileInput = document.getElementById("file-input");
-  const confirmBtn = document.getElementById("confirm-upload");
-  const result = document.getElementById("result");
-  const sessionSelect = document.getElementById("session-select");
-
-  async function uploadFile(file) {
-    try {
-      result.innerHTML = "Caricamento in corso...";
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      // 🔥 GOFILE — ACCETTA TUTTO (IMMAGINI + VIDEO)
-      const upload = await fetch("https://api.gofile.io/uploadFile", {
-        method: "POST",
-        body: formData
-      });
-
-      if (!upload.ok) throw new Error("Errore upload: " + upload.status);
-
-      const json = await upload.json();
-      const fileUrl = json.data.downloadPage;
-
-      const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
-        headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
-      });
-
-      if (!current.ok) throw new Error("Errore lettura JSONBin: " + current.status);
-
-      const currentJson = await current.json();
-      const items = currentJson.record.items || [];
-
-      items.push({
-        session: sessionSelect.value,
-        url: fileUrl,
-        type: file.type.startsWith("video") ? "video" : "image"
-      });
-
-      const save = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m"
-        },
-        body: JSON.stringify({ items })
-      });
-
-      if (!save.ok) throw new Error("Errore salvataggio JSONBin: " + save.status);
-
-      result.innerHTML = `
-        <strong>Caricato!</strong><br>
-        Sessione: ${sessionSelect.value}<br>
-        Link: ${fileUrl}
-      `;
-    } catch (e) {
-      result.innerHTML = "<strong>Errore:</strong> " + e.message;
-    }
+async function uploadFile() {
+  const file = document.getElementById("fileInput").files[0];
+  if (!file) {
+    alert("Seleziona un file prima!");
+    return;
   }
 
-  confirmBtn.onclick = () => {
-    const file = fileInput.files[0];
-    if (!file) {
-      result.innerHTML = "<strong>Seleziona prima un file!</strong>";
-      return;
-    }
-    uploadFile(file);
-  };
+  const formData = new FormData();
+  formData.append("image", file);
+
+  const upload = await fetch("https://api.imgbb.com/1/upload?key=f602441e44e84496345be35382857e85", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await upload.json();
+
+  if (data && data.data && data.data.url) {
+    const imageUrl = data.data.url;
+
+    document.getElementById("result").innerHTML = `
+      <strong>Upload riuscito!</strong><br>
+      URL immagine:<br>
+      <input type="text" value="${imageUrl}" style="width:100%">
+      <br><br>
+      <img src="${imageUrl}" style="max-width:200px; border-radius:10px;">
+    `;
+  } else {
+    document.getElementById("result").innerHTML = `
+      <strong>Errore nell'upload.</strong>
+    `;
+  }
+}
 </script>
 
 </body>
