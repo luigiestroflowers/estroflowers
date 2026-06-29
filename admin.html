@@ -26,6 +26,8 @@
     <option value="festadonne">Festa delle Donne</option>
   </select>
 
+  <input type="file" id="file-input" accept="image/*,video/*" style="display:none">
+
   <button id="upload-image" style="width:100%; padding:12px; background:#8b4f4f; color:white; border:none; border-radius:8px; margin-bottom:10px;">
     Carica immagine 📸
   </button>
@@ -38,31 +40,45 @@
 
 </div>
 
-<!-- 🔥 LIBRERIA CORRETTA -->
-<script src="https://js.bytescale.com/upload-widget/v3"></script>
-
 <script>
-  const options = {
-    apiKey: "public_W23MTff6zPdHapRZH7EQSrf",
-    maxFileCount: 1
-  };
-
+  const apiKey = "public_W23MTff6zPdHapRZH7EQSrf";
+  const fileInput = document.getElementById("file-input");
   const result = document.getElementById("result");
+  const sessionSelect = document.getElementById("session-select");
 
-  async function upload(type) {
-    const files = await Bytescale.UploadWidget.open(options);
-    if (!files || !files.length) return;
+  async function uploadFile(file) {
+    const formData = new FormData();
+    formData.append("file", file);
 
-    const fileUrl = files[0].fileUrl;
+    const upload = await fetch("https://api.bytescale.com/v2/files/upload?apiKey=" + apiKey, {
+      method: "POST",
+      body: formData
+    });
+
+    const json = await upload.json();
+    const fileUrl = json.files[0].fileUrl;
 
     result.innerHTML = `
       <strong>Caricato!</strong><br>
+      Sessione: ${sessionSelect.value}<br>
       Link: ${fileUrl}
     `;
   }
 
-  document.getElementById("upload-image").onclick = () => upload("image");
-  document.getElementById("upload-video").onclick = () => upload("video");
+  document.getElementById("upload-image").onclick = () => {
+    fileInput.accept = "image/*";
+    fileInput.click();
+  };
+
+  document.getElementById("upload-video").onclick = () => {
+    fileInput.accept = "video/*";
+    fileInput.click();
+  };
+
+  fileInput.onchange = () => {
+    const file = fileInput.files[0];
+    if (file) uploadFile(file);
+  };
 </script>
 
 </body>
