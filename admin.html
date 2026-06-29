@@ -14,41 +14,37 @@
 <div style="max-width:400px; margin:20px auto; padding:20px; background:white; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
 
   <label>Seleziona la sessione:</label>
-  <select id="session-select" style="width:100%; padding:10px; margin-bottom:20px;">
-    <option value="bouquet">Bouquet</option>
-    <option value="homedecor">Home Decor</option>
-    <option value="matrimonio">Matrimonio</option>
-    <option value="lauree">Lauree</option>
-    <option value="comunione">Comunione</option>
-    <option value="natale">Natale</option>
-    <option value="pasqua">Pasqua</option>
-    <option value="sanvalentino">San Valentino</option>
-    <option value="festadonne">Festa delle Donne</option>
-  </select>
+  <select id="session-select" style="width:100%; padding:10px; margin-bottom:20px;"></select>
 
   <input id="file-input" type="file" accept="image/*,video/*"
          style="width:100%; padding:12px; border:2px solid #8b4f4f; border-radius:8px; margin-bottom:20px;">
 
-  <!-- PULSANTE CONFERMA -->
-  <div id="confirm-upload"
-       role="button"
-       tabindex="0"
-       style="
-         width:100%;
-         padding:14px;
-         background:#28a745;
-         color:white;
-         border-radius:8px;
-         font-size:18px;
-         margin-top:10px;
-         text-align:center;
-         cursor:pointer;
-         pointer-events:auto;
-         position:relative;
-         z-index:999999;
-       ">
-    Conferma caricamento ✔
-  </div>
+  <p id="result" style="margin-top:20px; font-size:14px; color:#333;"></p>
+
+</div>
+
+<!-- 🔥 PULSANTE FUORI DAL DIV (ORA FUNZIONA SU IPHONE) -->
+<div id="confirm-upload"
+     role="button"
+     tabindex="0"
+     style="
+       width:100%;
+       max-width:400px;
+       margin:0 auto;
+       padding:14px;
+       background:#28a745;
+       color:white;
+       border-radius:8px;
+       font-size:18px;
+       text-align:center;
+       cursor:pointer;
+       pointer-events:auto;
+       position:relative;
+       z-index:999999;
+     ">
+  Conferma caricamento ✔
+</div>
+
 
   <p id="result" style="margin-top:20px; font-size:14px; color:#333;"></p>
 
