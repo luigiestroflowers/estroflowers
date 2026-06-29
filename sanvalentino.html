@@ -122,6 +122,26 @@
   const sidebar = document.getElementById("sidebar");
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 </script>
+<script>
+fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
+  headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
+})
+.then(r => r.json())
+.then(data => {
+  const items = data.record.items || [];
+  const grid = document.querySelector(".grid");
+
+  items
+    .filter(item => item.session === "sanvalentino" && item.type === "image")
+    .forEach(item => {
+      grid.innerHTML += `
+        <div class="card">
+          <img src="${item.url}">
+        </div>
+      `;
+    });
+});
+</script>
 
 </body>
 </html>
