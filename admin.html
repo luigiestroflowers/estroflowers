@@ -47,6 +47,8 @@
   const sessionSelect = document.getElementById("session-select");
 
   async function uploadFile(file) {
+
+    // 1️⃣ CARICO SU UPLOAD.IO
     const formData = new FormData();
     formData.append("file", file);
 
@@ -58,6 +60,31 @@
     const json = await upload.json();
     const fileUrl = json.files[0].fileUrl;
 
+    // 2️⃣ LEGGO IL JSON ATTUALE
+    const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
+      headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
+    }).then(r => r.json());
+
+    const items = current.record.items || [];
+
+    // 3️⃣ AGGIUNGO LA NUOVA FOTO
+    items.push({
+      session: sessionSelect.value,
+      url: fileUrl,
+      type: file.type.startsWith("video") ? "video" : "image"
+    });
+
+    // 4️⃣ SALVO IL JSON AGGIORNATO
+    await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m"
+      },
+      body: JSON.stringify({ items })
+    });
+
+    // 5️⃣ MOSTRO LA CONFERMA
     result.innerHTML = `
       <strong>Caricato!</strong><br>
       Sessione: ${sessionSelect.value}<br>
