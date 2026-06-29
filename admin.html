@@ -47,22 +47,42 @@
   const sessionSelect = document.getElementById("session-select");
 
   async function uploadFile(file) {
-    const formData = new FormData();
-    formData.append("file", file);
+  const formData = new FormData();
+  formData.append("file", file);
 
-    const upload = await fetch("https://api.bytescale.com/v2/files/upload?apiKey=" + apiKey, {
-      method: "POST",
-      body: formData
-    });
+  // 1️⃣ CARICO IL FILE SU UPLOAD.IO
+  const upload = await fetch("https://api.bytescale.com/v2/files/upload?apiKey=" + apiKey, {
+    method: "POST",
+    body: formData
+  });
 
-    const json = await upload.json();
-    const fileUrl = json.files[0].fileUrl;
+  const json = await upload.json();
+  const fileUrl = json.files[0].fileUrl;
 
-    result.innerHTML = `
-      <strong>Caricato!</strong><br>
-      Sessione: ${sessionSelect.value}<br>
-      Link: ${fileUrl}
-    `;
+  // 2️⃣ SALVO NEL JSONBIN
+  const session = sessionSelect.value;
+
+  const save = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m"
+    },
+    body: JSON.stringify({
+      items: [
+        { session: session, url: fileUrl, type: "image" }
+      ]
+    })
+  });
+
+  // 3️⃣ MOSTRO IL RISULTATO
+  result.innerHTML = `
+    <strong>Caricato!</strong><br>
+    Sessione: ${session}<br>
+    Link: ${fileUrl}
+  `;
+}
+
   }
 
   document.getElementById("upload-image").onclick = () => {
