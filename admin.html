@@ -56,11 +56,11 @@
     const fileUrl = files[0].fileUrl;
     const session = sessionSelect.value;
 
-        await fetch("https://api.jsonbin.io/v3/b/YOUR_BIN_ID", {
+        await fetch("https://api.jsonbin.io/v3/b/6a428e28a8b6024c7625a6db", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "X-Master-Key": "YOUR_MASTER_KEY"
+        "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m"
       },
       body: JSON.stringify({
         items: [
