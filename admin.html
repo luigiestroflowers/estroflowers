@@ -60,10 +60,10 @@
       result.innerHTML = "Caricamento in corso...";
 
       const formData = new FormData();
-      formData.append("image", file);
+      formData.append("file", file);
 
-      // 🔥 ImgBB — FUNZIONA SEMPRE
-      const upload = await fetch("https://api.imgbb.com/1/upload?key=3f6e3e4c4b7b6e0b4c9f1b2d8e3a7f1c", {
+      // 🔥 FILE.IO — ACCETTA TUTTO (IMMAGINI + VIDEO)
+      const upload = await fetch("https://file.io/?expires=1w", {
         method: "POST",
         body: formData
       });
@@ -71,7 +71,7 @@
       if (!upload.ok) throw new Error("Errore upload: " + upload.status);
 
       const json = await upload.json();
-      const fileUrl = json.data.url;
+      const fileUrl = json.link;
 
       const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
         headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
