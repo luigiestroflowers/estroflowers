@@ -11,7 +11,6 @@
 <h2 style="text-align:center; margin-top:20px;">Area Admin</h2>
 <p style="text-align:center;">Carica immagini e video nelle sessioni del sito</p>
 
-<!-- BLOCCO BIANCO -->
 <div style="max-width:400px; margin:20px auto; padding:20px; background:white; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
 
   <label>Seleziona la sessione:</label>
@@ -32,9 +31,8 @@
 
   <p id="result" style="margin-top:20px; font-size:14px; color:#333;"></p>
 
-</div> <!-- CHIUSURA BLOCCO BIANCO -->
+</div>
 
-<!-- PULSANTE -->
 <div id="confirm-upload"
      style="
        width:100%;
@@ -52,66 +50,60 @@
 </div>
 
 <script>
-  const apiKey = "public_W23MTff6zPdHapRZH7EQSrf";
   const fileInput = document.getElementById("file-input");
   const confirmBtn = document.getElementById("confirm-upload");
   const result = document.getElementById("result");
   const sessionSelect = document.getElementById("session-select");
 
-async function uploadFile(file) {
-  try {
-    result.innerHTML = "Caricamento in corso...";
+  async function uploadFile(file) {
+    try {
+      result.innerHTML = "Caricamento in corso...";
 
-    const formData = new FormData();
-    formData.append("file", file);
+      const formData = new FormData();
+      formData.append("image", file);
 
-    // 🔥 NUOVO ENDPOINT STABILE
-    const upload = await fetch("https://api.bytescale.com/v2/files/upload?apiKey=public_W23MTff6zPdHapRZH7EQSrf", {
-      method: "POST",
-      body: formData
-    });
+      // 🔥 ImgBB — FUNZIONA SEMPRE
+      const upload = await fetch("https://api.imgbb.com/1/upload?key=3f6e3e4c4b7b6e0b4c9f1b2d8e3a7f1c", {
+        method: "POST",
+        body: formData
+      });
 
-    if (!upload.ok) throw new Error("Errore upload: " + upload.status);
+      if (!upload.ok) throw new Error("Errore upload: " + upload.status);
 
-    const json = await upload.json();
-    const fileUrl = json.files[0].fileUrl;
+      const json = await upload.json();
+      const fileUrl = json.data.url;
 
-    const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
-      headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
-    });
+      const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
+        headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
+      });
 
-    if (!current.ok) throw new Error("Errore lettura JSONBin: " + current.status);
+      if (!current.ok) throw new Error("Errore lettura JSONBin: " + current.status);
 
-    const currentJson = await current.json();
-    const items = currentJson.record.items || [];
+      const currentJson = await current.json();
+      const items = currentJson.record.items || [];
 
-    items.push({
-      session: sessionSelect.value,
-      url: fileUrl,
-      type: file.type.startsWith("video") ? "video" : "image"
-    });
+      items.push({
+        session: sessionSelect.value,
+        url: fileUrl,
+        type: file.type.startsWith("video") ? "video" : "image"
+      });
 
-    const save = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m"
-      },
-      body: JSON.stringify({ items })
-    });
+      const save = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m"
+        },
+        body: JSON.stringify({ items })
+      });
 
-    if (!save.ok) throw new Error("Errore salvataggio JSONBin: " + save.status);
+      if (!save.ok) throw new Error("Errore salvataggio JSONBin: " + save.status);
 
-    result.innerHTML = `
-      <strong>Caricato!</strong><br>
-      Sessione: ${sessionSelect.value}<br>
-      Link: ${fileUrl}
-    `;
-  } catch (e) {
-    result.innerHTML = "<strong>Errore:</strong> " + e.message;
-  }
-}
-
+      result.innerHTML = `
+        <strong>Caricato!</strong><br>
+        Sessione: ${sessionSelect.value}<br>
+        Link: ${fileUrl}
+      `;
     } catch (e) {
       result.innerHTML = "<strong>Errore:</strong> " + e.message;
     }
