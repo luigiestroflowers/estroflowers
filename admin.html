@@ -56,12 +56,25 @@
     const fileUrl = files[0].fileUrl;
     const session = sessionSelect.value;
 
-    // QUI ANDRÀ IL SALVATAGGIO NEL JSON (lo completiamo dopo)
+        await fetch("https://api.jsonbin.io/v3/b/YOUR_BIN_ID", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": "YOUR_MASTER_KEY"
+      },
+      body: JSON.stringify({
+        items: [
+          { session, url: fileUrl, type }
+        ]
+      })
+    });
+
     result.innerHTML = `
       <strong>Caricato!</strong><br>
       Sessione: ${session}<br>
       Link: ${fileUrl}
     `;
+
   }
 
   document.getElementById("upload-image").onclick = () => upload("image");
