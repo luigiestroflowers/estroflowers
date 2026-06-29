@@ -63,6 +63,8 @@
   const sessionSelect = document.getElementById("session-select");
 
   async function uploadFile(file) {
+  try {
+    result.innerHTML = "Caricamento in corso...";
 
     const formData = new FormData();
     formData.append("file", file);
@@ -72,14 +74,23 @@
       body: formData
     });
 
+    if (!upload.ok) {
+      throw new Error("Errore upload: " + upload.status);
+    }
+
     const json = await upload.json();
     const fileUrl = json.files[0].fileUrl;
 
     const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
       headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
-    }).then(r => r.json());
+    });
 
-    const items = current.record.items || [];
+    if (!current.ok) {
+      throw new Error("Errore lettura JSONBin: " + current.status);
+    }
+
+    const currentJson = await current.json();
+    const items = currentJson.record.items || [];
 
     items.push({
       session: sessionSelect.value,
@@ -87,7 +98,7 @@
       type: file.type.startsWith("video") ? "video" : "image"
     });
 
-    await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
+    const save = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -96,22 +107,19 @@
       body: JSON.stringify({ items })
     });
 
+    if (!save.ok) {
+      throw new Error("Errore salvataggio JSONBin: " + save.status);
+    }
+
     result.innerHTML = `
       <strong>Caricato!</strong><br>
       Sessione: ${sessionSelect.value}<br>
       Link: ${fileUrl}
     `;
+  } catch (e) {
+    result.innerHTML = "<strong>Errore:</strong> " + e.message;
   }
-
-  confirmBtn.onclick = () => {
-    const file = fileInput.files[0];
-    if (!file) {
-      result.innerHTML = "<strong>Seleziona prima un file!</strong>";
-      return;
-    }
-    uploadFile(file);
-  };
-</script>
+}
 
 </body>
 </html>
