@@ -9,10 +9,26 @@
 <body>
 
 <h2 style="text-align:center; margin-top:20px;">Area Admin</h2>
-<p style="text-align:center;">Carica immagini e video</p>
+<p style="text-align:center;">Carica immagini e video nelle sessioni del sito</p>
 
 <div style="max-width:400px; margin:20px auto;">
 
+  <!-- MENU SESSIONI (RIPRISTINATO) -->
+  <label>Seleziona la sessione:</label>
+  <select id="session-select" style="width:100%; padding:10px; margin-bottom:20px;">
+    <option value="bouquet">Bouquet</option>
+    <option value="homedecor">Home Decor</option>
+
+    <option value="matrimonio">Matrimonio</option>
+    <option value="lauree">Lauree</option>
+    <option value="comunione">Comunione</option>
+    <option value="natale">Natale</option>
+    <option value="pasqua">Pasqua</option>
+    <option value="sanvalentino">San Valentino</option>
+    <option value="festadonne">Festa delle Donne</option>
+  </select>
+
+  <!-- BOTTONI -->
   <button id="upload-image" style="width:100%; padding:12px; background:#8b4f4f; color:white; border:none; border-radius:8px; margin-bottom:10px;">
     Carica immagine 📸
   </button>
@@ -25,7 +41,9 @@
 
 </div>
 
-<script src="https://js.bytescale.com/upload"></script>
+<!-- 🔥 LIBRERIA CORRETTA (OBBLIGATORIA PER APRIRE LA GALLERIA) -->
+<script src="https://js.bytescale.com/upload-widget/v3"></script>
+
 <script>
   const options = {
     apiKey: "public_W23MTff6zPdHapRZH7EQSrf",
@@ -35,6 +53,7 @@
   const result = document.getElementById("result");
 
   async function upload(type) {
+    // 🔥 FUNZIONE CORRETTA PER APRIRE LA GALLERIA
     const files = await Bytescale.UploadWidget.open(options);
     if (!files || !files.length) return;
 
