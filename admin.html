@@ -86,11 +86,13 @@
     `;
   }
 
-  fileInput.onchange = () => {
+  // 🔥 QUESTA È LA PARTE CHE PRIMA NON FUNZIONAVA
+  fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
     if (file) uploadFile(file);
-  };
+  });
 </script>
+
 
 </body>
 </html>
