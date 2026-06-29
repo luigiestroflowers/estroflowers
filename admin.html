@@ -11,7 +11,7 @@
 <h2 style="text-align:center; margin-top:20px;">Area Admin</h2>
 <p style="text-align:center;">Carica immagini e video nelle sessioni del sito</p>
 
-<div style="max-width:400px; margin:20px auto;">
+<div style="max-width:400px; margin:20px auto; padding:20px; background:white; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);">
 
   <label>Seleziona la sessione:</label>
   <select id="session-select" style="width:100%; padding:10px; margin-bottom:20px;">
@@ -26,36 +26,33 @@
     <option value="festadonne">Festa delle Donne</option>
   </select>
 
-  <!-- INPUT FILE VISIBILE (FUNZIONA SU MOBILE) -->
   <input id="file-input" type="file" accept="image/*,video/*"
+         style="width:100%; padding:12px; border:2px solid #8b4f4f; border-radius:8px; margin-bottom:20px;">
+
+  <!-- PULSANTE CONFERMA -->
   <div id="confirm-upload"
-     role="button"
-     tabindex="0"
-     style="
-       width:100%;
-       padding:14px;
-       background:#28a745;
-       color:white;
-       border-radius:8px;
-       font-size:18px;
-       margin-top:15px;
-       text-align:center;
-       cursor:pointer;
-       pointer-events:auto;
-       position:relative;
-       z-index:999999;
-     ">
-  Conferma caricamento ✔
-</div>
-
-
-
-         
+       role="button"
+       tabindex="0"
+       style="
+         width:100%;
+         padding:14px;
+         background:#28a745;
+         color:white;
+         border-radius:8px;
+         font-size:18px;
+         margin-top:10px;
+         text-align:center;
+         cursor:pointer;
+         pointer-events:auto;
+         position:relative;
+         z-index:999999;
+       ">
+    Conferma caricamento ✔
+  </div>
 
   <p id="result" style="margin-top:20px; font-size:14px; color:#333;"></p>
 
 </div>
-
 
 <script>
   const apiKey = "public_W23MTff6zPdHapRZH7EQSrf";
@@ -120,7 +117,6 @@
     uploadFile(file);
   };
 </script>
-
 
 </body>
 </html>
