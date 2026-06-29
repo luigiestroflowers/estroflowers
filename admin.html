@@ -174,6 +174,69 @@
     uploadFile(file);
   };
 </script>
+<script>
+  const apiKey = "public_W23MTff6zPdHapRZH7EQSrf";
+  const fileInput = document.getElementById("file-input");
+  const confirmBtn = document.getElementById("confirm-upload");
+  const result = document.getElementById("result");
+  const sessionSelect = document.getElementById("session-select");
+
+  async function uploadFile(file) {
+
+    // UPLOAD.IO
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const upload = await fetch("https://api.bytescale.com/v2/files/upload?apiKey=" + apiKey, {
+      method: "POST",
+      body: formData
+    });
+
+    const json = await upload.json();
+    const fileUrl = json.files[0].fileUrl;
+
+    // JSONBIN - LEGGI
+    const current = await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
+      headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
+    }).then(r => r.json());
+
+    const items = current.record.items || [];
+
+    // AGGIUNGI
+    items.push({
+      session: sessionSelect.value,
+      url: fileUrl,
+      type: file.type.startsWith("video") ? "video" : "image"
+    });
+
+    // JSONBIN - SALVA
+    await fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m"
+      },
+      body: JSON.stringify({ items })
+    });
+
+    // CONFERMA
+    result.innerHTML = `
+      <strong>Caricato!</strong><br>
+      Sessione: ${sessionSelect.value}<br>
+      Link: ${fileUrl}
+    `;
+  }
+
+  // CLICK FUNZIONANTE
+  confirmBtn.onclick = () => {
+    const file = fileInput.files[0];
+    if (!file) {
+      result.innerHTML = "<strong>Seleziona prima un file!</strong>";
+      return;
+    }
+    uploadFile(file);
+  };
+</script>
 
 </body>
 </html>
