@@ -18,8 +18,10 @@
 
     <ul class="sidebar-menu">
       <li><a href="index.html">Home</a></li>
-      <li><a href="eventi.html">Eventi</a></li>
       <li><a href="bouquet.html">Bouquet</a></li>
+      <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="matrimonio.html">Matrimonio</a></li>
+      <li><a href="pasqua.html">Pasqua</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
       <li><a href="fiori.html">Fiori & Significato</a></li>
       <li><a href="contatti.html">Contatti</a></li>
@@ -35,24 +37,12 @@
   <div class="hero-content">
     <img src="IMG_9611.png" class="hero-logo">
     <h1>Pasqua</h1>
-    <p class="hero-subtitle">Composizioni floreali per la Pasqua</p>
+    <p class="hero-subtitle">Composizioni floreali e decorazioni pasquali</p>
   </div>
 </section>
 
 <main>
-  <div class="grid">
-    <div class="card"><img src="IMG_9585.jpeg"></div>
-  </div>
-  
-  <div class="video-box" style="margin-top:30px;">
-  <iframe width="100%" height="300"
-    src="LINK_DEL_VIDEO"
-    frameborder="0"
-    allowfullscreen
-    style="border-radius:14px;">
-  </iframe>
-</div>
-
+  <div class="grid" id="grid"></div>
 </main>
 
 <script>
@@ -60,21 +50,32 @@
   const sidebar = document.getElementById("sidebar");
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 </script>
+
+<!-- SCRIPT DINAMICO PER FOTO + VIDEO -->
 <script>
-fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
+fetch("https://api.jsonbin.io/v3/b/6a43156bf5f4af5e2944bdff/latest", {
   headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
 })
 .then(r => r.json())
 .then(data => {
   const items = data.record.items || [];
-  const grid = document.querySelector(".grid");
+  const grid = document.getElementById("grid");
 
   items
-    .filter(item => item.session === "pasqua" && item.type === "image")
+    .filter(item => item.session === "pasqua")
     .forEach(item => {
+      const isImage = item.type === "image";
+      const mediaTag = isImage
+        ? `<img src="${item.url}" alt="Pasqua">`
+        : `<video src="${item.url}" controls muted playsinline></video>`;
+
       grid.innerHTML += `
         <div class="card">
-          <img src="${item.url}">
+          ${mediaTag}
+          <div class="btn-row">
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
+          </div>
         </div>
       `;
     });
@@ -83,4 +84,3 @@ fetch("https://api.jsonbin.io/v3/b/6a4291bbda38895dfe10daed/latest", {
 
 </body>
 </html>
-
