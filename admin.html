@@ -1,62 +1,190 @@
-async function upload() {
-  const type = document.getElementById("type").value;
-  const session = document.getElementById("session").value;
-  const file = document.getElementById("fileInput").files[0];
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  if (!file) {
-    document.getElementById("error").innerText = "Seleziona un file";
-    return;
+  <style>
+    body { font-family: Arial; background: #f5f5f5; padding: 20px; }
+    .container, .media-list {
+      max-width: 600px; margin: auto; background: white; padding: 20px;
+      border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label { font-weight: bold; margin-top: 15px; display: block; }
+    select, input[type="file"] {
+      width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%; padding: 12px; background: #000; color: white;
+      border: none; border-radius: 8px; margin-top: 20px; font-size: 16px;
+    }
+    .media-item {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #eee;
+    }
+    .media-item img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+    .delete-btn {
+      background: red; color: white; padding: 8px 12px; border-radius: 6px; border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>Admin ESTRO FLOWERS</h1>
+
+<div class="container">
+
+  <label>Tipo contenuto</label>
+  <select id="type">
+    <option value="image">Foto</option>
+  </select>
+
+  <label>File da caricare</label>
+  <input type="file" id="fileInput">
+
+  <label>Categoria</label>
+  <select id="session">
+    <option value="bouquet">Bouquet</option>
+    <option value="eventi">Eventi</option>
+    <option value="matrimonio">Matrimonio</option>
+    <option value="comunione">Comunione</option>
+    <option value="lauree">Lauree</option>
+    <option value="pasqua">Pasqua</option>
+    <option value="natale">Natale</option>
+    <option value="sanvalentino">San Valentino</option>
+    <option value="festadelladonna">Festa della Donna</option>
+    <option value="homedecor">Home Decor</option>
+  </select>
+
+  <button onclick="upload()">Carica e Salva</button>
+
+</div>
+
+<div class="media-list">
+  <h2>Gestione contenuti</h2>
+  <div id="mediaContainer"></div>
+</div>
+
+<script>
+  const bins = {
+    bouquet: "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d",
+    eventi: "https://api.jsonbin.io/v3/b/6a430aa0da38895dfe1305ec",
+    matrimonio: "https://api.jsonbin.io/v3/b/6a43007da38895dfe13074b",
+    comunione: "https://api.jsonbin.io/v3/b/6a430b49da38895dfe13086b",
+    lauree: "https://api.jsonbin.io/v3/b/6a430b32da38895dfe130814",
+    pasqua: "https://api.jsonbin.io/v3/b/6a43156bf5f4af5e2944bdff",
+    natale: "https://api.jsonbin.io/v3/b/6a43155bf5f4af5e2944bdd2",
+    sanvalentino: "https://api.jsonbin.io/v3/b/6a430b5fda38895dfe1308c8",
+    festadelladonna: "https://api.jsonbin.io/v3/b/6a430b76f5f4af5e29449aa0",
+    homedecor: "https://api.jsonbin.io/v3/b/6a430aeaf5f4af5e29449899"
+  };
+
+  const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
+
+  async function upload() {
+    const type = document.getElementById("type").value;
+    const session = document.getElementById("session").value;
+    const file = document.getElementById("fileInput").files[0];
+
+    if (!file) { alert("Seleziona un file"); return; }
+
+    // 1️⃣ CONVERSIONE BASE64
+    const base64 = await toBase64(file);
+
+    // 2️⃣ SALVA NEL JSONBIN
+    const binUrl = bins[session];
+
+    const response = await fetch(binUrl + "/latest", {
+      headers: { "X-Master-Key": masterKey }
+    });
+
+    const data = await response.json();
+    const items = data.record.items || [];
+
+    items.push({
+      type,
+      session,
+      url: base64
+    });
+
+    await fetch(binUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": masterKey
+      },
+      body: JSON.stringify({ items })
+    });
+
+    loadMedia();
+    alert("Caricato con successo!");
   }
 
-  // 1️⃣ UPLOAD.IO FREE → endpoint corretto
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("filename", file.name);
-  formData.append("mime", file.type);
-  formData.append("size", file.size);
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
 
-  const uploadRes = await fetch(
-    "https://api.upload.io/v2/accounts/W23MTff/uploads/form-data",
-    {
-      method: "POST",
+  async function loadMedia() {
+    const session = document.getElementById("session").value;
+    const binUrl = bins[session];
+
+    const response = await fetch(binUrl + "/latest", {
+      headers: { "X-Master-Key": masterKey }
+    });
+
+    const data = await response.json();
+    const items = data.record.items || [];
+
+    const container = document.getElementById("mediaContainer");
+    container.innerHTML = "";
+
+    items
+      .filter(i => i.session === session)
+      .forEach((item, index) => {
+        container.innerHTML += `
+          <div class="media-item">
+            <img src="${item.url}">
+            <button class="delete-btn" onclick="deleteItem(${index})">Elimina</button>
+          </div>
+        `;
+      });
+  }
+
+  async function deleteItem(index) {
+    const session = document.getElementById("session").value;
+    const binUrl = bins[session];
+
+    const response = await fetch(binUrl + "/latest", {
+      headers: { "X-Master-Key": masterKey }
+    });
+
+    const data = await response.json();
+    const items = data.record.items || [];
+
+    items.splice(index, 1);
+
+    await fetch(binUrl, {
+      method: "PUT",
       headers: {
-        "Authorization": `Bearer ${uploadKey}`
+        "Content-Type": "application/json",
+        "X-Master-Key": masterKey
       },
-      body: formData
-    }
-  );
+      body: JSON.stringify({ items })
+    });
 
-  const uploadData = await uploadRes.json();
-
-  // 2️⃣ URL SICURO
-  let fileUrl = uploadData.fileUrl || uploadData.files?.[0]?.fileUrl || "";
-  fileUrl += "?raw=1";
-
-  // 3️⃣ SALVA NEL JSONBIN
-  const binUrl = bins[session];
-
-  const response = await fetch(binUrl + "/latest", {
-    headers: { "X-Master-Key": masterKey }
-  });
-
-  const data = await response.json();
-  const items = data.record.items || [];
-
-  items.push({
-    type,
-    session,
-    url: fileUrl
-  });
-
-  await fetch(binUrl, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Master-Key": masterKey
-    },
-    body: JSON.stringify({ items })
-  });
+    loadMedia();
+  }
 
   loadMedia();
-  alert("Caricato con successo!");
-}
+</script>
+
+</body>
+</html>
