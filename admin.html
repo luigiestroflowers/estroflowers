@@ -4,23 +4,99 @@
   <meta charset="UTF-8">
   <title>Admin ESTRO FLOWERS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
-    body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
-    h1 { margin-bottom: 10px; }
-    .box { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
-    label { display: block; margin-top: 10px; }
-    input, select { width: 100%; padding: 8px; margin-top: 5px; }
-    button { margin-top: 15px; padding: 10px 15px; cursor: pointer; }
-    #status { margin-top: 10px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+
+    select, input[type="file"], input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .media-list {
+      margin-top: 40px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .media-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .media-item img, .media-item video {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .delete-btn {
+      background: red;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+    }
   </style>
 </head>
+
 <body>
 
 <h1>Admin ESTRO FLOWERS</h1>
-<p>Carica foto e video direttamente dal tuo dispositivo e salvali nelle pagine.</p>
 
-<div class="box">
-  <h2>1. Dati contenuto</h2>
+<div class="container">
 
   <label>Tipo contenuto</label>
   <select id="type">
@@ -31,9 +107,10 @@
   <label>File da caricare</label>
   <input type="file" id="fileInput">
 
-  <label>Sessione</label>
+  <label>Categoria</label>
   <select id="session">
     <option value="bouquet">Bouquet</option>
+    <option value="eventi">Eventi</option>
     <option value="matrimonio">Matrimonio</option>
     <option value="comunione">Comunione</option>
     <option value="lauree">Lauree</option>
@@ -43,92 +120,119 @@
     <option value="festadelladonna">Festa della Donna</option>
     <option value="homedecor">Home Decor</option>
   </select>
+
+  <button onclick="upload()">Carica e Salva</button>
+
+  <div class="error" id="error"></div>
+
 </div>
 
-<div class="box">
-  <h2>2. Salvataggio su JSONBin</h2>
-
-  <label>BIN URL (es. https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d)</label>
-  <input id="binUrl" placeholder="Incolla qui il BIN della pagina">
-
-  <label>Master Key JSONBin</label>
-  <input id="masterKey" value="$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m">
-
-  <button onclick="uploadAndSave()">Carica e Salva</button>
-
-  <p id="status"></p>
+<div class="media-list">
+  <h2>Gestione contenuti</h2>
+  <div id="mediaContainer"></div>
 </div>
 
 <script>
-const IMGBB_KEY = "f0f6554d550769eb046b20f36766f98e";
+  const bins = {
+    bouquet: "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d",
+    eventi: "https://api.jsonbin.io/v3/b/6a430b07da38895dfe13074b",
+    matrimonio: "https://api.jsonbin.io/v3/b/6a430b07da38895dfe13074b",
+    comunione: "https://api.jsonbin.io/v3/b/6a430b49da38895dfe13086b",
+    lauree: "https://api.jsonbin.io/v3/b/6a430b32da38895dfe130814",
+    pasqua: "https://api.jsonbin.io/v3/b/6a43156bf5f4af5e2944bdff",
+    natale: "https://api.jsonbin.io/v3/b/6a43155bf5f4af5e2944bdd2",
+    sanvalentino: "https://api.jsonbin.io/v3/b/6a430b5fda38895dfe1308c8",
+    festadelladonna: "https://api.jsonbin.io/v3/b/6a430b76f5f4af5e29449aa0",
+    homedecor: "https://api.jsonbin.io/v3/b/6a430aeaf5f4af5e29449899"
+  };
 
-async function uploadAndSave() {
-  const file = document.getElementById("fileInput").files[0];
-  const type = document.getElementById("type").value;
-  const session = document.getElementById("session").value;
-  const binUrl = document.getElementById("binUrl").value.trim();
-  const masterKey = document.getElementById("masterKey").value.trim();
-  const status = document.getElementById("status");
+  const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
 
-  if (!file) {
-    status.textContent = "Seleziona un file.";
-    status.style.color = "red";
-    return;
-  }
-  if (!binUrl || !masterKey) {
-    status.textContent = "Compila BIN URL e Master Key.";
-    status.style.color = "red";
-    return;
-  }
+  async function upload() {
+    const type = document.getElementById("type").value;
+    const session = document.getElementById("session").value;
+    const file = document.getElementById("fileInput").files[0];
 
-  status.textContent = "Caricamento file...";
-  status.style.color = "black";
-
-  let uploadUrl = "";
-
-  try {
-    if (type === "image") {
-      const formData = new FormData();
-      formData.append("image", file);
-
-      const res = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_KEY, {
-        method: "POST",
-        body: formData
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error("Errore ImgBB");
-      uploadUrl = data.data.url;
-    } else {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const res = await fetch("https://file.io", {
-        method: "POST",
-        body: formData
-      });
-      const data = await res.json();
-      if (!data.success && !data.link) throw new Error("Errore File.io");
-      uploadUrl = data.link;
+    if (!file) {
+      document.getElementById("error").innerText = "Seleziona un file";
+      return;
     }
 
-    status.textContent = "File caricato, salvataggio su JSONBin...";
-    status.style.color = "black";
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+      const base64 = e.target.result;
 
-    const latest = await fetch(binUrl + "/latest", {
+      const binUrl = bins[session];
+
+      const response = await fetch(binUrl + "/latest", {
+        headers: { "X-Master-Key": masterKey }
+      });
+
+      const data = await response.json();
+      const items = data.record.items || [];
+
+      items.push({
+        type,
+        session,
+        url: base64
+      });
+
+      await fetch(binUrl, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Master-Key": masterKey
+        },
+        body: JSON.stringify({ items })
+      });
+
+      loadMedia();
+      alert("Caricato con successo!");
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  async function loadMedia() {
+    const session = document.getElementById("session").value;
+    const binUrl = bins[session];
+
+    const response = await fetch(binUrl + "/latest", {
       headers: { "X-Master-Key": masterKey }
     });
-    const json = await latest.json();
-    const record = json.record || {};
-    const items = record.items || [];
 
-    items.push({
-      type,
-      url: uploadUrl,
-      session,
-      createdAt: new Date().toISOString()
+    const data = await response.json();
+    const items = data.record.items || [];
+
+    const container = document.getElementById("mediaContainer");
+    container.innerHTML = "";
+
+    items
+      .filter(i => i.session === session)
+      .forEach((item, index) => {
+        container.innerHTML += `
+          <div class="media-item">
+            ${item.type === "image" ? `<img src="${item.url}">` : `<video src="${item.url}" controls></video>`}
+            <button class="delete-btn" onclick="deleteItem(${index})">Elimina</button>
+          </div>
+        `;
+      });
+  }
+
+  async function deleteItem(index) {
+    const session = document.getElementById("session").value;
+    const binUrl = bins[session];
+
+    const response = await fetch(binUrl + "/latest", {
+      headers: { "X-Master-Key": masterKey }
     });
 
-    const putRes = await fetch(binUrl, {
+    const data = await response.json();
+    const items = data.record.items || [];
+
+    items.splice(index, 1);
+
+    await fetch(binUrl, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -137,16 +241,10 @@ async function uploadAndSave() {
       body: JSON.stringify({ items })
     });
 
-    if (!putRes.ok) throw new Error("Errore nel salvataggio su JSONBin");
-
-    status.textContent = "Contenuto salvato correttamente!";
-    status.style.color = "green";
-  } catch (e) {
-    console.error(e);
-    status.textContent = "Errore: " + e.message;
-    status.style.color = "red";
+    loadMedia();
   }
-}
+
+  loadMedia();
 </script>
 
 </body>
