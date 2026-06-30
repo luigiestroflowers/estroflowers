@@ -93,6 +93,11 @@
 
     // 1️⃣ CONVERSIONE BASE64
     const base64 = await toBase64(file);
+    if (!base64 || base64.length < 50) {
+  alert("Errore: il file non è stato convertito correttamente. Riprova.");
+  return;
+}
+
 
     // 2️⃣ SALVA NEL JSONBIN
     const binUrl = bins[session];
