@@ -6,35 +6,51 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body { font-family: Arial; background: #fafafa; padding: 20px; }
-img { width: 100%; max-width: 350px; margin: 15px auto; display: block; border-radius: 12px; }
+h1 { text-align: center; margin-bottom: 20px; }
+.gallery img {
+  width: 100%;
+  max-width: 350px;
+  margin: 15px auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
 </style>
 </head>
 
 <body>
+
 <h1>Bouquet</h1>
 
-<div id="gallery"></div>
+<div id="gallery" class="gallery"></div>
 
 <script>
 const binUrl = "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d";
 const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
 
-async function load() {
-  const res = await fetch(binUrl + "/latest", {
-    headers: { "X-Master-Key": masterKey }
-  });
-  const data = await res.json();
-  const items = data.record.items || [];
+async function loadGallery() {
+  try {
+    const res = await fetch(binUrl + "/latest", {
+      headers: { "X-Master-Key": masterKey }
+    });
 
-  const gallery = document.getElementById("gallery");
-  gallery.innerHTML = "";
+    const data = await res.json();
+    const items = data.record.items || [];
 
-  items.forEach(item => {
-    gallery.innerHTML += `<img src="${item.url}">`;
-  });
+    const gallery = document.getElementById("gallery");
+    gallery.innerHTML = "";
+
+    items.forEach(item => {
+      gallery.innerHTML += `<img src="${item.url}" alt="Bouquet">`;
+    });
+
+  } catch (e) {
+    document.getElementById("gallery").innerHTML =
+      "<p>Errore nel caricamento delle immagini.</p>";
+  }
 }
 
-load();
+loadGallery();
 </script>
 
 </body>
