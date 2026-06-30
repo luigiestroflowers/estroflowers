@@ -1,56 +1,82 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Bouquet</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-body { font-family: Arial; background: #fafafa; padding: 20px; }
-h1 { text-align: center; margin-bottom: 20px; }
-.gallery img {
-  width: 100%;
-  max-width: 350px;
-  margin: 15px auto;
-  display: block;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Bouquet - ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>Bouquet</h1>
+<header>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="IMG_9611.png" class="sidebar-logo">
+      <h3>ESTRO FLOWERS</h3>
+    </div>
 
-<div id="gallery" class="gallery"></div>
+    <ul class="sidebar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="bouquet.html">Bouquet</a></li>
+      <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="homedecor.html">Home Decor</a></li>
+      <li><a href="significato-fiori.html">Fiori & Significato</a></li>
+      <li><a href="contatti.html">Contatti</a></li>
+    </ul>
+  </div>
+
+  <button class="menu-toggle" id="menu-toggle">☰</button>
+</header>
+
+<section class="hero-full">
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <img src="IMG_9611.png" class="hero-logo">
+    <h1>Bouquet</h1>
+    <p class="hero-subtitle">Composizioni floreali eleganti per ogni occasione</p>
+  </div>
+</section>
+
+<main>
+  <div class="grid" id="grid"></div>
+</main>
 
 <script>
-const binUrl = "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d";
-const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+</script>
 
-async function loadGallery() {
-  try {
-    const res = await fetch(binUrl + "/latest", {
-      headers: { "X-Master-Key": masterKey }
+<script>
+fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
+  headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
+})
+.then(r => r.json())
+.then(data => {
+  const items = data.record.items || [];
+  const grid = document.getElementById("grid");
+
+  items
+    .filter(item => item.session === "bouquet")
+    .forEach(item => {
+      const isImage = item.type === "image";
+      const mediaTag = isImage
+        ? `<img src="${item.url}" alt="Bouquet">`
+        : `<video src="${item.url}" controls muted playsinline></video>`;
+
+      grid.innerHTML += `
+        <div class="card">
+          ${mediaTag}
+          <div class="btn-row">
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
+          </div>
+        </div>
+      `;
     });
-
-    const data = await res.json();
-    const items = data.record.items || [];
-
-    const gallery = document.getElementById("gallery");
-    gallery.innerHTML = "";
-
-    items.forEach(item => {
-      gallery.innerHTML += `<img src="${item.url}" alt="Bouquet">`;
-    });
-
-  } catch (e) {
-    document.getElementById("gallery").innerHTML =
-      "<p>Errore nel caricamento delle immagini.</p>";
-  }
-}
-
-loadGallery();
+});
 </script>
 
 </body>
