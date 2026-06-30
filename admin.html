@@ -170,7 +170,9 @@
     });
 
     const uploadData = await uploadRes.json();
-    const fileUrl = uploadData.fileUrl;
+
+    // URL PUBBLICO VISIBILE NELLE PAGINE
+    const fileUrl = uploadData.fileUrl + "?raw=1";
 
     // 2️⃣ SALVA L’URL NEL JSONBIN
     const binUrl = bins[session];
