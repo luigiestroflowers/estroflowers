@@ -1,152 +1,147 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>AREA ADMIN - ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="IMG_9611.png" class="sidebar-logo" alt="ESTRO FLOWERS">
+      <h3>ESTRO FLOWERS</h3>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="bouquet.html">Bouquet</a></li>
+      <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="homedecor.html">Home Decor</a></li>
+      <li><a href="significato-fiori.html">Fiori & Significato</a></li>
+      <li><a href="admin.html" class="active">Area Admin</a></li>
+    </ul>
+  </div>
+
+  <button class="menu-toggle" id="menu-toggle">☰</button>
+</header>
+
+<section class="hero-full">
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <img src="IMG_9611.png" class="hero-logo" alt="ESTRO FLOWERS">
+
+    <h1>AREA ADMIN<br><span>ESTRO FLOWERS di Luigi Estro</span></h1>
+
+    <p class="hero-subtitle">
+      Gestione foto e video del sito
+    </p>
+  </div>
+</section>
+
+<main style="padding:20px;">
+
+  <h2 style="text-align:center; color:#8b4f4f;">Gestione Media</h2>
+
+  <div style="text-align:center; margin-bottom:20px;">
+    <label for="folderSelect" style="font-size:18px;">Seleziona categoria:</label>
+    <select id="folderSelect" style="padding:10px; font-size:16px;">
+      <option value="bouquet">Bouquet</option>
+      <option value="eventi">Eventi</option>
+      <option value="matrimonio">Matrimonio</option>
+      <option value="homedecor">Home Decor</option>
+      <option value="comunione">Comunione</option>
+      <option value="lauree">Lauree</option>
+      <option value="pasqua">Pasqua</option>
+      <option value="natale">Natale</option>
+      <option value="sanvalentino">San Valentino</option>
+      <option value="festadelladonna">Festa della Donna</option>
+    </select>
+  </div>
+
+  <div id="mediaContainer" class="grid"></div>
+
+</main>
+
 <script>
-  const bins = {
-    bouquet: "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d",
-    eventi: "https://api.jsonbin.io/v3/b/6a430aa0da38895dfe1305ec",
-    matrimonio: "https://api.jsonbin.io/v3/b/6a430b07da38895dfe13074b",
-    comunione: "https://api.jsonbin.io/v3/b/6a430b49da38895dfe13086b",
-    lauree: "https://api.jsonbin.io/v3/b/6a430b32da38895dfe130814",
-    pasqua: "https://api.jsonbin.io/v3/b/6a43156bf5f4af5e2944bdff",
-    natale: "https://api.jsonbin.io/v3/b/6a43155bf5f4af5e2944bdd2",
-    sanvalentino: "https://api.jsonbin.io/v3/b/6a430b5fda38895dfe1308c8",
-    festadelladonna: "https://api.jsonbin.io/v3/b/6a430b76f5f4af5e29449aa0",
-    homedecor: "https://api.jsonbin.io/v3/b/6a430aeaf5f4af5e29449899"
+  const GITHUB_TOKEN = "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";  // <--- METTI QUI IL TUO TOKEN
+  const REPO = "luigiestroflowers/estroflowers";
+
+  const folders = {
+    bouquet: "img/bouquet",
+    eventi: "img/eventi",
+    matrimonio: "img/matrimonio",
+    homedecor: "img/homedecor",
+    comunione: "img/comunione",
+    lauree: "img/lauree",
+    pasqua: "img/pasqua",
+    natale: "img/natale",
+    sanvalentino: "img/sanvalentino",
+    festadelladonna: "img/festadelladonna"
   };
 
-  const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
+  async function loadMedia() {
+    const folder = folders[document.getElementById("folderSelect").value];
+    const url = `https://api.github.com/repos/${REPO}/contents/${folder}`;
 
-  function toBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = () => reject("Errore lettura file");
-      reader.readAsDataURL(file);
+    const response = await fetch(url, {
+      headers: { Authorization: `token ${GITHUB_TOKEN}` }
+    });
+
+    const files = await response.json();
+    const container = document.getElementById("mediaContainer");
+    container.innerHTML = "";
+
+    files.forEach(file => {
+      const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
+
+      container.innerHTML += `
+        <div class="card">
+          ${isVideo
+            ? `<video controls src="${file.download_url}" class="video-card"></video>`
+            : `<img src="${file.download_url}" class="image-card">`
+          }
+          <button class="delete-btn" onclick="deleteFile('${folder}', '${file.name}')">Elimina</button>
+        </div>
+      `;
     });
   }
 
-  async function upload() {
-    const session = document.getElementById("session").value;
-    const file = document.getElementById("fileInput").files[0];
+  async function deleteFile(folder, filename) {
+    const url = `https://api.github.com/repos/${REPO}/contents/${folder}/${filename}`;
 
-    if (!file) {
-      alert("Seleziona una foto");
-      return;
-    }
+    const response = await fetch(url, {
+      headers: { Authorization: `token ${GITHUB_TOKEN}` }
+    });
 
-    const base64 = await toBase64(file);
-    const binUrl = bins[session];
+    const data = await response.json();
 
-    try {
-      const response = await fetch(binUrl + "/latest", {
-        headers: { "X-Master-Key": masterKey }
-      });
+    await fetch(url, {
+      method: "DELETE",
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: `Delete ${filename}`,
+        sha: data.sha
+      })
+    });
 
-      if (!response.ok) {
-        alert("ERRORE GET: " + response.status);
-        return;
-      }
-
-      const data = await response.json();
-      const items = data.record.items || [];
-
-      items.push({ type: "image", session, url: base64 });
-
-      const putRes = await fetch(binUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": masterKey
-        },
-        body: JSON.stringify({ items })
-      });
-
-      if (!putRes.ok) {
-        alert("ERRORE PUT: " + putRes.status);
-        return;
-      }
-
-      alert("Foto caricata!");
-      loadMedia();
-
-    } catch (err) {
-      alert("ERRORE GENERALE: " + err);
-    }
+    loadMedia();
   }
 
-  async function loadMedia() {
-    const session = document.getElementById("session").value;
-    const binUrl = bins[session];
-
-    try {
-      const response = await fetch(binUrl + "/latest", {
-        headers: { "X-Master-Key": masterKey }
-      });
-
-      if (!response.ok) {
-        alert("ERRORE GET MEDIA: " + response.status);
-        return;
-      }
-
-      const data = await response.json();
-      const items = data.record.items || [];
-
-      const container = document.getElementById("mediaContainer");
-      container.innerHTML = "";
-
-      items
-        .filter(i => i.session === session)
-        .forEach((item, index) => {
-          container.innerHTML += `
-            <div class="media-item">
-              <img src="${item.url}">
-              <button class="delete-btn" onclick="deleteItem(${index})">Elimina</button>
-            </div>
-          `;
-        });
-
-    } catch (err) {
-      alert("ERRORE MEDIA: " + err);
-    }
-  }
-
-  async function deleteItem(index) {
-    const session = document.getElementById("session").value;
-    const binUrl = bins[session];
-
-    try {
-      const response = await fetch(binUrl + "/latest", {
-        headers: { "X-Master-Key": masterKey }
-      });
-
-      if (!response.ok) {
-        alert("ERRORE GET DELETE: " + response.status);
-        return;
-      }
-
-      const data = await response.json();
-      const items = data.record.items || [];
-
-      items.splice(index, 1);
-
-      const putRes = await fetch(binUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": masterKey
-        },
-        body: JSON.stringify({ items })
-      });
-
-      if (!putRes.ok) {
-        alert("ERRORE PUT DELETE: " + putRes.status);
-        return;
-      }
-
-      loadMedia();
-
-    } catch (err) {
-      alert("ERRORE DELETE: " + err);
-    }
-  }
-
+  document.getElementById("folderSelect").addEventListener("change", loadMedia);
   loadMedia();
+
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 </script>
+
+</body>
+</html>
