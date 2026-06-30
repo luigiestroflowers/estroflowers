@@ -12,7 +12,7 @@
       border-radius: 12px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     label { font-weight: bold; margin-top: 15px; display: block; }
-    select, input[type="file"], input[type="text"] {
+    select, input[type="file"] {
       width: 100%; padding: 10px; margin-top: 5px; border-radius: 8px;
       border: 1px solid #ccc;
     }
@@ -38,8 +38,8 @@
 <h1>Admin ESTRO FLOWERS</h1>
 
 <div class="box">
-  <label>URL immagine (come ieri)</label>
-  <input type="text" id="imageUrl" placeholder="Incolla qui l’URL dell’immagine">
+  <label>Foto da caricare</label>
+  <input type="file" id="fileInput" accept="image/*">
 
   <label>Categoria</label>
   <select id="session">
@@ -79,15 +79,25 @@
 
   const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
 
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject("Errore lettura file");
+      reader.readAsDataURL(file);
+    });
+  }
+
   async function upload() {
     const session = document.getElementById("session").value;
-    const url = document.getElementById("imageUrl").value;
+    const file = document.getElementById("fileInput").files[0];
 
-    if (!url) {
-      alert("Inserisci l’URL dell’immagine");
+    if (!file) {
+      alert("Seleziona una foto");
       return;
     }
 
+    const base64 = await toBase64(file);
     const binUrl = bins[session];
 
     const response = await fetch(binUrl + "/latest", {
@@ -96,7 +106,7 @@
     const data = await response.json();
     const items = data.record.items || [];
 
-    items.push({ type: "image", session, url });
+    items.push({ type: "image", session, url: base64 });
 
     await fetch(binUrl, {
       method: "PUT",
