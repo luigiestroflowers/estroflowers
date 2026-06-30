@@ -20,8 +20,8 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="eventi.html">Eventi</a></li>
-      <li><a href="homedecor.html">Home-Decor</a></li>
-      <li><a href="significato-fiori.html">Fiori-e-Significato</a></li>
+      <li><a href="homedecor.html">Home Decor</a></li>
+      <li><a href="fiori.html">Fiori & Significato</a></li>
       <li><a href="contatti.html">Contatti</a></li>
     </ul>
   </div>
@@ -35,65 +35,12 @@
   <div class="hero-content">
     <img src="IMG_9611.png" class="hero-logo">
     <h1>Eventi</h1>
-    <p class="hero-subtitle">Allestimenti floreali per ogni tipo di evento</p>
+    <p class="hero-subtitle">Allestimenti floreali per cerimonie ed eventi speciali</p>
   </div>
 </section>
 
 <main>
-
-  <div class="grid">
-
-    <div class="card">
-      <a href="matrimonio.html">
-        <img src="IMG_9589.jpeg">
-        <div class="card-body"><div class="card-title">Matrimonio</div></div>
-      </a>
-    </div>
-
-    <div class="card">
-      <a href="lauree.html">
-        <img src="IMG_9618.jpeg">
-        <div class="card-body"><div class="card-title">Lauree</div></div>
-      </a>
-    </div>
-
-    <div class="card">
-      <a href="comunioni.html">
-        <img src="IMG_9661.jpeg">
-        <div class="card-body"><div class="card-title">Comunioni</div></div>
-      </a>
-    </div>
-
-    <div class="card">
-      <a href="natale.html">
-        <img src="IMG_9660.jpeg">
-        <div class="card-body"><div class="card-title">Natale</div></div>
-      </a>
-    </div>
-
-    <div class="card">
-      <a href="pasqua.html">
-        <img src="IMG_9664.jpeg">
-        <div class="card-body"><div class="card-title">Pasqua</div></div>
-      </a>
-    </div>
-    
-      <div class="card">
-      <a href="sanvalentino.html">
-        <img src="IMG_9676.jpeg">
-        <div class="card-body"><div class="card-title">San Valentino</div></div>
-      </a>
-    </div>
-    
-      <div class="card">
-      <a href="festadelledonne.html">
-        <img src="IMG_9675.jpeg">
-        <div class="card-body"><div class="card-title">Festa delle Donne</div></div>
-      </a>
-    </div>
-
-  </div>
-
+  <div class="grid" id="grid"></div>
 </main>
 
 <script>
@@ -102,6 +49,36 @@
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 </script>
 
+<!-- SCRIPT DINAMICO PER CARICARE FOTO + VIDEO -->
+<script>
+fetch("https://api.jsonbin.io/v3/b/6a430aa0da38895dfe1305ec/latest", {
+  headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
+})
+.then(r => r.json())
+.then(data => {
+  const items = data.record.items || [];
+  const grid = document.getElementById("grid");
+
+  items
+    .filter(item => item.session === "eventi")
+    .forEach(item => {
+      const isImage = item.type === "image";
+      const mediaTag = isImage
+        ? `<img src="${item.url}" alt="Evento">`
+        : `<video src="${item.url}" controls muted playsinline></video>`;
+
+      grid.innerHTML += `
+        <div class="card">
+          ${mediaTag}
+          <div class="btn-row">
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
+          </div>
+        </div>
+      `;
+    });
+});
+</script>
+
 </body>
 </html>
-
