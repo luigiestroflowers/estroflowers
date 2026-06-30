@@ -20,8 +20,9 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="matrimonio.html">Matrimonio</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
-      <li><a href="fiori.html">Fiori & Significato</a></li>
+      <li><a href="significato-fiori.html">Fiori & Significato</a></li>
       <li><a href="contatti.html">Contatti</a></li>
     </ul>
   </div>
@@ -35,49 +36,55 @@
   <div class="hero-content">
     <img src="IMG_9611.png" class="hero-logo">
     <h1>Eventi</h1>
-    <p class="hero-subtitle">Allestimenti floreali per cerimonie ed eventi speciali</p>
+    <p class="hero-subtitle">Seleziona la categoria dell’evento</p>
   </div>
 </section>
 
 <main>
-  <div class="grid" id="grid"></div>
+  <div class="grid" id="grid">
+
+    <a href="matrimonio.html" class="card static-card">
+      <img src="IMG_9611.png" alt="Matrimonio">
+      <h3>Matrimonio</h3>
+    </a>
+
+    <a href="comunione.html" class="card static-card">
+      <img src="IMG_9611.png" alt="Comunione">
+      <h3>Comunione</h3>
+    </a>
+
+    <a href="lauree.html" class="card static-card">
+      <img src="IMG_9611.png" alt="Lauree">
+      <h3>Lauree</h3>
+    </a>
+
+    <a href="pasqua.html" class="card static-card">
+      <img src="IMG_9611.png" alt="Pasqua">
+      <h3>Pasqua</h3>
+    </a>
+
+    <a href="natale.html" class="card static-card">
+      <img src="IMG_9611.png" alt="Natale">
+      <h3>Natale</h3>
+    </a>
+
+    <a href="sanvalentino.html" class="card static-card">
+      <img src="IMG_9611.png" alt="San Valentino">
+      <h3>San Valentino</h3>
+    </a>
+
+    <a href="festadelladonna.html" class="card static-card">
+      <img src="IMG_9611.png" alt="Festa della Donna">
+      <h3>Festa della Donna</h3>
+    </a>
+
+  </div>
 </main>
 
 <script>
   const toggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
-</script>
-
-<!-- SCRIPT DINAMICO PER CARICARE FOTO + VIDEO -->
-<script>
-fetch("https://api.jsonbin.io/v3/b/6a430aa0da38895dfe1305ec/latest", {
-  headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
-})
-.then(r => r.json())
-.then(data => {
-  const items = data.record.items || [];
-  const grid = document.getElementById("grid");
-
-  items
-    .filter(item => item.session === "eventi")
-    .forEach(item => {
-      const isImage = item.type === "image";
-      const mediaTag = isImage
-        ? `<img src="${item.url}" alt="Evento">`
-        : `<video src="${item.url}" controls muted playsinline></video>`;
-
-      grid.innerHTML += `
-        <div class="card">
-          ${mediaTag}
-          <div class="btn-row">
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
-          </div>
-        </div>
-      `;
-    });
-});
 </script>
 
 </body>
