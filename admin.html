@@ -176,10 +176,13 @@
 
     if (uploadData.fileUrl) {
       fileUrl = uploadData.fileUrl;
-    } else if (uploadData.files && uploadData.files.length > 0) {
+    } else if (uploadData.files && uploadData.files.length > 0 && uploadData.files[0].fileUrl) {
       fileUrl = uploadData.files[0].fileUrl;
     } else if (uploadData.file && uploadData.file.fileUrl) {
       fileUrl = uploadData.file.fileUrl;
+    } else {
+      const possible = JSON.stringify(uploadData).match(/https:\/\/[^\s"]+/);
+      if (possible) fileUrl = possible[0];
     }
 
     fileUrl += "?raw=1";
