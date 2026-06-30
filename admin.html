@@ -124,13 +124,23 @@
   }
 
   function toBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-  }
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (!reader.result || reader.result.length < 50) {
+        reject("Errore: Base64 vuoto o incompleto");
+      } else {
+        resolve(reader.result);
+      }
+    };
+
+    reader.onerror = () => reject("Errore lettura file");
+
+    reader.readAsDataURL(file);
+  });
+}
+
 
   async function loadMedia() {
     const session = document.getElementById("session").value;
