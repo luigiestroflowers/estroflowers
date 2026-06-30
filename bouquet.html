@@ -50,8 +50,12 @@
 </script>
 
 <script>
-fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
-  headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
+// ⭐ JSONBIN CORRETTO
+const BIN_URL = "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest";
+const MASTER_KEY = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
+
+fetch(BIN_URL, {
+  headers: { "X-Master-Key": MASTER_KEY }
 })
 .then(r => r.json())
 .then(data => {
@@ -61,17 +65,21 @@ fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
   items
     .filter(item => item.session === "bouquet")
     .forEach(item => {
+
+      // ⭐ URL SICURO E VISIBILE
+      const url = item.url.includes("?raw=1") ? item.url : item.url + "?raw=1";
+
       const isImage = item.type === "image";
       const mediaTag = isImage
-        ? `<img src="${item.url}" alt="Bouquet">`
-        : `<video src="${item.url}" controls muted playsinline></video>`;
+        ? `<img src="${url}" alt="Bouquet">`
+        : `<video src="${url}" controls muted playsinline></video>`;
 
       grid.innerHTML += `
         <div class="card">
           ${mediaTag}
           <div class="btn-row">
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(url)}" class="like-btn">❤️ Like</a>
+            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(url)}" class="order-btn">🛒 Ordina</a>
           </div>
         </div>
       `;
