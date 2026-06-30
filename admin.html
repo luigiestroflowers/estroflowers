@@ -36,14 +36,8 @@
 </div>
 
 <script>
-const bins = {
-  bouquet: "https://api.jsonbin.io/v3/b/6a430b32da38895dfe130814",
-  eventi: "URL_JSONBIN_EVENTI",
-  homedecor: "URL_JSONBIN_HOMEDECOR",
-  lauree: "URL_JSONBIN_LAUREE",
-  sanvalentino: "URL_JSONBIN_SANVALENTINO",
-  festadonne: "URL_JSONBIN_FESTADONNE"
-};
+const BIN_URL = "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d";
+const MASTER_KEY = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
 
 async function uploadFile() {
   const file = document.getElementById("fileInput").files[0];
@@ -58,7 +52,7 @@ async function uploadFile() {
   const formData = new FormData();
   formData.append("image", file);
 
-  const upload = await fetch("https://api.imgbb.com/1/upload?key=f602441e44e84496345be35382857e85", {
+  const upload = await fetch("https://api.imgbb.com/1/upload?key=YOUR_API_KEY_HERE", {
     method: "POST",
     body: formData
   });
@@ -66,22 +60,32 @@ async function uploadFile() {
   const data = await upload.json();
   const imageUrl = data.data.url;
 
-  // 2️⃣ Recupera il JSON della categoria
-  const jsonBinUrl = bins[session];
-  const jsonData = await fetch(jsonBinUrl).then(r => r.json());
-  const foto = jsonData.record.foto;
+  // 2️⃣ Leggi il bin esistente
+  const binResponse = await fetch(BIN_URL + "/latest", {
+    headers: { "X-Master-Key": MASTER_KEY }
+  });
+  const binData = await binResponse.json();
 
-  // 3️⃣ Aggiungi la nuova foto
-  foto.push(imageUrl);
+  const items = binData.record.items || [];
 
-  // 4️⃣ Aggiorna il JSON su JSONBin
-  await fetch(jsonBinUrl, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ foto })
+  // 3️⃣ Aggiungi il nuovo item
+  items.push({
+    session: session,      // es: "bouquet"
+    type: "image",
+    url: imageUrl
   });
 
-  // 5️⃣ Mostra risultato
+  // 4️⃣ Riscrivi il bin
+  await fetch(BIN_URL, {
+    method: "PUT",
+    headers: {
+      "X-Master-Key": MASTER_KEY,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ items })
+  });
+
+  // 5️⃣ Feedback
   document.getElementById("result").innerHTML = `
     <strong>Caricato!</strong><br>
     URL: ${imageUrl}<br><br>
@@ -89,6 +93,7 @@ async function uploadFile() {
   `;
 }
 </script>
+
 
 </body>
 </html>
