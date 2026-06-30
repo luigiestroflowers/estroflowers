@@ -20,6 +20,7 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="matrimonio.html">Matrimonio</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
       <li><a href="fiori.html">Fiori & Significato</a></li>
       <li><a href="contatti.html">Contatti</a></li>
@@ -49,7 +50,7 @@
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 </script>
 
-<!-- SCRIPT DINAMICO PER CARICARE LE FOTO -->
+<!-- SCRIPT DINAMICO FOTO + VIDEO -->
 <script>
 fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
   headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
@@ -60,15 +61,18 @@ fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
   const grid = document.getElementById("grid");
 
   items
-    .filter(item => item.session === "bouquet" && item.type === "image")
+    .filter(item => item.session === "bouquet")
     .forEach(item => {
+      const isImage = item.type === "image";
+      const mediaTag = isImage
+        ? `<img src="${item.url}" alt="Bouquet">`
+        : `<video src="${item.url}" controls muted playsinline></video>`;
+
       grid.innerHTML += `
         <div class="card">
-          <img src="${item.url}" alt="Bouquet">
-
+          ${mediaTag}
           <div class="btn-row">
             <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
-
             <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
           </div>
         </div>
