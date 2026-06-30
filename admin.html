@@ -2,40 +2,32 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Admin Upload - Estro Flowers</title>
+<title>Area Admin - Estro Flowers</title>
 <style>
-  body {
-    font-family: Arial;
-    padding: 20px;
-    background: #f5f5f5;
+  body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+  .box { background: white; padding: 20px; border-radius: 10px; }
+  select, input[type="file"], button {
+    width: 100%; padding: 12px; margin-bottom: 15px;
+    border-radius: 8px; border: 1px solid #ccc;
   }
-  .box {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  input[type="file"] {
-    margin-bottom: 15px;
-  }
-  button {
-    padding: 10px 20px;
-    background: #d63384;
-    color: white;
-    border: none;
-    border-radius: 5px;
-  }
-  #result {
-    margin-top: 20px;
-    padding: 10px;
-    background: #e8ffe8;
-    border-radius: 5px;
-  }
+  button { background: #d63384; color: white; border: none; }
+  #result { margin-top: 20px; padding: 10px; background: #e8ffe8; border-radius: 5px; }
 </style>
 </head>
 <body>
 
 <div class="box">
-  <h2>Carica Foto/Video</h2>
+  <h2>Carica Foto nelle Categorie</h2>
+
+  <label>Seleziona la categoria:</label>
+  <select id="session">
+    <option value="bouquet">Bouquet</option>
+    <option value="eventi">Eventi</option>
+    <option value="homedecor">Home Decor</option>
+    <option value="lauree">Lauree</option>
+    <option value="sanvalentino">San Valentino</option>
+    <option value="festadonne">Festa delle Donne</option>
+  </select>
 
   <input type="file" id="fileInput">
   <button onclick="uploadFile()">Carica</button>
@@ -44,13 +36,25 @@
 </div>
 
 <script>
+const bins = {
+  bouquet: "6a430ac3da38895dfe13066d",
+  eventi: "URL_JSONBIN_EVENTI",
+  homedecor: "URL_JSONBIN_HOMEDECOR",
+  lauree: "URL_JSONBIN_LAUREE",
+  sanvalentino: "URL_JSONBIN_SANVALENTINO",
+  festadonne: "URL_JSONBIN_FESTADONNE"
+};
+
 async function uploadFile() {
   const file = document.getElementById("fileInput").files[0];
+  const session = document.getElementById("session").value;
+
   if (!file) {
     alert("Seleziona un file prima!");
     return;
   }
 
+  // 1️⃣ Carica su IMGBB
   const formData = new FormData();
   formData.append("image", file);
 
@@ -60,22 +64,29 @@ async function uploadFile() {
   });
 
   const data = await upload.json();
+  const imageUrl = data.data.url;
 
-  if (data && data.data && data.data.url) {
-    const imageUrl = data.data.url;
+  // 2️⃣ Recupera il JSON della categoria
+  const jsonBinUrl = bins[session];
+  const jsonData = await fetch(jsonBinUrl).then(r => r.json());
+  const foto = jsonData.record.foto;
 
-    document.getElementById("result").innerHTML = `
-      <strong>Upload riuscito!</strong><br>
-      URL immagine:<br>
-      <input type="text" value="${imageUrl}" style="width:100%">
-      <br><br>
-      <img src="${imageUrl}" style="max-width:200px; border-radius:10px;">
-    `;
-  } else {
-    document.getElementById("result").innerHTML = `
-      <strong>Errore nell'upload.</strong>
-    `;
-  }
+  // 3️⃣ Aggiungi la nuova foto
+  foto.push(imageUrl);
+
+  // 4️⃣ Aggiorna il JSON su JSONBin
+  await fetch(jsonBinUrl, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ foto })
+  });
+
+  // 5️⃣ Mostra risultato
+  document.getElementById("result").innerHTML = `
+    <strong>Caricato!</strong><br>
+    URL: ${imageUrl}<br><br>
+    <img src="${imageUrl}" style="max-width:200px; border-radius:10px;">
+  `;
 }
 </script>
 
