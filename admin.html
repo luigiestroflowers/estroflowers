@@ -1,117 +1,151 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Area Admin - ESTRO FLOWERS</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
-  body { font-family: Arial; padding: 20px; background: #f5f5f5; }
-  .box { background: white; padding: 20px; border-radius: 10px; }
-  select, input[type="file"], button {
-    width: 100%; padding: 12px; margin-bottom: 15px;
-    border-radius: 8px; border: 1px solid #ccc;
-  }
-  button { background: #d63384; color: white; border: none; }
-  #result { margin-top: 20px; padding: 10px; background: #e8ffe8; border-radius: 5px; }
-</style>
+  <meta charset="UTF-8">
+  <title>Admin ESTRO FLOWERS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; padding: 20px; background: #f5f5f5; }
+    h1 { margin-bottom: 10px; }
+    .box { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+    label { display: block; margin-top: 10px; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 15px; padding: 10px 15px; cursor: pointer; }
+    #status { margin-top: 10px; }
+  </style>
 </head>
 <body>
 
-<div class="box">
-  <h2>Carica Foto o Video</h2>
+<h1>Admin ESTRO FLOWERS</h1>
+<p>Carica foto e video direttamente dal tuo dispositivo e salvali nelle pagine.</p>
 
-  <label>Seleziona la categoria:</label>
-  <select id="session">
-    <option value="bouquet">Bouquet</option>
-    <option value="eventi">Eventi</option>
-    <option value="matrimonio">Matrimonio</option>
-    <option value="natale">Natale</option>
-    <option value="lauree">Lauree</option>
-    <option value="sanvalentino">San Valentino</option>
-    <option value="festadelladonna">Festa della Donna</option>
-    <option value="comunione">Comunione</option>
-    <option value="pasqua">Pasqua</option>
-    <option value="homedecor">Home Decor</option>
+<div class="box">
+  <h2>1. Dati contenuto</h2>
+
+  <label>Tipo contenuto</label>
+  <select id="type">
+    <option value="image">Foto</option>
+    <option value="video">Video</option>
   </select>
 
+  <label>File da caricare</label>
   <input type="file" id="fileInput">
-  <button onclick="uploadFile()">Carica</button>
 
-  <div id="result"></div>
+  <label>Sessione</label>
+  <select id="session">
+    <option value="bouquet">Bouquet</option>
+    <option value="matrimonio">Matrimonio</option>
+    <option value="comunione">Comunione</option>
+    <option value="lauree">Lauree</option>
+    <option value="pasqua">Pasqua</option>
+    <option value="natale">Natale</option>
+    <option value="sanvalentino">San Valentino</option>
+    <option value="festadelladonna">Festa della Donna</option>
+    <option value="homedecor">Home Decor</option>
+  </select>
+</div>
+
+<div class="box">
+  <h2>2. Salvataggio su JSONBin</h2>
+
+  <label>BIN URL (es. https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d)</label>
+  <input id="binUrl" placeholder="Incolla qui il BIN della pagina">
+
+  <label>Master Key JSONBin</label>
+  <input id="masterKey" value="$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m">
+
+  <button onclick="uploadAndSave()">Carica e Salva</button>
+
+  <p id="status"></p>
 </div>
 
 <script>
-const bins = {
-  bouquet: "https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d",
-  eventi: "https://api.jsonbin.io/v3/b/6a430aa0da38895dfe1305ec",
-  matrimonio: "https://api.jsonbin.io/v3/b/6a430b07da38895dfe13074b",
-  natale: "https://api.jsonbin.io/v3/b/6a43155bf5f4af5e2944bdd2",
-  lauree: "https://api.jsonbin.io/v3/b/6a430b32da38895dfe130814",
-  sanvalentino: "https://api.jsonbin.io/v3/b/6a430b5fda38895dfe1308c8",
-  festadelladonna: "https://api.jsonbin.io/v3/b/6a430b76f5f4af5e29449aa0",
-  comunione: "https://api.jsonbin.io/v3/b/6a430b49da38895dfe13086b",
-  pasqua: "https://api.jsonbin.io/v3/b/6a43156bf5f4af5e2944bdff",
-  homedecor: "https://api.jsonbin.io/v3/b/6a430aeaf5f4af5e29449899"
-};
+const IMGBB_KEY = "f0f6554d550769eb046b20f36766f98e";
 
-const MASTER_KEY = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
-
-async function uploadFile() {
+async function uploadAndSave() {
   const file = document.getElementById("fileInput").files[0];
+  const type = document.getElementById("type").value;
   const session = document.getElementById("session").value;
+  const binUrl = document.getElementById("binUrl").value.trim();
+  const masterKey = document.getElementById("masterKey").value.trim();
+  const status = document.getElementById("status");
 
   if (!file) {
-    alert("Seleziona un file prima!");
+    status.textContent = "Seleziona un file.";
+    status.style.color = "red";
+    return;
+  }
+  if (!binUrl || !masterKey) {
+    status.textContent = "Compila BIN URL e Master Key.";
+    status.style.color = "red";
     return;
   }
 
-  // 1️⃣ Carica su ImgBB (foto o video)
-  const formData = new FormData();
-  formData.append("image", file);
+  status.textContent = "Caricamento file...";
+  status.style.color = "black";
 
-  const upload = await fetch("https://api.imgbb.com/1/upload?key=a70d17601b1707149b76fd76011c7f0e", {
-    method: "POST",
-    body: formData
-  });
+  let uploadUrl = "";
 
-  const data = await upload.json();
-  const mediaUrl = data.data.url;
+  try {
+    if (type === "image") {
+      const formData = new FormData();
+      formData.append("image", file);
 
-  // 2️⃣ Leggi il BIN della categoria
-  const binUrl = bins[session];
-  const binResponse = await fetch(binUrl + "/latest", {
-    headers: { "X-Master-Key": MASTER_KEY }
-  });
-  const binData = await binResponse.json();
+      const res = await fetch("https://api.imgbb.com/1/upload?key=" + IMGBB_KEY, {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error("Errore ImgBB");
+      uploadUrl = data.data.url;
+    } else {
+      const formData = new FormData();
+      formData.append("file", file);
 
-  const items = binData.record.items || [];
+      const res = await fetch("https://file.io", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (!data.success && !data.link) throw new Error("Errore File.io");
+      uploadUrl = data.link;
+    }
 
-  // 3️⃣ Determina se è foto o video
-  const type = file.type.startsWith("video") ? "video" : "image";
+    status.textContent = "File caricato, salvataggio su JSONBin...";
+    status.style.color = "black";
 
-  // 4️⃣ Aggiungi nuovo elemento
-  items.push({
-    session: session,
-    type: type,
-    url: mediaUrl
-  });
+    const latest = await fetch(binUrl + "/latest", {
+      headers: { "X-Master-Key": masterKey }
+    });
+    const json = await latest.json();
+    const record = json.record || {};
+    const items = record.items || [];
 
-  // 5️⃣ Riscrivi il BIN
-  await fetch(binUrl, {
-    method: "PUT",
-    headers: {
-      "X-Master-Key": MASTER_KEY,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ items })
-  });
+    items.push({
+      type,
+      url: uploadUrl,
+      session,
+      createdAt: new Date().toISOString()
+    });
 
-  // 6️⃣ Feedback
-  document.getElementById("result").innerHTML = `
-    <strong>Caricato!</strong><br>
-    URL: ${mediaUrl}<br><br>
-    ${type === "image" ? `<img src="${mediaUrl}" style="max-width:200px;">` : `<video src="${mediaUrl}" controls style="max-width:200px;"></video>`}
-  `;
+    const putRes = await fetch(binUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": masterKey
+      },
+      body: JSON.stringify({ items })
+    });
+
+    if (!putRes.ok) throw new Error("Errore nel salvataggio su JSONBin");
+
+    status.textContent = "Contenuto salvato correttamente!";
+    status.style.color = "green";
+  } catch (e) {
+    console.error(e);
+    status.textContent = "Errore: " + e.message;
+    status.style.color = "red";
+  }
 }
 </script>
 
