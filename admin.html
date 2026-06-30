@@ -33,7 +33,7 @@
       margin-top: 15px;
     }
 
-    select, input[type="file"], input[type="text"] {
+    select, input[type="file"] {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -147,6 +147,7 @@
   };
 
   const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
+  const uploadKey = "public_W23MTff6zPdHapRZH7EQSrf";
 
   async function upload() {
     const type = document.getElementById("type").value;
@@ -158,39 +159,46 @@
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = async function(e) {
-      const base64 = e.target.result;
+    // 1️⃣ CARICA SU UPLOAD.IO
+    const formData = new FormData();
+    formData.append("file", file);
 
-      const binUrl = bins[session];
+    const uploadRes = await fetch("https://api.upload.io/v2/accounts/W23MTff/uploads", {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${uploadKey}` },
+      body: formData
+    });
 
-      const response = await fetch(binUrl + "/latest", {
-        headers: { "X-Master-Key": masterKey }
-      });
+    const uploadData = await uploadRes.json();
+    const fileUrl = uploadData.fileUrl;
 
-      const data = await response.json();
-      const items = data.record.items || [];
+    // 2️⃣ SALVA L’URL NEL JSONBIN
+    const binUrl = bins[session];
 
-      items.push({
-        type,
-        session,
-        url: base64
-      });
+    const response = await fetch(binUrl + "/latest", {
+      headers: { "X-Master-Key": masterKey }
+    });
 
-      await fetch(binUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Master-Key": masterKey
-        },
-        body: JSON.stringify({ items })
-      });
+    const data = await response.json();
+    const items = data.record.items || [];
 
-      loadMedia();
-      alert("Caricato con successo!");
-    };
+    items.push({
+      type,
+      session,
+      url: fileUrl
+    });
 
-    reader.readAsDataURL(file);
+    await fetch(binUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": masterKey
+      },
+      body: JSON.stringify({ items })
+    });
+
+    loadMedia();
+    alert("Caricato con successo!");
   }
 
   async function loadMedia() {
