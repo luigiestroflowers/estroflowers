@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Bouquet - ESTRO FLOWERS</title>
+  <title>Matrimonio - ESTRO FLOWERS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -34,8 +34,8 @@
 
   <div class="hero-content">
     <img src="IMG_9611.png" class="hero-logo">
-    <h1>Bouquet</h1>
-    <p class="hero-subtitle">Composizioni floreali eleganti per ogni occasione</p>
+    <h1>Matrimonio</h1>
+    <p class="hero-subtitle">Allestimenti floreali per il tuo giorno speciale</p>
   </div>
 </section>
 
@@ -50,7 +50,7 @@
 </script>
 
 <script>
-fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
+fetch("https://api.jsonbin.io/v3/b/6a430b07da38895dfe13074b/latest", {
   headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
 })
 .then(r => r.json())
@@ -59,11 +59,11 @@ fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
   const grid = document.getElementById("grid");
 
   items
-    .filter(item => item.session === "bouquet")
+    .filter(item => item.session === "matrimonio")
     .forEach(item => {
       const isImage = item.type === "image";
       const mediaTag = isImage
-        ? `<img src="${item.url}" alt="Bouquet">`
+        ? `<img src="${item.url}" alt="Matrimonio">`
         : `<video src="${item.url}" controls muted playsinline></video>`;
 
       grid.innerHTML += `
