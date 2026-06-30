@@ -55,8 +55,7 @@
     <option value="homedecor">Home Decor</option>
   </select>
 
-  <button onclick="alert('click'); upload()">Carica e Salva</button>
-
+  <button onclick="upload()">Carica e Salva</button>
 </div>
 
 <div class="box">
@@ -79,7 +78,6 @@
   };
 
   const masterKey = "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m";
-
 
   function toBase64(file) {
     return new Promise((resolve, reject) => {
@@ -172,4 +170,8 @@
     loadMedia();
   }
 
-  loadMedia
+  loadMedia();
+</script>
+
+</body>
+</html>
