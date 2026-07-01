@@ -486,4 +486,35 @@ footer {
   position: relative !important;
   z-index: 999999 !important;
 }
+.image-card {
+  width: 250px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+
+.video-card {
+  width: 250px;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}
+
+.card {
+  width: 280px;
+  padding: 10px;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 15px auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
 
