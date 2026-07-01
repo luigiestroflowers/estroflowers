@@ -47,6 +47,13 @@
 
   <h2 style="text-align:center; color:#8b4f4f;">Gestione Media</h2>
 
+  <!-- BOX PER INSERIRE IL TOKEN -->
+  <div style="margin: 20px auto; padding: 15px; background: #fff3cd; border: 1px solid #ffeeba; width: 80%; text-align:center;">
+    <label><strong>Inserisci il tuo GitHub Token:</strong></label><br><br>
+    <input id="tokenInput" type="password" placeholder="ghp_..." style="width: 300px; padding: 8px;">
+    <button onclick="setToken()" style="padding: 8px 15px; margin-left: 10px;">Usa Token</button>
+  </div>
+
   <div style="text-align:center; margin-bottom:20px;">
     <label for="folderSelect" style="font-size:18px;">Seleziona categoria:</label>
     <select id="folderSelect" style="padding:10px; font-size:16px;">
@@ -68,21 +75,13 @@
 </main>
 
 <script>
-  <!-- Campo per inserire il token manualmente -->
-<div style="margin: 20px 0; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba;">
-  <label><strong>Inserisci il tuo GitHub Token:</strong></label><br>
-  <input id="tokenInput" type="password" placeholder="ghp_..." style="width: 300px; padding: 5px;">
-  <button onclick="setToken()" style="padding: 5px 10px; margin-left: 10px;">Usa Token</button>
-</div>
 
-<script>
   let GITHUB_TOKEN = "";
 
   function setToken() {
     GITHUB_TOKEN = document.getElementById("tokenInput").value.trim();
     alert("Token impostato correttamente!");
   }
-</script>
 
   const REPO = "luigiestroflowers/estroflowers";
 
@@ -100,12 +99,23 @@
   };
 
   async function loadMedia() {
+
+    if (!GITHUB_TOKEN) {
+      alert("Inserisci il token prima di caricare i media.");
+      return;
+    }
+
     const folder = folders[document.getElementById("folderSelect").value];
     const url = `https://api.github.com/repos/${REPO}/contents/${folder}`;
 
     const response = await fetch(url, {
       headers: { Authorization: `token ${GITHUB_TOKEN}` }
     });
+
+    if (!response.ok) {
+      alert("Errore: token non valido o permessi insufficienti.");
+      return;
+    }
 
     const files = await response.json();
     const container = document.getElementById("mediaContainer");
@@ -127,6 +137,12 @@
   }
 
   async function deleteFile(folder, filename) {
+
+    if (!GITHUB_TOKEN) {
+      alert("Inserisci il token prima di eliminare file.");
+      return;
+    }
+
     const url = `https://api.github.com/repos/${REPO}/contents/${folder}/${filename}`;
 
     const response = await fetch(url, {
@@ -151,11 +167,11 @@
   }
 
   document.getElementById("folderSelect").addEventListener("change", loadMedia);
-  loadMedia();
 
   const toggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+
 </script>
 
 </body>
