@@ -68,7 +68,22 @@
 </main>
 
 <script>
-  const GITHUB_TOKEN = "";
+  <!-- Campo per inserire il token manualmente -->
+<div style="margin: 20px 0; padding: 10px; background: #fff3cd; border: 1px solid #ffeeba;">
+  <label><strong>Inserisci il tuo GitHub Token:</strong></label><br>
+  <input id="tokenInput" type="password" placeholder="ghp_..." style="width: 300px; padding: 5px;">
+  <button onclick="setToken()" style="padding: 5px 10px; margin-left: 10px;">Usa Token</button>
+</div>
+
+<script>
+  let GITHUB_TOKEN = "";
+
+  function setToken() {
+    GITHUB_TOKEN = document.getElementById("tokenInput").value.trim();
+    alert("Token impostato correttamente!");
+  }
+</script>
+
   const REPO = "luigiestroflowers/estroflowers";
 
   const folders = {
