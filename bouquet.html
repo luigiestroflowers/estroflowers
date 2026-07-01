@@ -18,7 +18,7 @@
 
     <ul class="sidebar-menu">
       <li><a href="index.html">Home</a></li>
-      <li><a href="bouquet.html">Bouquet</a></li>
+      <li><a href="bouquet.html" class="active">Bouquet</a></li>
       <li><a href="eventi.html">Eventi</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
       <li><a href="significato-fiori.html">Fiori & Significato</a></li>
@@ -50,33 +50,38 @@
 </script>
 
 <script>
-fetch("https://api.jsonbin.io/v3/b/6a430ac3da38895dfe13066d/latest", {
-  headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
-})
-.then(r => r.json())
-.then(data => {
-  const items = data.record.items || [];
+const REPO = "luigiestroflowers/estroflowers";
+const FOLDER = "img/bouquet";
+
+async function loadBouquet() {
+  const url = `https://api.github.com/repos/${REPO}/contents/${FOLDER}`;
+
+  const response = await fetch(url);
+  const files = await response.json();
+
   const grid = document.getElementById("grid");
+  grid.innerHTML = "";
 
-  items
-    .filter(item => item.session === "bouquet")
-    .forEach(item => {
-      const isImage = item.type === "image";
-      const mediaTag = isImage
-        ? `<img src="${item.url}" alt="Bouquet">`
-        : `<video src="${item.url}" controls muted playsinline></video>`;
+  files.forEach(file => {
+    const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
 
-      grid.innerHTML += `
-        <div class="card">
-          ${mediaTag}
-          <div class="btn-row">
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
-          </div>
+    const mediaTag = isVideo
+      ? `<video src="${file.download_url}" controls muted playsinline></video>`
+      : `<img src="${file.download_url}" alt="Bouquet">`;
+
+    grid.innerHTML += `
+      <div class="card">
+        ${mediaTag}
+        <div class="btn-row">
+          <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(file.download_url)}" class="like-btn">❤️ Like</a>
+          <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(file.download_url)}" class="order-btn">🛒 Ordina</a>
         </div>
-      `;
-    });
-});
+      </div>
+    `;
+  });
+}
+
+loadBouquet();
 </script>
 
 </body>
