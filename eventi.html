@@ -12,17 +12,17 @@
 <header>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <img src="IMG_9611.png" class="sidebar-logo">
+      <img src="IMG_9611.png" class="sidebar-logo" alt="ESTRO FLOWERS">
       <h3>ESTRO FLOWERS</h3>
     </div>
 
     <ul class="sidebar-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="bouquet.html">Bouquet</a></li>
-      <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="eventi.html" class="active">Eventi</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
       <li><a href="significato-fiori.html">Fiori & Significato</a></li>
-     
+      <li><a href="admin.html">Area Admin</a></li>
     </ul>
   </div>
 
@@ -33,54 +33,58 @@
   <div class="overlay"></div>
 
   <div class="hero-content">
-    <img src="IMG_9611.png" class="hero-logo">
-    <h1>Eventi</h1>
-    <p class="hero-subtitle">Seleziona la categoria dell’evento</p>
+    <img src="IMG_9611.png" class="hero-logo" alt="ESTRO FLOWERS">
+    <h1>Eventi<br><span>ESTRO FLOWERS</span></h1>
+    <p class="hero-subtitle">Allestimenti per ogni occasione</p>
   </div>
 </section>
 
 <main>
-  <div class="grid" id="grid">
+  <h2 style="text-align:center; color:#8b4f4f;">Eventi</h2>
+  <p class="section-subtitle" style="text-align:center;">Galleria aggiornata automaticamente</p>
 
-    <a href="matrimonio.html" class="card static-card">
-      <img src="IMG_9750.jpeg" alt="Matrimonio">
-      <h3>Matrimonio</h3>
-    </a>
-
-    <a href="comunione.html" class="card static-card">
-      <img src="IMG_9661.jpeg" alt="Comunione">
-      <h3>Comunione</h3>
-    </a>
-
-    <a href="lauree.html" class="card static-card">
-      <img src="IMG_9794.jpeg" alt="Lauree">
-      <h3>Lauree</h3>
-    </a>
-
-    <a href="pasqua.html" class="card static-card">
-      <img src="IMG_9664.jpeg" alt="Pasqua">
-      <h3>Pasqua</h3>
-    </a>
-
-    <a href="natale.html" class="card static-card">
-      <img src="IMG_9660.jpeg" alt="Natale">
-      <h3>Natale</h3>
-    </a>
-
-    <a href="sanvalentino.html" class="card static-card">
-      <img src="IMG_9676.jpeg" alt="San Valentino">
-      <h3>San Valentino</h3>
-    </a>
-
-    <a href="festadelladonna.html" class="card static-card">
-      <img src="IMG_9675.jpeg" alt="Festa delle Donne">
-      <h3>Festa delle Donne</h3>
-    </a>
-
-  </div>
+  <div id="eventiContainer" class="grid"></div>
 </main>
 
 <script>
+  const REPO = "luigiestroflowers/estroflowers";
+  const FOLDER = "img/eventi";
+
+  async function loadEventi() {
+    const url = `https://api.github.com/repos/${REPO}/contents/${FOLDER}`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      document.getElementById("eventiContainer").innerHTML =
+        "<p style='text-align:center; color:#8b4f4f;'>Nessuna immagine trovata.</p>";
+      return;
+    }
+
+    const files = await response.json();
+    const container = document.getElementById("eventiContainer");
+    container.innerHTML = "";
+
+    files.forEach(file => {
+      const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
+
+      container.innerHTML += `
+        <div class="card">
+          ${isVideo
+            ? `<video controls src="${file.download_url}" class="video-card"></video>`
+            : `<img src="${file.download_url}" class="image-card">`
+          }
+
+          <div class="btn-row">
+            <a class="like-btn" href="#">Like</a>
+            <a class="order-btn" href="contatti.html">Ordina</a>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  loadEventi();
+
   const toggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
