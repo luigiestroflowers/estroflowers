@@ -12,18 +12,16 @@
 <header>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <img src="IMG_9611.png" class="sidebar-logo" alt="ESTRO FLOWERS">
+      <img src="IMG_9611.png" class="sidebar-logo">
       <h3>ESTRO FLOWERS</h3>
     </div>
 
     <ul class="sidebar-menu">
       <li><a href="index.html">Home</a></li>
-      <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="eventi.html">Eventi</a></li>
-      <li><a href="natale.html" class="active">Natale</a></li>
+      <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
-      <li><a href="significato-fiori.html">Fiori & Significato</a></li>
-      <li><a href="admin.html">Area Admin</a></li>
+      <li><a href="fiori.html">Fiori & Significato</a></li>
     </ul>
   </div>
 
@@ -34,71 +32,32 @@
   <div class="overlay"></div>
 
   <div class="hero-content">
-    <img src="IMG_9611.png" class="hero-logo" alt="ESTRO FLOWERS">
-    <h1>Natale<br><span>ESTRO FLOWERS</span></h1>
-    <p class="hero-subtitle">Decorazioni natalizie e composizioni invernali</p>
+    <img src="IMG_9611.png" class="hero-logo">
+    <h1>Natale</h1>
+    <p class="hero-subtitle">Decorazioni natalizie eleganti e luminose</p>
   </div>
 </section>
 
 <main>
-  <h2 style="text-align:center; color:#8b4f4f;">Natale</h2>
-  <p class="section-subtitle" style="text-align:center;">Galleria aggiornata automaticamente</p>
 
-  <div id="nataleContainer" class="grid"></div>
+  <!-- FOTO DA img/natale/ -->
+  <div class="grid">
+    <div class="card"><img src="img/natale/IMG_9584.jpeg"></div>
+    <!-- aggiungi altre foto così -->
+    <!-- <div class="card"><img src="img/natale/foto2.jpeg"></div> -->
+  </div>
 
-  <!-- VIDEO STATICO DIRETTAMENTE DALL'HTML -->
-  <div class="card">
-    <video controls class="video-card"
-      src="https://raw.githubusercontent.com/estroflowers/estroflowers/main/893bf6e32c504bf6b69130bb575be0a9.mp4">
+  <!-- VIDEO STATICO -->
+  <div class="video-box" style="margin-top:30px;">
+    <video controls width="100%" height="300" style="border-radius:14px;">
+      <source src="893bf6e32c504bf6b69130bb575be0a9.mp4" type="video/mp4">
+      Il tuo browser non supporta il video.
     </video>
-
-    <div class="btn-row">
-      <a class="like-btn" href="#">Like</a>
-      <a class="order-btn" href="contatti.html">Ordina</a>
-    </div>
   </div>
 
 </main>
 
 <script>
-  const REPO = "luigiestroflowers/estroflowers";
-  const FOLDER = "img/natale";
-
-  async function loadNatale() {
-    const url = `https://api.github.com/repos/${REPO}/contents/${FOLDER}`;
-
-    const response = await fetch(url);
-    if (!response.ok) {
-      document.getElementById("nataleContainer").innerHTML =
-        "<p style='text-align:center; color:#8b4f4f;'>Nessuna immagine trovata.</p>";
-      return;
-    }
-
-    const files = await response.json();
-    const container = document.getElementById("nataleContainer");
-    container.innerHTML = "";
-
-    files.forEach(file => {
-      const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
-
-      container.innerHTML += `
-        <div class="card">
-          ${isVideo
-            ? `<video controls src="${file.download_url}" class="video-card"></video>`
-            : `<img src="${file.download_url}" class="image-card">`
-          }
-
-          <div class="btn-row">
-            <a class="like-btn" href="#">Like</a>
-            <a class="order-btn" href="contatti.html">Ordina</a>
-          </div>
-        </div>
-      `;
-    });
-  }
-
-  loadNatale();
-
   const toggle = document.getElementById("menu-toggle");
   const sidebar = document.getElementById("sidebar");
   toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
