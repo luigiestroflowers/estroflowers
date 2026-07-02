@@ -67,18 +67,14 @@
     files.forEach(file => {
       const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
 
-      container.innerHTML += `
-        <div class="card">
-          ${isVideo
-            ? `<video controls src="${file.download_url}" class="video-card"></video>`
-            : `<img src="${file.download_url}" class="image-card">`
-          }
-
-          <div class="btn-row">
-            <a class="like-btn" href="#">Like</a>
-            <a class="order-btn" href="contatti.html">Ordina</a>
-          </div>
-        </div>
+      <div class="video-box" style="margin-top:30px;">
+  <iframe width="100%" height="300"
+    src="893bf6e32c504bf6b69130bb575be0a9.mp4"
+    frameborder="0"
+    allowfullscreen
+    style="border-radius:14px;">
+  </iframe>
+</div>
       `;
     });
   }
