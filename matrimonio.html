@@ -12,7 +12,7 @@
 <header>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <img src="IMG_9611.png" class="sidebar-logo">
+      <img src="IMG_9611.png" class="sidebar-logo" alt="ESTRO FLOWERS">
       <h3>ESTRO FLOWERS</h3>
     </div>
 
@@ -20,9 +20,10 @@
       <li><a href="index.html">Home</a></li>
       <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="matrimonio.html" class="active">Matrimonio</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
       <li><a href="significato-fiori.html">Fiori & Significato</a></li>
-      <li><a href="contatti.html">Contatti</a></li>
+      <li><a href="admin.html">Area Admin</a></li>
     </ul>
   </div>
 
@@ -33,50 +34,61 @@
   <div class="overlay"></div>
 
   <div class="hero-content">
-    <img src="IMG_9611.png" class="hero-logo">
-    <h1>Matrimonio</h1>
+    <img src="IMG_9611.png" class="hero-logo" alt="ESTRO FLOWERS">
+    <h1>Matrimonio<br><span>ESTRO FLOWERS</span></h1>
     <p class="hero-subtitle">Allestimenti floreali per il tuo giorno speciale</p>
   </div>
 </section>
 
 <main>
-  <div class="grid" id="grid"></div>
+  <h2 style="text-align:center; color:#8b4f4f;">Matrimonio</h2>
+  <p class="section-subtitle" style="text-align:center;">Galleria aggiornata automaticamente</p>
+
+  <div id="matrimonioContainer" class="grid"></div>
 </main>
 
 <script>
-  const toggle = document.getElementById("menu-toggle");
-  const sidebar = document.getElementById("sidebar");
-  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
-</script>
+  const REPO = "luigiestroflowers/estroflowers";
+  const FOLDER = "img/matrimonio";
 
-<script>
-fetch("https://api.jsonbin.io/v3/b/6a430b07da38895dfe13074b/latest", {
-  headers: { "X-Master-Key": "$2a$10$NZYSwyr6GBRRDuJiqoqYsuRa94uuDeZXzZ0KeDa5Xh932ItjcHo8m" }
-})
-.then(r => r.json())
-.then(data => {
-  const items = data.record.items || [];
-  const grid = document.getElementById("grid");
+  async function loadMatrimonio() {
+    const url = `https://api.github.com/repos/${REPO}/contents/${FOLDER}`;
 
-  items
-    .filter(item => item.session === "matrimonio")
-    .forEach(item => {
-      const isImage = item.type === "image";
-      const mediaTag = isImage
-        ? `<img src="${item.url}" alt="Matrimonio">`
-        : `<video src="${item.url}" controls muted playsinline></video>`;
+    const response = await fetch(url);
+    if (!response.ok) {
+      document.getElementById("matrimonioContainer").innerHTML =
+        "<p style='text-align:center; color:#8b4f4f;'>Nessuna immagine trovata.</p>";
+      return;
+    }
 
-      grid.innerHTML += `
+    const files = await response.json();
+    const container = document.getElementById("matrimonioContainer");
+    container.innerHTML = "";
+
+    files.forEach(file => {
+      const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
+
+      container.innerHTML += `
         <div class="card">
-          ${mediaTag}
+          ${isVideo
+            ? `<video controls src="${file.download_url}" class="video-card"></video>`
+            : `<img src="${file.download_url}" class="image-card">`
+          }
+
           <div class="btn-row">
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20mi%20piace%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="like-btn">❤️ Like</a>
-            <a href="https://wa.me/393400532931?text=Ciao%20Luigi,%20vorrei%20ordinare%20questa%20creazione:%20${encodeURIComponent(item.url)}" class="order-btn">🛒 Ordina</a>
+            <a class="like-btn" href="#">Like</a>
+            <a class="order-btn" href="contatti.html">Ordina</a>
           </div>
         </div>
       `;
     });
-});
+  }
+
+  loadMatrimonio();
+
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 </script>
 
 </body>
