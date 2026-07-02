@@ -2,82 +2,107 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
+  <title>Natale - ESTRO FLOWERS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Natale – Estro Flowers</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <div id="sidebar" class="sidebar">
-    <a href="index.html">Home</a>
-    <a href="matrimonio.html">Matrimonio</a>
-    <a href="lauree.html">Lauree</a>
-    <a href="compleanni.html">Compleanni</a>
-    <a href="natale.html" class="active">Natale</a>
-    <a href="contatti.html">Contatti</a>
+<header>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <img src="IMG_9611.png" class="sidebar-logo" alt="ESTRO FLOWERS">
+      <h3>ESTRO FLOWERS</h3>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="bouquet.html">Bouquet</a></li>
+      <li><a href="eventi.html">Eventi</a></li>
+      <li><a href="natale.html" class="active">Natale</a></li>
+      <li><a href="homedecor.html">Home Decor</a></li>
+      <li><a href="significato-fiori.html">Fiori & Significato</a></li>
+      <li><a href="admin.html">Area Admin</a></li>
+    </ul>
   </div>
 
-  <!-- HEADER -->
-  <header class="header">
-    <button id="menuBtn" class="menu-btn">☰</button>
-    <h1 class="page-title">Natale</h1>
-  </header>
+  <button class="menu-toggle" id="menu-toggle">☰</button>
+</header>
 
-  <!-- CONTENUTO -->
-  <main class="content">
+<section class="hero-full">
+  <div class="overlay"></div>
 
-    <!-- VIDEO STATICO -->
-    <div class="card">
-      <video controls class="video-card"
-        src="https://raw.githubusercontent.com/estroflowers/estroflowers/main/893bf6e32c504bf6b69130bb575be0a9.mp4">
-      </video>
+  <div class="hero-content">
+    <img src="IMG_9611.png" class="hero-logo" alt="ESTRO FLOWERS">
+    <h1>Natale<br><span>ESTRO FLOWERS</span></h1>
+    <p class="hero-subtitle">Decorazioni natalizie e composizioni invernali</p>
+  </div>
+</section>
 
-      <div class="btn-row">
-        <a class="like-btn" href="#">Like</a>
-        <a class="order-btn" href="contatti.html">Ordina</a>
-      </div>
+<main>
+  <h2 style="text-align:center; color:#8b4f4f;">Natale</h2>
+  <p class="section-subtitle" style="text-align:center;">Galleria aggiornata automaticamente</p>
+
+  <div id="nataleContainer" class="grid"></div>
+
+  <!-- VIDEO STATICO DIRETTAMENTE DALL'HTML -->
+  <div class="card">
+    <video controls class="video-card"
+      src="https://raw.githubusercontent.com/estroflowers/estroflowers/main/893bf6e32c504bf6b69130bb575be0a9.mp4">
+    </video>
+
+    <div class="btn-row">
+      <a class="like-btn" href="#">Like</a>
+      <a class="order-btn" href="contatti.html">Ordina</a>
     </div>
+  </div>
 
-    <!-- FOTO -->
-    <div class="grid">
+</main>
 
-      <div class="card">
-        <img src="img/natale/foto1.jpg" class="image-card">
-        <div class="btn-row">
-          <a class="like-btn" href="#">Like</a>
-          <a class="order-btn" href="contatti.html">Ordina</a>
+<script>
+  const REPO = "luigiestroflowers/estroflowers";
+  const FOLDER = "img/natale";
+
+  async function loadNatale() {
+    const url = `https://api.github.com/repos/${REPO}/contents/${FOLDER}`;
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      document.getElementById("nataleContainer").innerHTML =
+        "<p style='text-align:center; color:#8b4f4f;'>Nessuna immagine trovata.</p>";
+      return;
+    }
+
+    const files = await response.json();
+    const container = document.getElementById("nataleContainer");
+    container.innerHTML = "";
+
+    files.forEach(file => {
+      const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
+
+      container.innerHTML += `
+        <div class="card">
+          ${isVideo
+            ? `<video controls src="${file.download_url}" class="video-card"></video>`
+            : `<img src="${file.download_url}" class="image-card">`
+          }
+
+          <div class="btn-row">
+            <a class="like-btn" href="#">Like</a>
+            <a class="order-btn" href="contatti.html">Ordina</a>
+          </div>
         </div>
-      </div>
+      `;
+    });
+  }
 
-      <div class="card">
-        <img src="img/natale/foto2.jpg" class="image-card">
-        <div class="btn-row">
-          <a class="like-btn" href="#">Like</a>
-          <a class="order-btn" href="contatti.html">Ordina</a>
-        </div>
-      </div>
+  loadNatale();
 
-      <div class="card">
-        <img src="img/natale/foto3.jpg" class="image-card">
-        <div class="btn-row">
-          <a class="like-btn" href="#">Like</a>
-          <a class="order-btn" href="contatti.html">Ordina</a>
-        </div>
-      </div>
-
-      <!-- Aggiungi altre foto come vuoi -->
-    </div>
-
-  </main>
-
-  <script>
-    // Sidebar toggle
-    document.getElementById("menuBtn").onclick = () => {
-      document.getElementById("sidebar").classList.toggle("open");
-    };
-  </script>
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+</script>
 
 </body>
 </html>
