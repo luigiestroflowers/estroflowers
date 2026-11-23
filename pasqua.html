@@ -46,42 +46,7 @@
   <div id="pasquaContainer" class="grid"></div>
 </main>
 
-<script>
-  const REPO = "luigiestroflowers/estroflowers";
-  const FOLDER = "img/pasqua";
 
-  async function loadPasqua() {
-    const url = `https://api.github.com/repos/${REPO}/contents/${FOLDER}`;
-
-    const response = await fetch(url);
-    if (!response.ok) {
-      document.getElementById("pasquaContainer").innerHTML =
-        "<p style='text-align:center; color:#8b4f4f;'>Nessuna immagine trovata.</p>";
-      return;
-    }
-
-    const files = await response.json();
-    const container = document.getElementById("pasquaContainer");
-    container.innerHTML = "";
-
-    files.forEach(file => {
-      const isVideo = file.name.endsWith(".mp4") || file.name.endsWith(".mov");
-
-      container.innerHTML += `
-        <div class="card">
-          ${isVideo
-            ? `<video controls src="${file.download_url}" class="video-card"></video>`
-            : `<img src="${file.download_url}" class="image-card">`
-          }
-
-          <div class="btn-row">
-            <a class="like-btn" href="#">Like</a>
-            <a class="order-btn" href="contatti.html">Ordina</a>
-          </div>
-        </div>
-      `;
-    });
-  }
 
   loadPasqua();
 
