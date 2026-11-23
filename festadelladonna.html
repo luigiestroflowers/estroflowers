@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Festa della Donna - ESTRO FLOWERS</title>
+  <title>Festa delle Donne - ESTRO FLOWERS</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,17 +12,16 @@
 <header>
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <img src="IMG_9611.png" class="sidebar-logo" alt="ESTRO FLOWERS">
+      <img src="IMG_9611.png" class="sidebar-logo">
       <h3>ESTRO FLOWERS</h3>
     </div>
 
     <ul class="sidebar-menu">
       <li><a href="index.html">Home</a></li>
-      <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="eventi.html">Eventi</a></li>
-      <li><a href="festadelladonna.html" class="active">Festa della Donna</a></li>
+      <li><a href="bouquet.html">Bouquet</a></li>
       <li><a href="homedecor.html">Home Decor</a></li>
-      <li><a href="significato-fiori.html">Fiori & Significato</a></li>
+      <li><a href="fiori.html">Fiori & Significato</a></li>
     </ul>
   </div>
 
@@ -30,3 +29,22 @@
 </header>
 
 <section class="hero-full">
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <img src="IMG_9611.png" class="hero-logo">
+    <h1>Festa della Donna</h1>
+    <p class="hero-subtitle">Le donne sono come i fiori: se cerchi di aprirli con la forza, i petali ti restano in mano e il fiore muore.Perché solamente con il calore si schiudono</p>
+  </div>
+</section>
+
+
+
+<script>
+  const toggle = document.getElementById("menu-toggle");
+  const sidebar = document.getElementById("sidebar");
+  toggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+</script>
+
+</body>
+</html>
